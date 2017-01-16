@@ -8,7 +8,7 @@ you might have slightly different values files that need to be stored somewhere.
 This project is an attempt to manage working with multiple `values.yaml` files for
 nearly identitcal deployments.
 
-The only backing store is currently DnyamoDB, but other backends such as etcd, consul,
+The only backing store is currently DynamoDB, but other backends such as etcd, consul,
 or Vault could easily be implemented.
 
 
@@ -65,7 +65,7 @@ echo 'export PATH="$PATH:~/go/bin"' | tee -a ~/.profile
 
 ### AWS Prerequisite
 
-You must have the ability to create, read, and write to a DnyamoDB table.
+You must have the ability to create, read, and write to a DynamoDB table.
 
 Set the proper access key environment variables, or use the
 `$HOME/.aws/{config/credentials}` and set the appropriate
