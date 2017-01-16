@@ -1,0 +1,15 @@
+sudo: false
+language: go
+
+go:
+- 1.7
+- tip
+
+before_install:
+- go get -u golang.org/x/tools/cmd/cover
+- go get -u github.com/kardianos/govendor
+
+script:
+- make test
+- make test-cover
+- make build
