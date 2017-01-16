@@ -18,19 +18,22 @@ List values from your backend
 
 ```
 $ helm value-store  list
-UniqueId                              Name                  Namespace    Chart                       Version  Labels
-8795d237-adac-4b91-b55b-bb0f1e258a32  exporter              default      prom-node-exporter    0.1.0    map[environment:prod region:us-west-2]
-22c8f1e8-82fc-4eb0-b1f9-2c8d50b2df3b  prom1                 default      prometheus            0.1.2    map[environment:prod region:us-west-2]
-6fad4903-58ec-446f-bda4-bd39c4ff96aa  alertmanager          default      alertmanager          0.1.0    map[environment:prod region:us-west-2]
-fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      prometheus            0.1.2    map[environment:test region:us-west-2]
-84c28f16-0bc2-4384-9e21-8077e3320aad  exporter              default      prom-node-exporter    0.1.0    map[environment:test region:us-west-2]
-ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      alertmanager          0.1.0    map[environment:test region:us-west-2]
+UniqueId                              Name                  Namespace    Chart                       Version  Labels                                     Values
+6fad4903-58ec-446f-bda4-bd39c4ff96aa  alertmanager          default      skuid/alertmanager          0.1.0    map[region:us-west-2 environment:prod]     1.1K
+8795d237-adac-4b91-b55b-bb0f1e258a32  exporter              default      skuid/prom-node-exporter    0.1.0    map[region:us-west-2 environment:prod]     279B
+22c8f1e8-82fc-4eb0-b1f9-2c8d50b2df3b  prom1                 default      skuid/prometheus            0.1.2    map[region:us-west-2 environment:prod]     1.1K
+ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      skuid/alertmanager          0.1.0    map[environment:test region:us-west-2]     0
+84c28f16-0bc2-4384-9e21-8077e3320aad  exporter              default      skuid/prom-node-exporter    0.1.0    map[environment:test region:us-west-2]     274B
+fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      skuid/prometheus            0.1.2    map[environment:test region:us-west-2]     0
+080f9a8a-10dd-4c2f-8588-8c3c4980553f  alertmanager          default      skuid/alertmanager          0.1.0    map[region:eu-central-1 environment:prod]  1.3K
+49582465-85fd-49ce-9778-4bf9d1162a2e  exporter              default      skuid/prom-node-exporter    0.1.0    map[environment:prod region:eu-central-1]  272B
+34754bde-3114-43ca-bb23-1d4e16f12f95  prom1                 default      skuid/prometheus            0.1.2    map[environment:prod region:eu-central-1]  0
 
 $ helm value-store  list -s environment=test
 UniqueId                              Name                  Namespace    Chart                       Version  Labels
-fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      prometheus            0.1.2    map[environment:test region:us-west-2]
-84c28f16-0bc2-4384-9e21-8077e3320aad  exporter              default      prom-node-exporter    0.1.0    map[environment:test region:us-west-2]
-ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      alertmanager          0.1.0    map[environment:test region:us-west-2]
+ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      skuid/alertmanager          0.1.0    map[environment:test region:us-west-2]     0
+84c28f16-0bc2-4384-9e21-8077e3320aad  exporter              default      skuid/prom-node-exporter    0.1.0    map[environment:test region:us-west-2]     274B
+fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      skuid/prometheus            0.1.2    map[environment:test region:us-west-2]     0
 ```
 
 Install multiple releases:
