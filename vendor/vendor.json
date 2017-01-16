@@ -207,6 +207,12 @@
 			"revisionTime": "2017-01-12T17:52:23Z"
 		},
 		{
+			"checksumSHA1": "d2A52EGiDoYCtr5b3cfFvkXGJU4=",
+			"path": "github.com/cloudfoundry/bytefmt",
+			"revision": "b12c1522f4cbb5f35861bd5dd2c39a4fa996441a",
+			"revisionTime": "2016-09-18T23:16:12Z"
+		},
+		{
 			"checksumSHA1": "hveFTNQ9YEyYRs6SWuXM+XU9qRI=",
 			"path": "github.com/fsnotify/fsnotify",
 			"revision": "fd9ec7deca8bf46ecd2a795baaacf2b3a9be1197",

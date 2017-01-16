@@ -8,6 +8,7 @@ import (
 
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/spf13/cobra"
+	"github.com/cloudfoundry/bytefmt"
 )
 
 type listCmdArgs struct {
@@ -39,7 +40,7 @@ func list(cmd *cobra.Command, args []string) {
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	columns := []string{
-		"UniqueId", "Name", "Namespace", "Chart", "Version", "Labels",
+		"UniqueId", "Name", "Namespace", "Chart", "Version", "Labels", "Values",
 	}
 
 	fmt.Fprintln(w, strings.Join(columns, "\t"))
@@ -52,6 +53,7 @@ func list(cmd *cobra.Command, args []string) {
 			release.Chart,
 			release.Version,
 			fmt.Sprintf("%s", release.Labels),
+			bytefmt.ByteSize(uint64(len(release.Values))),
 		}
 		fmt.Fprintln(w, strings.Join(columns, "\t"))
 	}
