@@ -11,7 +11,7 @@ import (
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "helm-value-store",
-	Short: "A tool loading/backing up AWS Dynamo demo data",
+	Short: "A tool working with Helm Release data",
 }
 
 // Execute executes the commands
@@ -22,8 +22,7 @@ func Execute() {
 	}
 }
 
-
-func exitOnErr(err error ) {
+func exitOnErr(err error) {
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -31,6 +30,12 @@ func exitOnErr(err error ) {
 }
 
 func init() {
+	err := os.Setenv("AWS_SDK_LOAD_CONFIG", "true")
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
 	cobra.OnInitialize(initConfig)
 }
 

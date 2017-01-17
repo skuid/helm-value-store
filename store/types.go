@@ -2,11 +2,15 @@ package store
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
+	"strings"
 
+	"github.com/kubernetes/helm/cmd/helm/downloader"
+	"k8s.io/helm/cmd/helm/helmpath"
 	"k8s.io/helm/pkg/helm"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
-	"strings"
 )
 
 var client *helm.Client
@@ -24,6 +28,10 @@ type Release struct {
 	Namespace string            `json:"namespace"`
 	Version   string            `json:"version"`
 	Values    string            `json:"values"`
+}
+
+func (r Release) String() string {
+	return fmt.Sprintf("%s\t%s\t%s\t%s", r.UniqueID, r.Name, r.Chart, r.Version)
 }
 
 // MatchesSelector checks if the specified release contains all the key/value pairs in it's Labels
@@ -51,30 +59,49 @@ type ReleaseMarshaler interface {
 }
 
 // Upgrade sends an update to an existing release in a cluster
-func (r Release) Upgrade(dryRun bool, timeout int64) error {
-	resp, err := client.UpdateRelease(
+func (r Release) Upgrade(chartLocation string, dryRun bool, timeout int64) (*rls.UpdateReleaseResponse, error) {
+	return client.UpdateRelease(
 		r.Name,
-		r.Chart,
+		chartLocation,
 		helm.UpdateValueOverrides([]byte(r.Values)),
 		helm.UpgradeDryRun(dryRun),
 		helm.UpgradeTimeout(timeout),
 	)
-	defer fmt.Println(resp)
-	return err
 }
 
 // Install creates an new release in a cluster
-func (r Release) Install(dryRun bool, timeout int64) error {
-	resp, err := client.InstallRelease(
-		r.Chart,
+func (r Release) Install(chartLocation string, dryRun bool, timeout int64) (*rls.InstallReleaseResponse, error) {
+	return client.InstallRelease(
+		chartLocation,
 		r.Namespace,
 		helm.ValueOverrides([]byte(r.Values)),
 		helm.ReleaseName(r.Name),
 		helm.InstallDryRun(dryRun),
 		helm.InstallTimeout(timeout),
 	)
-	fmt.Println(resp)
-	return err
+}
+
+func (r Release) Download() (string, error) {
+	dl := downloader.ChartDownloader{
+		HelmHome: helmpath.Home(os.Getenv("HELM_HOME")),
+		Out:      os.Stdout,
+	}
+
+	tmpDir, err := ioutil.TempDir("", "")
+	if err != nil {
+		return "", err
+	}
+	filename, _, err := dl.DownloadTo(r.Chart, r.Version, tmpDir)
+
+	if err == nil {
+		lname, err := filepath.Abs(filename)
+		if err != nil {
+			return filename, err
+		}
+		return lname, nil
+	}
+
+	return filename, fmt.Errorf("file %q not found", r.Chart)
 }
 
 // Get the release content from Tiller

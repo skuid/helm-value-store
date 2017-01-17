@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/skuid/helm-value-store/store"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/skuid/helm-value-store/store"
 )
 
 func TestMarshalRelease(t *testing.T) {

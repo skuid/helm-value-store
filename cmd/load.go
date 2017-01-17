@@ -25,11 +25,6 @@ var loadCmd = &cobra.Command{
 }
 
 func init() {
-	err := os.Setenv("AWS_SDK_LOAD_CONFIG", "true")
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
 	RootCmd.AddCommand(loadCmd)
 	loadCmd.Flags().StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
 	loadCmd.Flags().StringVar(&loadArgs.table, "table", "helm-charts", "Name of table")

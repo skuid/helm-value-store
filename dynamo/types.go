@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/skuid/helm-value-store/store"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/skuid/helm-value-store/store"
 )
 
 type attributeValueMap map[string]*dynamodb.AttributeValue
@@ -59,6 +59,7 @@ func (avm *attributeValueMap) UnmarshalRelease(r store.Release) error {
 		}
 	}
 	*avm = response
+
 	return nil
 }
 

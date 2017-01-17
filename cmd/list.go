@@ -6,9 +6,9 @@ import (
 	"strings"
 	"text/tabwriter"
 
+	"github.com/cloudfoundry/bytefmt"
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/spf13/cobra"
-	"github.com/cloudfoundry/bytefmt"
 )
 
 type listCmdArgs struct {

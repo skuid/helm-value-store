@@ -36,18 +36,14 @@ ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      skuid/a
 fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      skuid/prometheus            0.1.2    map[environment:test region:us-west-2]     0
 ```
 
-Install multiple releases:
+Install a release:
 
 ```
-Install Releases
-$ helm value-store install --selector environment=test --selector region=us-west-2
-Installing releases:
-
-helm install --name alertmanager --namespace default --version 0.1.0 alertmanager
-helm install --name prom1 --namespace default --version 0.1.2 prometheus
-helm install --name exporter --namespace default --version 0.1.0 prom-node-exporter
+$ ./helm-value-store  install --uuid 6fad4903-58ec-446f-bda4-bd39c4ff96aa
+Fetched chart skuid/alertmanager to /var/folders/pr/79r611f576jczk_79lfndzgc0000gn/T/370122778/alertmanager-0.1.0.tgz
+Installing Release 6fad4903-58ec-446f-bda4-bd39c4ff96aa alertmanager skuid/alertmanager   0.1.0
+Successfully installed release alertmanager!
 ```
-
 
 ## Installation
 
@@ -98,55 +94,20 @@ EOF
 
 ```
 $ helm-value-store
-A tool loading/backing up AWS Dynamo demo data
+A tool working with Helm Release data
 
 Usage:
   helm-value-store [command]
 
 Available Commands:
-  install     install a release
+  create      create a release in the relase store
+  get-values  get the values of a release
+  install     install or upgrade a release
   list        list the releases
   load        load a json file of releases
-  version     Print the version number
+  version     print the version number
 
 Use "helm-value-store [command] --help" for more information about a command.
-```
-
-## Development
-
-Always, always, always run `go fmt ./...` before committing!
-
-### Running the tests
-
-```bash
-go get golang.org/x/tools/cmd/cover
-
-make test
-```
-
-See the html output of the coverage information
-
-```bash
-make test-cover
-```
-
-### Updating dependencies
-
-```bash
-go get -u github.com/kardianos/govendor
-
-govendor add +external
-```
-
-### Linting
-
-Perfect linting is not required, but it is helpful for new people coming to the code.
-
-```
-go get -u github.com/golang/lint/golint
-
-golint ./
-golint ./render
 ```
 
 ## License

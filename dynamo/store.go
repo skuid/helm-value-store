@@ -3,10 +3,10 @@ package dynamo
 import (
 	"fmt"
 
-	"github.com/skuid/helm-value-store/store"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/skuid/helm-value-store/store"
 )
 
 // ReleaseStore stores and retrieves releases from a DynamoDB table
@@ -36,7 +36,7 @@ func (rs ReleaseStore) Get(uniqueID string) (*store.Release, error) {
 
 	params := &dynamodb.GetItemInput{
 		Key: map[string]*dynamodb.AttributeValue{
-			"UniqueId": {
+			"UniqueID": {
 				S: aws.String(uniqueID),
 			},
 		},

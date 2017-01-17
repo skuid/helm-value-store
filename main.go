@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/skuid/helm-value-store/cmd"
 	"fmt"
 	"os"
+
+	"github.com/skuid/helm-value-store/cmd"
 )
 
 func main() {
