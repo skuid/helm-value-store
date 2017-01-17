@@ -67,5 +67,5 @@ func create(cmd *cobra.Command, args []string) {
 
 	err = rs.Put(r)
 	exitOnErr(err)
-	fmt.Println("Created release in dynamo!")
+	fmt.Println("Created release in release store!")
 }

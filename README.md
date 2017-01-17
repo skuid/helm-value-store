@@ -105,6 +105,7 @@ Available Commands:
   install     install or upgrade a release
   list        list the releases
   load        load a json file of releases
+  update      update a release in the release store
   version     print the version number
 
 Use "helm-value-store [command] --help" for more information about a command.
