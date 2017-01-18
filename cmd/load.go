@@ -32,8 +32,7 @@ func init() {
 }
 
 func load(cmd *cobra.Command, args []string) {
-	fmt.Println("Opening releases:")
-	fmt.Println("")
+	fmt.Printf("Opening %s\n", loadArgs.file)
 
 	f, err := os.Open(loadArgs.file)
 	exitOnErr(err)

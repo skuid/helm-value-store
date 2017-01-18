@@ -39,17 +39,17 @@ func init() {
 
 func update(cmd *cobra.Command, args []string) {
 
-	rs, err := dynamo.NewReleaseStore(getArgs.table)
+	rs, err := dynamo.NewReleaseStore(updateArgs.table)
 	exitOnErr(err)
 
-	if len(getArgs.uuid) == 0 {
+	if len(updateArgs.uuid) == 0 {
 		exitOnErr(errors.New("Must supply a UUID!"))
 	}
-	release, err := rs.Get(getArgs.uuid)
+	release, err := rs.Get(updateArgs.uuid)
 	exitOnErr(err)
 
 	if len(updateArgs.file) > 0 {
-		values, err := ioutil.ReadFile(createArgs.file)
+		values, err := ioutil.ReadFile(updateArgs.file)
 		exitOnErr(err)
 		release.Values = string(values)
 	}
