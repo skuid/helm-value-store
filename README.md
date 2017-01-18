@@ -94,13 +94,14 @@ EOF
 
 ```
 $ helm-value-store
-A tool working with Helm Release data
+A helm plugin for working with Helm Release data
 
 Usage:
-  helm-value-store [command]
+  helm value-store [command]
 
 Available Commands:
   create      create a release in the relase store
+  dump        dump the JSON representation of releases
   get-values  get the values of a release
   install     install or upgrade a release
   list        list the releases

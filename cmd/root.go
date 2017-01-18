@@ -10,8 +10,8 @@ import (
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "helm-value-store",
-	Short: "A tool working with Helm Release data",
+	Use:   "helm value-store",
+	Short: "A helm plugin for working with Helm Release data",
 }
 
 // Execute executes the commands
