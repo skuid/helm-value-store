@@ -8,12 +8,14 @@ import (
 
 	"github.com/cloudfoundry/bytefmt"
 	"github.com/skuid/helm-value-store/dynamo"
+	"github.com/skuid/helm-value-store/store"
 	"github.com/spf13/cobra"
 )
 
 type listCmdArgs struct {
 	table    string
 	selector selectorSet
+	name     string
 }
 
 var listArgs = &listCmdArgs{}
@@ -29,6 +31,17 @@ func init() {
 	listCmd.Flags().StringVar(&listArgs.table, "table", "helm-charts", "Name of table")
 	listCmd.Flags().VarP(&listArgs.selector, "selector", "s", `The selectors to use. Each selector should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
+	listCmd.Flags().StringVar(&listArgs.name, "name", "", "Filter by release name")
+}
+
+func filterByName(releases store.Releases, name string) store.Releases {
+	response := store.Releases{}
+	for _, r := range releases {
+		if r.Name == name {
+			response = append(response, r)
+		}
+	}
+	return response
 }
 
 func list(cmd *cobra.Command, args []string) {
@@ -37,6 +50,10 @@ func list(cmd *cobra.Command, args []string) {
 
 	releases, err := rs.List(listArgs.selector.ToMap())
 	exitOnErr(err)
+
+	if len(listArgs.name) > 0 {
+		releases = filterByName(releases, listArgs.name)
+	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	columns := []string{
