@@ -126,6 +126,7 @@ type ReleasesMarshaler interface {
 type ReleaseStore interface {
 	Get(uniqueID string) (*Release, error)
 	Put(Release) error
+	Delete(uniqueID string) error
 
 	List(selector map[string]string) (Releases, error)
 	Load(Releases) error

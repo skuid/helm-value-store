@@ -29,7 +29,6 @@ func init() {
     	Can be specified multiple times, or a comma-separated list.`)
 
 	dumpCmd.Flags().BoolVar(&dumpArgs.verbose, "v", false, "Pretty-print the JSON")
-
 }
 
 func dump(cmd *cobra.Command, args []string) {

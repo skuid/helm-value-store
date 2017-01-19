@@ -137,6 +137,7 @@ Usage:
 Available Commands:
   create      create a release in the relase store
   dump        dump the JSON representation of releases
+  delete      delete a release in the relase store
   get-values  get the values of a release
   install     install or upgrade a release
   list        list the releases

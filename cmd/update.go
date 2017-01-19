@@ -63,5 +63,5 @@ func update(cmd *cobra.Command, args []string) {
 
 	err = rs.Put(*release)
 	exitOnErr(err)
-	fmt.Println("Update release in release store!")
+	fmt.Printf("Updated release %s in release store!\n", release.Name)
 }
