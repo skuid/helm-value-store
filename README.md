@@ -1,5 +1,9 @@
 # helm-value-store
 
+[![Build Status](https://travis-ci.org/skuid/helm-value-store.svg?branch=master)](https://travis-ci.org/skuid/helm-value-store)
+[![https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](http://godoc.org/github.com/skuid/helm-value-store/)
+
+
 A helm plugin for working with helm deployment values.
 
 When working with multiple Kubernetes clusters, but using the same helm charts,
