@@ -16,7 +16,7 @@ type deleteCmdArgs struct {
 	chart     string
 	namespace string
 	version   string
-	uuid string
+	uuid      string
 }
 
 var deleteArgs = &deleteCmdArgs{}

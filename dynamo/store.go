@@ -53,7 +53,7 @@ func (rs ReleaseStore) Get(uniqueID string) (*store.Release, error) {
 }
 
 // Delete deletes a release by it's UniqueID
-func (rs ReleaseStore) Delete(uniqueID string) (error) {
+func (rs ReleaseStore) Delete(uniqueID string) error {
 	svc := dynamodb.New(rs.sess)
 
 	params := &dynamodb.DeleteItemInput{
@@ -62,7 +62,7 @@ func (rs ReleaseStore) Delete(uniqueID string) (error) {
 				S: aws.String(uniqueID),
 			},
 		},
-		TableName:      aws.String(rs.tableName),
+		TableName: aws.String(rs.tableName),
 	}
 	_, err := svc.DeleteItem(params)
 	return err
