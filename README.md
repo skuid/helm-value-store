@@ -17,7 +17,7 @@ or Vault could easily be implemented.
 List values from your backend
 
 ```
-$ helm value-store  list
+$ helm value-store list
 UniqueId                              Name                  Namespace    Chart                       Version  Labels                                     Values
 6fad4903-58ec-446f-bda4-bd39c4ff96aa  alertmanager          default      skuid/alertmanager          0.1.0    map[region:us-west-2 environment:prod]     1.1K
 8795d237-adac-4b91-b55b-bb0f1e258a32  exporter              default      skuid/prom-node-exporter    0.1.0    map[region:us-west-2 environment:prod]     279B
@@ -29,20 +29,55 @@ fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      skuid/p
 49582465-85fd-49ce-9778-4bf9d1162a2e  exporter              default      skuid/prom-node-exporter    0.1.0    map[environment:prod region:eu-central-1]  272B
 34754bde-3114-43ca-bb23-1d4e16f12f95  prom1                 default      skuid/prometheus            0.1.2    map[environment:prod region:eu-central-1]  0
 
-$ helm value-store  list -s environment=test
+$ helm value-store list -s environment=test
 UniqueId                              Name                  Namespace    Chart                       Version  Labels
 ad01e6d4-05ec-4f18-ba6a-87cd49e6be25  alertmanager          default      skuid/alertmanager          0.1.0    map[environment:test region:us-west-2]     0
 84c28f16-0bc2-4384-9e21-8077e3320aad  exporter              default      skuid/prom-node-exporter    0.1.0    map[environment:test region:us-west-2]     274B
 fa718433-d76e-4edd-b263-9c50246c2f80  prom1                 default      skuid/prometheus            0.1.2    map[environment:test region:us-west-2]     0
 ```
 
-Install a release:
+Install a release, automatically fetching values from the value store:
 
 ```
-$ ./helm-value-store  install --uuid 6fad4903-58ec-446f-bda4-bd39c4ff96aa
+$ helm value-store install --name alertmanager --selector region=us-west-2 --selector environment=prod
 Fetched chart skuid/alertmanager to /var/folders/pr/79r611f576jczk_79lfndzgc0000gn/T/370122778/alertmanager-0.1.0.tgz
 Installing Release 6fad4903-58ec-446f-bda4-bd39c4ff96aa alertmanager skuid/alertmanager   0.1.0
 Successfully installed release alertmanager!
+```
+
+Get values out of the value store
+
+```
+$ helm value-store get-values --uuid 6fad4903-58ec-446f-bda4-bd39c4ff96aa
+aws_region: us-west-2
+configMap:
+  pagerduty_key: somekey
+  name: alertmanager.config
+  slack_api_url: https://hooks.slack.com/services/
+image:
+  repository: prom/alertmanager
+  tag: v0.4.2
+mounts:
+  configPath: /etc/alertmanager
+replicaCount: 1
+resources:
+  limits:
+    cpu: 100.0m
+    memory: 128Mi
+  requests:
+    cpu: 50.0m
+    memory: 64Mi
+service:
+  name: alertmanager
+  port: 9098
+  servicePort: 80
+```
+
+Update a release definition:
+
+```
+$ helm value-store update --uuid 6fad4903-58ec-446f-bda4-bd39c4ff96aa -f alertmanager-values.yaml
+Update release in release store!
 ```
 
 ## Installation
@@ -109,7 +144,7 @@ Available Commands:
   update      update a release in the release store
   version     print the version number
 
-Use "helm-value-store [command] --help" for more information about a command.
+Use "value-store [command] --help" for more information about a command.
 ```
 
 ## License
