@@ -30,6 +30,8 @@ func init() {
 	RootCmd.AddCommand(getCmd)
 	getCmd.Flags().StringVar(&getArgs.table, "table", "helm-charts", "Name of table")
 	getCmd.Flags().StringVar(&getArgs.uuid, "uuid", "", "The UUID to get.")
+
+	getCmd.MarkFlagRequired("uuid")
 }
 
 func get(cmd *cobra.Command, args []string) {

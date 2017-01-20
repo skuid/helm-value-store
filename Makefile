@@ -27,5 +27,9 @@ vendored:
 	# Check if any dependencies are missing
 	test $$(govendor list +e |wc -l | awk '{print $$1}') -lt 1
 
+completion: build
+	./helm-value-store completion > out.sh
+	cp out.sh  /usr/local/etc/bash_completion.d/helm-value-store
+
 clean:
 	rm ./$(REPO)

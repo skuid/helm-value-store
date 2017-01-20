@@ -35,6 +35,8 @@ func init() {
 	updateCmd.Flags().VarP(&updateArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 	updateCmd.Flags().StringVar(&updateArgs.version, "version", "", "Version of the release")
+
+	updateCmd.MarkFlagRequired("uuid")
 }
 
 func update(cmd *cobra.Command, args []string) {

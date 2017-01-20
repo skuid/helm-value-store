@@ -31,6 +31,8 @@ func init() {
 	RootCmd.AddCommand(deleteCmd)
 	deleteCmd.Flags().StringVar(&deleteArgs.table, "table", "helm-charts", "Name of table")
 	deleteCmd.Flags().StringVar(&getArgs.uuid, "uuid", "", "The UUID to delete")
+
+	deleteCmd.MarkFlagRequired("uuid")
 }
 
 func delete(cmd *cobra.Command, args []string) {

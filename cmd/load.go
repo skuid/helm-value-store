@@ -29,6 +29,8 @@ func init() {
 	loadCmd.Flags().StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
 	loadCmd.Flags().StringVar(&loadArgs.table, "table", "helm-charts", "Name of table")
 	loadCmd.Flags().BoolVar(&loadArgs.createTable, "create-table", false, "Create the table on load")
+
+	loadCmd.MarkFlagRequired("file")
 }
 
 func load(cmd *cobra.Command, args []string) {
