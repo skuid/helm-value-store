@@ -14,14 +14,6 @@ var RootCmd = &cobra.Command{
 	Short: "A helm plugin for working with Helm Release data",
 }
 
-// Execute executes the commands
-func Execute() {
-	if err := RootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
-}
-
 func exitOnErr(err error) {
 	if err != nil {
 		fmt.Println(err.Error())

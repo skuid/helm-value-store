@@ -30,7 +30,7 @@ var deleteCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(deleteCmd)
 	deleteCmd.Flags().StringVar(&deleteArgs.table, "table", "helm-charts", "Name of table")
-	deleteCmd.Flags().StringVar(&getArgs.uuid, "uuid", "", "The UUID to delete")
+	deleteCmd.Flags().StringVar(&deleteArgs.uuid, "uuid", "", "The UUID to delete")
 
 	deleteCmd.MarkFlagRequired("uuid")
 }
