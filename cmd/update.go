@@ -37,6 +37,10 @@ func init() {
 	updateCmd.Flags().StringVar(&updateArgs.version, "version", "", "Version of the release")
 
 	updateCmd.MarkFlagRequired("uuid")
+	err := updateCmd.MarkFlagFilename("file", valueExtensions...)
+	if err != nil {
+		exitOnErr(err)
+	}
 }
 
 func update(cmd *cobra.Command, args []string) {

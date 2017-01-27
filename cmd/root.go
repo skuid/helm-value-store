@@ -35,3 +35,5 @@ func init() {
 func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 }
+
+var valueExtensions = []string{"json", "yaml", "yml"}

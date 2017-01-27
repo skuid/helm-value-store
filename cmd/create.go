@@ -40,7 +40,14 @@ func init() {
 	createCmd.Flags().StringVar(&createArgs.namespace, "namespace", "default", "Namespace of the release")
 	createCmd.Flags().StringVar(&createArgs.version, "version", "", "Version of the release")
 
-	createCmd.MarkFlagRequired("chart")
+	err := createCmd.MarkFlagRequired("chart")
+	if err != nil {
+		exitOnErr(err)
+	}
+	err = createCmd.MarkFlagFilename("file", valueExtensions...)
+	if err != nil {
+		exitOnErr(err)
+	}
 }
 
 func create(cmd *cobra.Command, args []string) {

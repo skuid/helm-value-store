@@ -9,10 +9,10 @@ import (
 )
 
 type installCmdArgs struct {
-	timeout  int64
-	dryRun   bool
-	table    string
-	selector selectorSet
+	timeout int64
+	dryRun  bool
+	table   string
+	labels  selectorSet
 
 	uuid string
 	name string
@@ -32,7 +32,7 @@ func init() {
 	installCmd.Flags().StringVar(&installArgs.table, "table", "helm-charts", "Name of table")
 	installCmd.Flags().Int64Var(&installArgs.timeout, "timeout", 300, "time in seconds to wait for any individual kubernetes operation (like Jobs for hooks)")
 	installCmd.Flags().BoolVar(&installArgs.dryRun, "dry-run", false, "simulate an install/upgrade")
-	installCmd.Flags().VarP(&installArgs.selector, "selector", "s", `The selectors to use. Each selector should have the format "k=v".
+	installCmd.Flags().VarP(&installArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
 		Can be specified multiple times, or a comma-separated list.`)
 	installCmd.Flags().StringVar(&installArgs.uuid, "uuid", "", "The UUID to install. Takes precedence over --name")
 	installCmd.Flags().StringVar(&installArgs.name, "name", "", `The name of the release to install. If multiple releases of the same name are found,
@@ -59,7 +59,7 @@ func install(cmd *cobra.Command, args []string) {
 		release, err = rs.Get(installArgs.uuid)
 		exitOnErr(err)
 	} else if len(installArgs.name) > 0 {
-		releases, err := rs.List(installArgs.selector.ToMap())
+		releases, err := rs.List(installArgs.labels.ToMap())
 		exitOnErr(err)
 
 		matches := releasesByName(installArgs.name, releases)

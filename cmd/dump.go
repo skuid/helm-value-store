@@ -9,9 +9,9 @@ import (
 )
 
 type dumpCmdArgs struct {
-	table    string
-	selector selectorSet
-	verbose  bool
+	table   string
+	label   selectorSet
+	verbose bool
 }
 
 var dumpArgs = &dumpCmdArgs{}
@@ -25,7 +25,7 @@ var dumpCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(dumpCmd)
 	dumpCmd.Flags().StringVar(&dumpArgs.table, "table", "helm-charts", "Name of table")
-	dumpCmd.Flags().VarP(&dumpArgs.selector, "selector", "s", `The selectors to use. Each selector should have the format "k=v".
+	dumpCmd.Flags().VarP(&dumpArgs.label, "label", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 
 	dumpCmd.Flags().BoolVar(&dumpArgs.verbose, "v", false, "Pretty-print the JSON")
@@ -35,7 +35,7 @@ func dump(cmd *cobra.Command, args []string) {
 	rs, err := dynamo.NewReleaseStore(dumpArgs.table)
 	exitOnErr(err)
 
-	releases, err := rs.List(dumpArgs.selector.ToMap())
+	releases, err := rs.List(dumpArgs.label.ToMap())
 	exitOnErr(err)
 
 	encoder := json.NewEncoder(os.Stdout)

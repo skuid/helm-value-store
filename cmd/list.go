@@ -13,9 +13,9 @@ import (
 )
 
 type listCmdArgs struct {
-	table    string
-	selector selectorSet
-	name     string
+	table  string
+	labels selectorSet
+	name   string
 }
 
 var listArgs = &listCmdArgs{}
@@ -29,7 +29,7 @@ var listCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(listCmd)
 	listCmd.Flags().StringVar(&listArgs.table, "table", "helm-charts", "Name of table")
-	listCmd.Flags().VarP(&listArgs.selector, "selector", "s", `The selectors to use. Each selector should have the format "k=v".
+	listCmd.Flags().VarP(&listArgs.labels, "labels", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 	listCmd.Flags().StringVar(&listArgs.name, "name", "", "Filter by release name")
 }
@@ -48,7 +48,7 @@ func list(cmd *cobra.Command, args []string) {
 	rs, err := dynamo.NewReleaseStore(listArgs.table)
 	exitOnErr(err)
 
-	releases, err := rs.List(listArgs.selector.ToMap())
+	releases, err := rs.List(listArgs.labels.ToMap())
 	exitOnErr(err)
 
 	if len(listArgs.name) > 0 {

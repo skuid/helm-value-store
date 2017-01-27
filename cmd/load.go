@@ -31,6 +31,10 @@ func init() {
 	loadCmd.Flags().BoolVar(&loadArgs.createTable, "create-table", false, "Create the table on load")
 
 	loadCmd.MarkFlagRequired("file")
+	err := loadCmd.MarkFlagFilename("file", valueExtensions...)
+	if err != nil {
+		exitOnErr(err)
+	}
 }
 
 func load(cmd *cobra.Command, args []string) {
