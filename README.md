@@ -118,8 +118,9 @@ go get github.com/skuid/helm-value-store
 ### Add the plugin to helm
 
 ```bash
-mkdir -p $HELM_HOME/pluings/value-store
-cat <<EOF > $HELM_HOME/plugins/value-store/plugin.yaml
+HELM_HOME=$(helm home)
+mkdir -p "$HELM_HOME/plugins/value-store"
+cat <<EOF > "$HELM_HOME/plugins/value-store/plugin.yaml"
 name: "value-store"
 version: "0.1.0"
 usage: "Store values in DynamoDB"
