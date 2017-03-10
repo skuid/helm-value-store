@@ -130,6 +130,14 @@ command: "helm-value-store"
 EOF
 ```
 
+### Create DynamoDB table
+
+If this is your first time using helm-value-store, you will need to create a DynamoDB table for storing values:
+
+``` bash
+helm-value-store load --create-table --file <(echo "[]")
+```
+
 ## Usage
 
 ```
