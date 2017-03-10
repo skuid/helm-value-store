@@ -139,9 +139,9 @@ Usage:
   helm value-store [command]
 
 Available Commands:
-  create      create a release in the relase store
+  create      create a release in the release store
   dump        dump the JSON representation of releases
-  delete      delete a release in the relase store
+  delete      delete a release in the release store
   get-values  get the values of a release
   install     install or upgrade a release
   list        list the releases

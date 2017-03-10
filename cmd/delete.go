@@ -23,7 +23,7 @@ var deleteArgs = &deleteCmdArgs{}
 
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "delete a release in the relase store",
+	Short: "delete a release in the release store",
 	Run:   delete,
 }
 
