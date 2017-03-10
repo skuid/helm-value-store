@@ -25,7 +25,7 @@ var createArgs = &createCmdArgs{}
 
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "create a release in the relase store",
+	Short: "create a release in the release store",
 	Run:   create,
 }
 
