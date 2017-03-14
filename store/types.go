@@ -7,10 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/ghodss/yaml"
 	"github.com/kubernetes/helm/cmd/helm/downloader"
 	"k8s.io/helm/cmd/helm/helmpath"
 	"k8s.io/helm/pkg/helm"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
+	"k8s.io/helm/pkg/strvals"
 )
 
 var client *helm.Client
@@ -107,6 +109,31 @@ func (r Release) Download() (string, error) {
 // Get the release content from Tiller
 func (r Release) Get() (*rls.GetReleaseContentResponse, error) {
 	return client.ReleaseContent(r.Name)
+}
+
+// MergeValues parses string values and then merges them into the
+// existing Values for a release.
+// Adopted from kubernetes/helm/cmd/helm/install.go
+func (r *Release) MergeValues(values []string) error {
+	base := map[string]interface{}{}
+	if err := yaml.Unmarshal([]byte(r.Values), &base); err != nil {
+		return fmt.Errorf("Error parsing values for release %s: %s", r.Name, err)
+	}
+
+	// User specified a value via --set
+	for _, value := range values {
+		if err := strvals.ParseInto(value, base); err != nil {
+			return fmt.Errorf("failed parsing --set data: %s", err)
+		}
+	}
+
+	mergedValues, err := yaml.Marshal(base)
+	if err != nil {
+		return fmt.Errorf("Error parsing merged values for release %s: %s", r.Name, err)
+	}
+	r.Values = string(mergedValues)
+
+	return nil
 }
 
 // Releases is a slice of release
