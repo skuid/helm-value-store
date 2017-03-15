@@ -56,3 +56,48 @@ func TestMatchesSelector(t *testing.T) {
 		}
 	}
 }
+
+func TestMergeValues(t *testing.T) {
+	cases := []struct {
+		release   store.Release
+		setValues []string
+		want      string
+	}{
+		{
+			store.Release{Values: "foo: 42"},
+			[]string{"foo=24"},
+			"foo: 24\n",
+		},
+		{
+			store.Release{Values: "bar: value1\nfoo: value2"},
+			[]string{"bar=value2", "foo=value1"},
+			"bar: value2\nfoo: value1\n",
+		},
+		{
+			store.Release{Values: "bar: value1\nfoo: value2"},
+			[]string{"bar=value2,foo=value1"},
+			"bar: value2\nfoo: value1\n",
+		},
+		{
+			store.Release{Values: "foo:\n  bar: value1"},
+			[]string{"foo.bar=value2"},
+			"foo:\n  bar: value2\n",
+		},
+		{
+			store.Release{Values: "foo:\n  bar: value1\n  baz: value2"},
+			[]string{"foo.bar=value2"},
+			"foo:\n  bar: value2\n  baz: value2\n",
+		},
+	}
+
+	for _, c := range cases {
+		err := c.release.MergeValues(c.setValues)
+		if err != nil {
+			t.Errorf("Error running %#v.MergeValues(%v): %s", c.release, c.setValues, err)
+		}
+		got := c.release.Values
+		if got != c.want {
+			t.Errorf("Failed %#v.MergeValues(%v): Expected %s, got %s", c.release, c.setValues, c.want, got)
+		}
+	}
+}

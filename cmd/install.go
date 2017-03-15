@@ -13,6 +13,7 @@ type installCmdArgs struct {
 	dryRun  bool
 	table   string
 	labels  selectorSet
+	values  []string
 
 	uuid string
 	name string
@@ -29,14 +30,16 @@ var installCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(installCmd)
-	installCmd.Flags().StringVar(&installArgs.table, "table", "helm-charts", "Name of table")
-	installCmd.Flags().Int64Var(&installArgs.timeout, "timeout", 300, "time in seconds to wait for any individual kubernetes operation (like Jobs for hooks)")
-	installCmd.Flags().BoolVar(&installArgs.dryRun, "dry-run", false, "simulate an install/upgrade")
-	installCmd.Flags().VarP(&installArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
+	f := installCmd.Flags()
+	f.StringVar(&installArgs.table, "table", "helm-charts", "Name of table")
+	f.Int64Var(&installArgs.timeout, "timeout", 300, "time in seconds to wait for any individual kubernetes operation (like Jobs for hooks)")
+	f.BoolVar(&installArgs.dryRun, "dry-run", false, "simulate an install/upgrade")
+	f.VarP(&installArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
 		Can be specified multiple times, or a comma-separated list.`)
-	installCmd.Flags().StringVar(&installArgs.uuid, "uuid", "", "The UUID to install. Takes precedence over --name")
-	installCmd.Flags().StringVar(&installArgs.name, "name", "", `The name of the release to install. If multiple releases of the same name are found,
+	f.StringVar(&installArgs.uuid, "uuid", "", "The UUID to install. Takes precedence over --name")
+	f.StringVar(&installArgs.name, "name", "", `The name of the release to install. If multiple releases of the same name are found,
 		the install will fail. Use selectors to pair down releases`)
+	f.StringArrayVar(&installArgs.values, "set", []string{}, "set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)")
 }
 
 func releasesByName(name string, releases store.Releases) (release store.Releases) {
@@ -75,6 +78,11 @@ func install(cmd *cobra.Command, args []string) {
 	_, getErr := release.Get()
 
 	if getErr != nil && getErr.Error() != "rpc error: code = 2 desc = release: not found" {
+		exitOnErr(err)
+	}
+
+	if len(installArgs.values) > 0 {
+		err := release.MergeValues(installArgs.values)
 		exitOnErr(err)
 	}
 

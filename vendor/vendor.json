@@ -802,6 +802,12 @@
 			"revisionTime": "2017-01-13T22:26:55Z"
 		},
 		{
+			"checksumSHA1": "b5PCEXkkUDmm/zXkXE44PecMwCU=",
+			"path": "k8s.io/helm/pkg/strvals",
+			"revision": "a90638e4f46499257e4a18d99c13e9955836c701",
+			"revisionTime": "2017-03-14T19:02:48Z"
+		},
+		{
 			"checksumSHA1": "v09tQ/pEnQ2JvEgslmK39+jCxSU=",
 			"path": "k8s.io/helm/pkg/tlsutil",
 			"revision": "5a33f462ef4b250876e22dbaedbd0787f217b64d",
