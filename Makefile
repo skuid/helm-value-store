@@ -31,8 +31,12 @@ vendored:
 	test $$(govendor list +e |wc -l | awk '{print $$1}') -lt 1
 
 completion: build
-	./helm-value-store completion > out.sh
-	cp out.sh  /usr/local/etc/bash_completion.d/helm-value-store
+	./$(REPO) completion > out.sh
+	cp out.sh  /usr/local/etc/bash_completion.d/$(REPO)
+
+docker:
+	docker run --rm -v $$(pwd):/go/src/github.com/skuid/$(REPO) -w /go/src/github.com/skuid/$(REPO) golang:1.8  go build -v -a -tags netgo -installsuffix netgo -ldflags '-w'
+	docker build -t skuid/$(REPO) .
 
 clean:
 	rm ./$(REPO)
