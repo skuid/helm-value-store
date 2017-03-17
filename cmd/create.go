@@ -8,13 +8,14 @@ import (
 	"github.com/google/uuid"
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type createCmdArgs struct {
 	table     string
 	file      string
-	labels    selectorSet
+	labels    spec.SelectorSet
 	name      string
 	chart     string
 	namespace string
@@ -31,14 +32,15 @@ var createCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(createCmd)
-	createCmd.Flags().StringVar(&createArgs.table, "table", "helm-charts", "Name of table")
-	createCmd.Flags().StringVarP(&createArgs.file, "file", "f", "", "Name of values file")
-	createCmd.Flags().VarP(&createArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
+	f := createCmd.Flags()
+	f.StringVar(&createArgs.table, "table", "helm-charts", "Name of table")
+	f.StringVarP(&createArgs.file, "file", "f", "", "Name of values file")
+	f.VarP(&createArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
-	createCmd.Flags().StringVar(&createArgs.name, "name", "", "Name of the release")
-	createCmd.Flags().StringVar(&createArgs.chart, "chart", "", "Chart of the release")
-	createCmd.Flags().StringVar(&createArgs.namespace, "namespace", "default", "Namespace of the release")
-	createCmd.Flags().StringVar(&createArgs.version, "version", "", "Version of the release")
+	f.StringVar(&createArgs.name, "name", "", "Name of the release")
+	f.StringVar(&createArgs.chart, "chart", "", "Chart of the release")
+	f.StringVar(&createArgs.namespace, "namespace", "default", "Namespace of the release")
+	f.StringVar(&createArgs.version, "version", "", "Version of the release")
 
 	err := createCmd.MarkFlagRequired("chart")
 	if err != nil {

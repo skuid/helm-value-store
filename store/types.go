@@ -83,6 +83,7 @@ func (r Release) Install(chartLocation string, dryRun bool, timeout int64) (*rls
 	)
 }
 
+// Download gets the release from an index server
 func (r Release) Download() (string, error) {
 	dl := downloader.ChartDownloader{
 		HelmHome: helmpath.Home(os.Getenv("HELM_HOME")),
@@ -157,4 +158,5 @@ type ReleaseStore interface {
 
 	List(selector map[string]string) (Releases, error)
 	Load(Releases) error
+	Setup() error
 }

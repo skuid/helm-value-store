@@ -14,6 +14,9 @@ setup:
 fmt:
 	go fmt $(GO_PKGS)
 
+lint:
+	for pkg in $(GO_PKGS); do golint $$pkg; done
+
 build: fmt
 	go build
 

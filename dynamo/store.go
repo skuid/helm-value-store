@@ -16,7 +16,7 @@ type ReleaseStore struct {
 }
 
 // NewReleaseStore Creates a new ReleaseStore
-func NewReleaseStore(tableName string) (*ReleaseStore, error) {
+func NewReleaseStore(tableName string) (store.ReleaseStore, error) {
 	rs := &ReleaseStore{tableName: tableName}
 
 	sess, err := session.NewSession(
@@ -154,9 +154,9 @@ func (rs ReleaseStore) Load(releases store.Releases) error {
 	return nil
 }
 
-// CreateTable creates the table in DynamoDB if it doesn't exist. This call waits on the creation of the table
-// to return
-func (rs ReleaseStore) CreateTable() error {
+// Setup creates the table in DynamoDB if it doesn't exist. This call waits on
+// the creation of the table to return
+func (rs ReleaseStore) Setup() error {
 	if !rs.tableExists() {
 		err := rs.createTable()
 		if err != nil {

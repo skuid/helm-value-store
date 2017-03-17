@@ -26,9 +26,10 @@ var loadCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(loadCmd)
-	loadCmd.Flags().StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
-	loadCmd.Flags().StringVar(&loadArgs.table, "table", "helm-charts", "Name of table")
-	loadCmd.Flags().BoolVar(&loadArgs.createTable, "create-table", false, "Create the table on load")
+	f := loadCmd.Flags()
+	f.StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
+	f.StringVar(&loadArgs.table, "table", "helm-charts", "Name of table")
+	f.BoolVar(&loadArgs.createTable, "create-table", false, "Create the table on load")
 
 	loadCmd.MarkFlagRequired("file")
 	err := loadCmd.MarkFlagFilename("file", valueExtensions...)
@@ -52,7 +53,7 @@ func load(cmd *cobra.Command, args []string) {
 	exitOnErr(err)
 
 	if loadArgs.createTable {
-		rs.CreateTable()
+		rs.Setup()
 	}
 
 	err = rs.Load(releases)

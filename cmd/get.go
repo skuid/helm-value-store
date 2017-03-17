@@ -6,12 +6,13 @@ import (
 
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type getCmdArgs struct {
 	table  string
-	labels selectorSet
+	labels spec.SelectorSet
 	name   string
 	uuid   string
 }
@@ -26,12 +27,12 @@ var getCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(getCmd)
-	getCmd.Flags().StringVar(&getArgs.table, "table", "helm-charts", "Name of table")
-	getCmd.Flags().StringVar(&getArgs.uuid, "uuid", "", "The UUID to get.")
-	getCmd.Flags().VarP(&getArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
+	f := getCmd.Flags()
+	f.StringVar(&getArgs.table, "table", "helm-charts", "Name of table")
+	f.StringVar(&getArgs.uuid, "uuid", "", "The UUID to get.")
+	f.VarP(&getArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated get.`)
-	getCmd.Flags().StringVar(&getArgs.name, "name", "", "The name of the release")
-
+	f.StringVar(&getArgs.name, "name", "", "The name of the release")
 }
 
 func hasReleases(releases store.Releases, message string) {
