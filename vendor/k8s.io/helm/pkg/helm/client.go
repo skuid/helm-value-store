@@ -17,10 +17,13 @@ limitations under the License.
 package helm // import "k8s.io/helm/pkg/helm"
 
 import (
+	"io"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
 	"k8s.io/helm/pkg/chartutil"
+	"k8s.io/helm/pkg/proto/hapi/chart"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
 )
 
@@ -59,7 +62,7 @@ func (h *Client) ListReleases(opts ...ReleaseListOption) (*rls.ListReleasesRespo
 	return h.list(ctx, req)
 }
 
-// InstallRelease installs a new chart and returns the release response.
+// InstallRelease loads a chart from chstr, installs it and returns the release response.
 func (h *Client) InstallRelease(chstr, ns string, opts ...InstallOption) (*rls.InstallReleaseResponse, error) {
 	// load the chart to install
 	chart, err := chartutil.Load(chstr)
@@ -67,6 +70,11 @@ func (h *Client) InstallRelease(chstr, ns string, opts ...InstallOption) (*rls.I
 		return nil, err
 	}
 
+	return h.InstallReleaseFromChart(chart, ns, opts...)
+}
+
+// InstallReleaseFromChart installs a new chart and returns the release response.
+func (h *Client) InstallReleaseFromChart(chart *chart.Chart, ns string, opts ...InstallOption) (*rls.InstallReleaseResponse, error) {
 	// apply the install options
 	for _, opt := range opts {
 		opt(&h.opts)
@@ -84,6 +92,11 @@ func (h *Client) InstallRelease(chstr, ns string, opts ...InstallOption) (*rls.I
 			return nil, err
 		}
 	}
+	err := chartutil.ProcessRequirementsEnabled(req.Chart, req.Values)
+	if err != nil {
+		return nil, err
+	}
+
 	return h.install(ctx, req)
 }
 
@@ -116,13 +129,19 @@ func (h *Client) DeleteRelease(rlsName string, opts ...DeleteOption) (*rls.Unins
 	return h.delete(ctx, req)
 }
 
-// UpdateRelease updates a release to a new/different chart
+// UpdateRelease loads a chart from chstr and updates a release to a new/different chart
 func (h *Client) UpdateRelease(rlsName string, chstr string, opts ...UpdateOption) (*rls.UpdateReleaseResponse, error) {
 	// load the chart to update
 	chart, err := chartutil.Load(chstr)
 	if err != nil {
 		return nil, err
 	}
+
+	return h.UpdateReleaseFromChart(rlsName, chart, opts...)
+}
+
+// UpdateReleaseFromChart updates a release to a new/different chart
+func (h *Client) UpdateReleaseFromChart(rlsName string, chart *chart.Chart, opts ...UpdateOption) (*rls.UpdateReleaseResponse, error) {
 
 	// apply the update options
 	for _, opt := range opts {
@@ -134,6 +153,7 @@ func (h *Client) UpdateRelease(rlsName string, chstr string, opts ...UpdateOptio
 	req.Name = rlsName
 	req.DisableHooks = h.opts.disableHooks
 	req.Recreate = h.opts.recreate
+	req.ResetValues = h.opts.resetValues
 	ctx := NewContext()
 
 	if h.opts.before != nil {
@@ -141,6 +161,11 @@ func (h *Client) UpdateRelease(rlsName string, chstr string, opts ...UpdateOptio
 			return nil, err
 		}
 	}
+	err := chartutil.ProcessRequirementsEnabled(req.Chart, req.Values)
+	if err != nil {
+		return nil, err
+	}
+
 	return h.update(ctx, req)
 }
 
@@ -229,6 +254,19 @@ func (h *Client) ReleaseHistory(rlsName string, opts ...HistoryOption) (*rls.Get
 		}
 	}
 	return h.history(ctx, req)
+}
+
+// RunReleaseTest executes a pre-defined test on a release
+func (h *Client) RunReleaseTest(rlsName string, opts ...ReleaseTestOption) (<-chan *rls.TestReleaseResponse, <-chan error) {
+	for _, opt := range opts {
+		opt(&h.opts)
+	}
+
+	req := &h.opts.testReq
+	req.Name = rlsName
+	ctx := NewContext()
+
+	return h.test(ctx, req)
 }
 
 // Executes tiller.ListReleases RPC.
@@ -342,4 +380,42 @@ func (h *Client) history(ctx context.Context, req *rls.GetHistoryRequest) (*rls.
 
 	rlc := rls.NewReleaseServiceClient(c)
 	return rlc.GetHistory(ctx, req)
+}
+
+// Executes tiller.TestRelease RPC.
+func (h *Client) test(ctx context.Context, req *rls.TestReleaseRequest) (<-chan *rls.TestReleaseResponse, <-chan error) {
+	errc := make(chan error, 1)
+	c, err := grpc.Dial(h.opts.host, grpc.WithInsecure())
+	if err != nil {
+		errc <- err
+		return nil, errc
+	}
+
+	ch := make(chan *rls.TestReleaseResponse, 1)
+	go func() {
+		defer close(errc)
+		defer close(ch)
+		defer c.Close()
+
+		rlc := rls.NewReleaseServiceClient(c)
+		s, err := rlc.RunReleaseTest(ctx, req)
+		if err != nil {
+			errc <- err
+			return
+		}
+
+		for {
+			msg, err := s.Recv()
+			if err == io.EOF {
+				return
+			}
+			if err != nil {
+				errc <- err
+				return
+			}
+			ch <- msg
+		}
+	}()
+
+	return ch, errc
 }

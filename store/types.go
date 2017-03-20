@@ -8,11 +8,10 @@ import (
 	"strings"
 
 	"github.com/ghodss/yaml"
-	"github.com/kubernetes/helm/cmd/helm/downloader"
-	"k8s.io/helm/cmd/helm/helmpath"
 	"k8s.io/helm/pkg/helm"
+	"k8s.io/helm/pkg/downloader"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
-	"k8s.io/helm/pkg/strvals"
+	"k8s.io/helm/cmd/helm/strvals"
 )
 
 var client *helm.Client
@@ -85,7 +84,6 @@ func (r Release) Install(chartLocation string, dryRun bool, timeout int64) (*rls
 
 func (r Release) Download() (string, error) {
 	dl := downloader.ChartDownloader{
-		HelmHome: helmpath.Home(os.Getenv("HELM_HOME")),
 		Out:      os.Stdout,
 	}
 
