@@ -14,6 +14,7 @@ type updateCmdArgs struct {
 	uuid  string
 
 	file    string
+	values  []string
 	labels  selectorSet
 	version string
 }
@@ -29,12 +30,15 @@ var updateCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(updateCmd)
-	updateCmd.Flags().StringVar(&updateArgs.table, "table", "helm-charts", "Name of table")
-	updateCmd.Flags().StringVar(&updateArgs.uuid, "uuid", "", "The UUID of the release")
-	updateCmd.Flags().StringVarP(&updateArgs.file, "file", "f", "", "Name of values file")
-	updateCmd.Flags().VarP(&updateArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
+	f := updateCmd.Flags()
+	f.StringVar(&updateArgs.table, "table", "helm-charts", "Name of table")
+	f.StringVar(&updateArgs.uuid, "uuid", "", "The UUID of the release")
+	f.StringVarP(&updateArgs.file, "file", "f", "", "Name of values file. All values for this release will be overwritten with these values.")
+	f.StringArrayVar(&updateArgs.values, "set", []string{}, `set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2).
+    	These values will be merged with the existing values in the store or with the values file provided by --file.`)
+	f.VarP(&updateArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
-	updateCmd.Flags().StringVar(&updateArgs.version, "version", "", "Version of the release")
+	f.StringVar(&updateArgs.version, "version", "", "Version of the release")
 
 	updateCmd.MarkFlagRequired("uuid")
 	err := updateCmd.MarkFlagFilename("file", valueExtensions...)
@@ -58,6 +62,11 @@ func update(cmd *cobra.Command, args []string) {
 		values, err := ioutil.ReadFile(updateArgs.file)
 		exitOnErr(err)
 		release.Values = string(values)
+	}
+
+	if len(updateArgs.values) > 0 {
+		err := release.MergeValues(updateArgs.values)
+		exitOnErr(err)
 	}
 
 	if len(updateArgs.labels) > 0 {
