@@ -125,7 +125,7 @@ name: "value-store"
 version: "0.1.0"
 usage: "Store values in DynamoDB"
 ignoreFlags: false
-useTunnel: false
+useTunnel: true
 command: "helm-value-store"
 EOF
 ```
