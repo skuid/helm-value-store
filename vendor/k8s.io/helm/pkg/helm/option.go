@@ -64,6 +64,10 @@ type options struct {
 	before func(context.Context, proto.Message) error
 	// release history options are applied directly to the get release history request
 	histReq rls.GetHistoryRequest
+	// resetValues instructs Tiller to reset values to their defaults.
+	resetValues bool
+	// release test options are applied directly to the test release history request
+	testReq rls.TestReleaseRequest
 }
 
 // Host specifies the host address of the Tiller release server, (default = ":44134").
@@ -132,6 +136,13 @@ func ReleaseListStatuses(statuses []release.Status_Code) ReleaseListOption {
 	}
 }
 
+// ReleaseListNamespace specifies the namespace to list releases from
+func ReleaseListNamespace(namespace string) ReleaseListOption {
+	return func(opts *options) {
+		opts.listReq.Namespace = namespace
+	}
+}
+
 // InstallOption allows specifying various settings
 // configurable by the helm client user for overriding
 // the defaults used when running the `helm install` command.
@@ -172,10 +183,45 @@ func DeleteTimeout(timeout int64) DeleteOption {
 	}
 }
 
+// ReleaseTestTimeout specifies the number of seconds before kubernetes calls timeout
+func ReleaseTestTimeout(timeout int64) ReleaseTestOption {
+	return func(opts *options) {
+		opts.testReq.Timeout = timeout
+	}
+}
+
+// ReleaseTestCleanup is a boolean value representing whether to cleanup test pods
+func ReleaseTestCleanup(cleanup bool) ReleaseTestOption {
+	return func(opts *options) {
+		opts.testReq.Cleanup = cleanup
+	}
+}
+
 // RollbackTimeout specifies the number of seconds before kubernetes calls timeout
 func RollbackTimeout(timeout int64) RollbackOption {
 	return func(opts *options) {
 		opts.rollbackReq.Timeout = timeout
+	}
+}
+
+// InstallWait specifies whether or not to wait for all resources to be ready
+func InstallWait(wait bool) InstallOption {
+	return func(opts *options) {
+		opts.instReq.Wait = wait
+	}
+}
+
+// UpgradeWait specifies whether or not to wait for all resources to be ready
+func UpgradeWait(wait bool) UpdateOption {
+	return func(opts *options) {
+		opts.updateReq.Wait = wait
+	}
+}
+
+// RollbackWait specifies whether or not to wait for all resources to be ready
+func RollbackWait(wait bool) RollbackOption {
+	return func(opts *options) {
+		opts.rollbackReq.Wait = wait
 	}
 }
 
@@ -270,6 +316,13 @@ func UpgradeDryRun(dry bool) UpdateOption {
 	}
 }
 
+// ResetValues will (if true) trigger resetting the values to their original state.
+func ResetValues(reset bool) UpdateOption {
+	return func(opts *options) {
+		opts.resetValues = reset
+	}
+}
+
 // UpgradeRecreate will (if true) recreate pods after upgrade.
 func UpgradeRecreate(recreate bool) UpdateOption {
 	return func(opts *options) {
@@ -335,3 +388,7 @@ func NewContext() context.Context {
 	md := metadata.Pairs("x-helm-api-client", version.Version)
 	return metadata.NewContext(context.TODO(), md)
 }
+
+// ReleaseTestOption allows configuring optional request data for
+// issuing a TestRelease rpc.
+type ReleaseTestOption func(*options)
