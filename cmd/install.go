@@ -5,6 +5,7 @@ import (
 
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +13,7 @@ type installCmdArgs struct {
 	timeout int64
 	dryRun  bool
 	table   string
-	labels  selectorSet
+	labels  spec.SelectorSet
 	values  []string
 
 	uuid string

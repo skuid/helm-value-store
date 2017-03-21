@@ -6,7 +6,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Version holds the application version
+var Version string
+
 func init() {
+	Version = "v0.2.0"
 	RootCmd.AddCommand(versionCmd)
 }
 
@@ -14,6 +18,6 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "print the version number",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("v0.1")
+		fmt.Println(Version)
 	},
 }

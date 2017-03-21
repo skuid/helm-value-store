@@ -5,13 +5,14 @@ import (
 	"fmt"
 
 	"github.com/skuid/helm-value-store/dynamo"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type deleteCmdArgs struct {
 	table     string
 	file      string
-	labels    selectorSet
+	labels    spec.SelectorSet
 	name      string
 	chart     string
 	namespace string
@@ -29,8 +30,9 @@ var deleteCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(deleteCmd)
-	deleteCmd.Flags().StringVar(&deleteArgs.table, "table", "helm-charts", "Name of table")
-	deleteCmd.Flags().StringVar(&deleteArgs.uuid, "uuid", "", "The UUID to delete")
+	f := deleteCmd.Flags()
+	f.StringVar(&deleteArgs.table, "table", "helm-charts", "Name of table")
+	f.StringVar(&deleteArgs.uuid, "uuid", "", "The UUID to delete")
 
 	deleteCmd.MarkFlagRequired("uuid")
 }

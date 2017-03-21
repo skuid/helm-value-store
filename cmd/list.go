@@ -9,12 +9,13 @@ import (
 	"github.com/cloudfoundry/bytefmt"
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type listCmdArgs struct {
 	table  string
-	labels selectorSet
+	labels spec.SelectorSet
 	name   string
 }
 
@@ -28,10 +29,11 @@ var listCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(listCmd)
-	listCmd.Flags().StringVar(&listArgs.table, "table", "helm-charts", "Name of table")
-	listCmd.Flags().VarP(&listArgs.labels, "labels", "l", `The labels to filter by. Each label should have the format "k=v".
+	f := listCmd.Flags()
+	f.StringVar(&listArgs.table, "table", "helm-charts", "Name of table")
+	f.VarP(&listArgs.labels, "labels", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
-	listCmd.Flags().StringVar(&listArgs.name, "name", "", "Filter by release name")
+	f.StringVar(&listArgs.name, "name", "", "Filter by release name")
 }
 
 func filterByName(releases store.Releases, name string) store.Releases {

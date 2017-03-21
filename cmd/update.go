@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 
 	"github.com/skuid/helm-value-store/dynamo"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +16,7 @@ type updateCmdArgs struct {
 
 	file    string
 	values  []string
-	labels  selectorSet
+	labels  spec.SelectorSet
 	version string
 }
 

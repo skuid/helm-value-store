@@ -5,12 +5,13 @@ import (
 	"os"
 
 	"github.com/skuid/helm-value-store/dynamo"
+	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type dumpCmdArgs struct {
 	table   string
-	label   selectorSet
+	label   spec.SelectorSet
 	verbose bool
 }
 
@@ -24,11 +25,12 @@ var dumpCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(dumpCmd)
-	dumpCmd.Flags().StringVar(&dumpArgs.table, "table", "helm-charts", "Name of table")
-	dumpCmd.Flags().VarP(&dumpArgs.label, "label", "l", `The labels to filter by. Each label should have the format "k=v".
+	f := dumpCmd.Flags()
+	f.StringVar(&dumpArgs.table, "table", "helm-charts", "Name of table")
+	f.VarP(&dumpArgs.label, "label", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 
-	dumpCmd.Flags().BoolVar(&dumpArgs.verbose, "v", false, "Pretty-print the JSON")
+	f.BoolVar(&dumpArgs.verbose, "v", false, "Pretty-print the JSON")
 }
 
 func dump(cmd *cobra.Command, args []string) {
