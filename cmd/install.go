@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
@@ -78,7 +79,7 @@ func install(cmd *cobra.Command, args []string) {
 	}
 	_, getErr := release.Get()
 
-	if getErr != nil && getErr.Error() != "rpc error: code = 2 desc = release: not found" {
+	if getErr != nil && !strings.Contains(getErr.Error(), "not found") {
 		exitOnErr(err)
 	}
 
@@ -91,7 +92,7 @@ func install(cmd *cobra.Command, args []string) {
 	exitOnErr(err)
 	fmt.Printf("Fetched chart %s to %s\n", release.Chart, dlLocation)
 
-	if getErr != nil && getErr.Error() == "rpc error: code = 2 desc = release: not found" {
+	if getErr != nil && strings.Contains(getErr.Error(), "not found") {
 		// Install
 		fmt.Printf("Installing Release %s\n", release)
 
