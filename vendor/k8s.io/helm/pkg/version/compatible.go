@@ -14,16 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package version // import "k8s.io/helm/pkg/version"
+package version
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Masterminds/semver"
 )
 
 // IsCompatible tests if a client and server version are compatible.
 func IsCompatible(client, server string) bool {
+	if isUnreleased(client) || isUnreleased(server) {
+		return true
+	}
 	cv, err := semver.NewVersion(client)
 	if err != nil {
 		return false
@@ -38,9 +42,24 @@ func IsCompatible(client, server string) bool {
 		constraint = cv.String()
 	}
 
+	return IsCompatibleRange(constraint, server)
+}
+
+// IsCompatibleRange compares a version to a constraint.
+// It returns true if the version matches the constraint, and false in all other cases.
+func IsCompatibleRange(constraint, ver string) bool {
+	sv, err := semver.NewVersion(ver)
+	if err != nil {
+		return false
+	}
+
 	c, err := semver.NewConstraint(constraint)
 	if err != nil {
 		return false
 	}
 	return c.Check(sv)
+}
+
+func isUnreleased(v string) bool {
+	return strings.HasSuffix(v, "unreleased")
 }

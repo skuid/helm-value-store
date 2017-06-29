@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/cloudfoundry/bytefmt"
+	"code.cloudfoundry.org/bytefmt"
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"

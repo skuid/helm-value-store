@@ -48,8 +48,9 @@ func (c *STS) AssumeRoleRequest(input *AssumeRoleInput) (req *request.Request, o
 		input = &AssumeRoleInput{}
 	}
 
-	output = &AssumeRoleOutput{}
 	req = c.newRequest(op, input, output)
+	output = &AssumeRoleOutput{}
+	req.Data = output
 	return
 }
 
@@ -214,8 +215,9 @@ func (c *STS) AssumeRoleWithSAMLRequest(input *AssumeRoleWithSAMLInput) (req *re
 		input = &AssumeRoleWithSAMLInput{}
 	}
 
-	output = &AssumeRoleWithSAMLOutput{}
 	req = c.newRequest(op, input, output)
+	output = &AssumeRoleWithSAMLOutput{}
+	req.Data = output
 	return
 }
 
@@ -373,8 +375,9 @@ func (c *STS) AssumeRoleWithWebIdentityRequest(input *AssumeRoleWithWebIdentityI
 		input = &AssumeRoleWithWebIdentityInput{}
 	}
 
-	output = &AssumeRoleWithWebIdentityOutput{}
 	req = c.newRequest(op, input, output)
+	output = &AssumeRoleWithWebIdentityOutput{}
+	req.Data = output
 	return
 }
 
@@ -561,8 +564,9 @@ func (c *STS) DecodeAuthorizationMessageRequest(input *DecodeAuthorizationMessag
 		input = &DecodeAuthorizationMessageInput{}
 	}
 
-	output = &DecodeAuthorizationMessageOutput{}
 	req = c.newRequest(op, input, output)
+	output = &DecodeAuthorizationMessageOutput{}
+	req.Data = output
 	return
 }
 
@@ -659,8 +663,9 @@ func (c *STS) GetCallerIdentityRequest(input *GetCallerIdentityInput) (req *requ
 		input = &GetCallerIdentityInput{}
 	}
 
-	output = &GetCallerIdentityOutput{}
 	req = c.newRequest(op, input, output)
+	output = &GetCallerIdentityOutput{}
+	req.Data = output
 	return
 }
 
@@ -720,8 +725,9 @@ func (c *STS) GetFederationTokenRequest(input *GetFederationTokenInput) (req *re
 		input = &GetFederationTokenInput{}
 	}
 
-	output = &GetFederationTokenOutput{}
 	req = c.newRequest(op, input, output)
+	output = &GetFederationTokenOutput{}
+	req.Data = output
 	return
 }
 
@@ -875,8 +881,9 @@ func (c *STS) GetSessionTokenRequest(input *GetSessionTokenInput) (req *request.
 		input = &GetSessionTokenInput{}
 	}
 
-	output = &GetSessionTokenOutput{}
 	req = c.newRequest(op, input, output)
+	output = &GetSessionTokenOutput{}
+	req.Data = output
 	return
 }
 

@@ -98,9 +98,6 @@ func buildStruct(value reflect.Value, buf *bytes.Buffer, tag reflect.StructTag) 
 		if field.Tag.Get("location") != "" {
 			continue // ignore non-body elements
 		}
-		if field.Tag.Get("ignore") != "" {
-			continue
-		}
 
 		if protocol.CanSetIdempotencyToken(member, field) {
 			token := protocol.GetIdempotencyToken()

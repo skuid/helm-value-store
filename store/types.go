@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	"github.com/ghodss/yaml"
-	"k8s.io/helm/cmd/helm/helmpath"
-	"k8s.io/helm/cmd/helm/strvals"
 	"k8s.io/helm/pkg/downloader"
 	"k8s.io/helm/pkg/helm"
+	"k8s.io/helm/pkg/helm/helmpath"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
+	"k8s.io/helm/pkg/strvals"
 )
 
 var client *helm.Client

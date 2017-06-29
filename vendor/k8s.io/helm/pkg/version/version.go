@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package version // import "k8s.io/helm/pkg/version"
+package version
 
 import "k8s.io/helm/pkg/proto/hapi/version"
 
@@ -26,10 +26,10 @@ var (
 	// Increment major number for new feature additions and behavioral changes.
 	// Increment minor number for bug fixes and performance enhancements.
 	// Increment patch number for critical fixes to existing releases.
-	Version = "v2.2.3"
+	Version = "v2.5"
 
 	// BuildMetadata is extra build time data
-	BuildMetadata = ""
+	BuildMetadata = "unreleased"
 	// GitCommit is the git sha1
 	GitCommit = ""
 	// GitTreeState is the state of the git tree

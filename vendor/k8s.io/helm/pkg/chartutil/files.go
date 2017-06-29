@@ -16,12 +16,15 @@ limitations under the License.
 package chartutil
 
 import (
+	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"path"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	"github.com/ghodss/yaml"
 
+	"github.com/BurntSushi/toml"
 	"github.com/gobwas/glob"
 	"github.com/golang/protobuf/ptypes/any"
 )
@@ -185,6 +188,48 @@ func FromYaml(str string) map[string]interface{} {
 	m := map[string]interface{}{}
 
 	if err := yaml.Unmarshal([]byte(str), &m); err != nil {
+		m["Error"] = err.Error()
+	}
+	return m
+}
+
+// ToToml takes an interface, marshals it to toml, and returns a string. It will
+// always return a string, even on marshal error (empty string).
+//
+// This is designed to be called from a template.
+func ToToml(v interface{}) string {
+	b := bytes.NewBuffer(nil)
+	e := toml.NewEncoder(b)
+	err := e.Encode(v)
+	if err != nil {
+		return err.Error()
+	}
+	return b.String()
+}
+
+// ToJson takes an interface, marshals it to json, and returns a string. It will
+// always return a string, even on marshal error (empty string).
+//
+// This is designed to be called from a template.
+func ToJson(v interface{}) string {
+	data, err := json.Marshal(v)
+	if err != nil {
+		// Swallow errors inside of a template.
+		return ""
+	}
+	return string(data)
+}
+
+// FromJson converts a YAML document into a map[string]interface{}.
+//
+// This is not a general-purpose JSON parser, and will not parse all valid
+// YAML documents. Additionally, because its intended use is within templates
+// it tolerates errors. It will insert the returned error message string into
+// m["error"] in the returned map.
+func FromJson(str string) map[string]interface{} {
+	m := map[string]interface{}{}
+
+	if err := json.Unmarshal([]byte(str), &m); err != nil {
 		m["Error"] = err.Error()
 	}
 	return m

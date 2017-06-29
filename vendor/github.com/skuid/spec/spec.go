@@ -1,25 +1,30 @@
 /*
-Package spec provides a Logger for applications to use and write logs with.
+Package spec provides a zap.Logger creation function NewStandardLogger() for applications to use and write logs with.
 
-The Logger can be used like so:
+NewStandardLogger() can be used like so:
 
-	import "github.com/skuid/spec"
-	import "github.com/uber-go/zap"
+    package main
 
-	var logger spec.Logger
+    import "go.uber.org/zap"
+    import "github.com/skuid/spec"
 
-	func main() {
-		logger.Debug("A debug message")
-		logger.Info("An info message")
-		logger.Info(
-			"An info message with values",
-			zap.String("key", "value"),
-		)
-		logger.Error("An error message")
+    func init() {
+        l, err := spec.NewStandardLogger() // handle error
+        zap.ReplaceGlobals(l)
+    }
 
-		err := errors.New("some error")
-		logger.Error("An error message", zap.Error(err))
-	}
+    func main() {
+        zap.L().Debug("A debug message")
+        zap.L().Info("An info message")
+        zap.L().Info(
+            "An info message with values",
+            zap.String("key", "value"),
+        )
+        zap.L().Error("An error message")
+
+        err := errors.New("some error")
+        zap.L().Error("An error message", zap.Error(err))
+    }
 
 */
 package spec
@@ -29,10 +34,10 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-//Logger is a zap.Logger that can be set to the same logger you've created
-var Logger *zap.Logger
-
-//NewStandardLogger creates a new zap.Logger based on common configuration
+// NewStandardLogger creates a new zap.Logger based on common configuration
+//
+// This is intended to be used with zap.ReplaceGlobals() in an application's
+// main.go.
 func NewStandardLogger() (l *zap.Logger, err error) {
 	config := zap.Config{
 		Level:       zap.NewAtomicLevel(),
