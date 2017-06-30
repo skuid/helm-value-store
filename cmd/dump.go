@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +25,6 @@ var dumpCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(dumpCmd)
 	f := dumpCmd.Flags()
-	f.StringVar(&dumpArgs.table, "table", "helm-charts", "Name of table")
 	f.VarP(&dumpArgs.label, "label", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 
@@ -34,10 +32,7 @@ func init() {
 }
 
 func dump(cmd *cobra.Command, args []string) {
-	rs, err := dynamo.NewReleaseStore(dumpArgs.table)
-	exitOnErr(err)
-
-	releases, err := rs.List(dumpArgs.label.ToMap())
+	releases, err := releaseStore.List(dumpArgs.label.ToMap())
 	exitOnErr(err)
 
 	encoder := json.NewEncoder(os.Stdout)

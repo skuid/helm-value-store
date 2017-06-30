@@ -7,14 +7,12 @@ import (
 	"text/tabwriter"
 
 	"code.cloudfoundry.org/bytefmt"
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type listCmdArgs struct {
-	table  string
 	labels spec.SelectorSet
 	name   string
 }
@@ -30,7 +28,6 @@ var listCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(listCmd)
 	f := listCmd.Flags()
-	f.StringVar(&listArgs.table, "table", "helm-charts", "Name of table")
 	f.VarP(&listArgs.labels, "labels", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
 	f.StringVar(&listArgs.name, "name", "", "Filter by release name")
@@ -47,10 +44,7 @@ func filterByName(releases store.Releases, name string) store.Releases {
 }
 
 func list(cmd *cobra.Command, args []string) {
-	rs, err := dynamo.NewReleaseStore(listArgs.table)
-	exitOnErr(err)
-
-	releases, err := rs.List(listArgs.labels.ToMap())
+	releases, err := releaseStore.List(listArgs.labels.ToMap())
 	exitOnErr(err)
 
 	if len(listArgs.name) > 0 {

@@ -4,14 +4,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type getCmdArgs struct {
-	table  string
 	labels spec.SelectorSet
 	name   string
 	uuid   string
@@ -28,7 +26,6 @@ var getCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(getCmd)
 	f := getCmd.Flags()
-	f.StringVar(&getArgs.table, "table", "helm-charts", "Name of table")
 	f.StringVar(&getArgs.uuid, "uuid", "", "The UUID to get.")
 	f.VarP(&getArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated get.`)
@@ -42,18 +39,16 @@ func hasReleases(releases store.Releases, message string) {
 }
 
 func get(cmd *cobra.Command, args []string) {
-	rs, err := dynamo.NewReleaseStore(getArgs.table)
-	exitOnErr(err)
-
+	var err error
 	releases := store.Releases{}
 
 	if len(getArgs.uuid) > 0 {
-		release, err := rs.Get(getArgs.uuid)
+		release, err := releaseStore.Get(getArgs.uuid)
 		exitOnErr(err)
 		releases = append(releases, *release)
 
 	} else if len(getArgs.name) > 0 || len(getArgs.labels) > 0 {
-		releases, err = rs.List(getArgs.labels.ToMap())
+		releases, err = releaseStore.List(getArgs.labels.ToMap())
 		exitOnErr(err)
 
 		hasReleases(releases, "No releases match those labels!")

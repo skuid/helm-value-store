@@ -4,14 +4,27 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/skuid/helm-value-store/dynamo"
+	"github.com/skuid/helm-value-store/store"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-// RootCmd represents the base command when called without any subcommands
+var releaseStore store.ReleaseStore
+
 var RootCmd = &cobra.Command{
 	Use:   "helm-value-store",
 	Short: "A helm plugin for working with Helm Release data",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		var err error
+		switch backend := viper.GetString("backend"); backend {
+		case "dynamodb":
+			releaseStore, err = dynamo.NewReleaseStore(viper.GetString("dynamodb-table"))
+		default:
+			err = fmt.Errorf("No valid value store specified! '%s'", backend)
+		}
+		exitOnErr(err)
+	},
 }
 
 func exitOnErr(err error) {
@@ -29,11 +42,21 @@ func init() {
 	}
 
 	cobra.OnInitialize(initConfig)
+
+	RootCmd.PersistentFlags().String("backend", "dynamodb", "The backend for the value store")
+
+	// DynamoDB flags
+	RootCmd.PersistentFlags().String("dynamodb-table", "helm-charts", "Name of the dynamodb table")
 }
 
-// initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	viper.AutomaticEnv() // read in environment variables that match
+	if err := viper.BindPFlags(RootCmd.PersistentFlags()); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	viper.SetEnvPrefix("HELM_VALUE_STORE")
+	viper.AutomaticEnv()
 }
 
 var valueExtensions = []string{"json", "yaml", "yml"}

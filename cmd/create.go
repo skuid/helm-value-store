@@ -6,14 +6,12 @@ import (
 	"io/ioutil"
 
 	"github.com/google/uuid"
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type createCmdArgs struct {
-	table     string
 	file      string
 	labels    spec.SelectorSet
 	name      string
@@ -33,7 +31,6 @@ var createCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(createCmd)
 	f := createCmd.Flags()
-	f.StringVar(&createArgs.table, "table", "helm-charts", "Name of table")
 	f.StringVarP(&createArgs.file, "file", "f", "", "Name of values file")
 	f.VarP(&createArgs.labels, "labels", "l", `The labels to apply. Each label should have the format "k=v".
     	Can be specified multiple times, or a comma-separated list.`)
@@ -72,11 +69,7 @@ func create(cmd *cobra.Command, args []string) {
 	if len(createArgs.chart) == 0 {
 		exitOnErr(errors.New("No chart provided!"))
 	}
-
-	rs, err := dynamo.NewReleaseStore(createArgs.table)
-	exitOnErr(err)
-
-	err = rs.Put(r)
+	err := releaseStore.Put(r)
 	exitOnErr(err)
 	fmt.Println("Created release in release store!")
 }
