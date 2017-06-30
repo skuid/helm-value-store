@@ -17,6 +17,8 @@ limitations under the License.
 package helm
 
 import (
+	"crypto/tls"
+
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/metadata"
@@ -38,14 +40,20 @@ type options struct {
 	host string
 	// if set dry-run helm client calls
 	dryRun bool
+	// if set enable TLS on helm client calls
+	useTLS bool
 	// if set, re-use an existing name
 	reuseName bool
 	// if set, performs pod restart during upgrade/rollback
 	recreate bool
+	// if set, force resource update through delete/recreate if needed
+	force bool
 	// if set, skip running hooks
 	disableHooks bool
 	// name of release
 	releaseName string
+	// tls.Config to use for rpc if tls enabled
+	tlsConfig *tls.Config
 	// release list options are applied directly to the list releases request
 	listReq rls.ListReleasesRequest
 	// release install options are applied directly to the install release request
@@ -66,6 +74,8 @@ type options struct {
 	histReq rls.GetHistoryRequest
 	// resetValues instructs Tiller to reset values to their defaults.
 	resetValues bool
+	// reuseValues instructs Tiller to reuse the values from the last release.
+	reuseValues bool
 	// release test options are applied directly to the test release history request
 	testReq rls.TestReleaseRequest
 }
@@ -74,6 +84,14 @@ type options struct {
 func Host(host string) Option {
 	return func(opts *options) {
 		opts.host = host
+	}
+}
+
+// WithTLS specifies the tls configuration if the helm client is enabled to use TLS.
+func WithTLS(cfg *tls.Config) Option {
+	return func(opts *options) {
+		opts.useTLS = true
+		opts.tlsConfig = cfg
 	}
 }
 
@@ -295,6 +313,13 @@ func RollbackRecreate(recreate bool) RollbackOption {
 	}
 }
 
+// RollbackForce will (if true) force resource update through delete/recreate if needed
+func RollbackForce(force bool) RollbackOption {
+	return func(opts *options) {
+		opts.force = force
+	}
+}
+
 // RollbackVersion sets the version of the release to deploy.
 func RollbackVersion(ver int32) RollbackOption {
 	return func(opts *options) {
@@ -323,10 +348,24 @@ func ResetValues(reset bool) UpdateOption {
 	}
 }
 
+// ReuseValues will (if true) trigger resetting the values to their original state.
+func ReuseValues(reuse bool) UpdateOption {
+	return func(opts *options) {
+		opts.reuseValues = reuse
+	}
+}
+
 // UpgradeRecreate will (if true) recreate pods after upgrade.
 func UpgradeRecreate(recreate bool) UpdateOption {
 	return func(opts *options) {
 		opts.recreate = recreate
+	}
+}
+
+// UpgradeForce will (if true) force resource update through delete/recreate if needed
+func UpgradeForce(force bool) UpdateOption {
+	return func(opts *options) {
+		opts.force = force
 	}
 }
 
@@ -385,7 +424,7 @@ func WithMaxHistory(max int32) HistoryOption {
 
 // NewContext creates a versioned context.
 func NewContext() context.Context {
-	md := metadata.Pairs("x-helm-api-client", version.Version)
+	md := metadata.Pairs("x-helm-api-client", version.GetVersion())
 	return metadata.NewContext(context.TODO(), md)
 }
 

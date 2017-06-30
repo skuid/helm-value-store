@@ -19,9 +19,9 @@ make test-cover
 ### Updating dependencies
 
 ```bash
-go get -u github.com/kardianos/govendor
+go get -u github.com/tools/godep
 
-govendor add +external
+godep save
 ```
 
 ### Linting

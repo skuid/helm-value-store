@@ -19,4 +19,4 @@
 // THE SOFTWARE.
 
 // Package zap provides fast, structured, leveled logging in Go.
-package zap // import "go.uber.org/zap"
+package zap

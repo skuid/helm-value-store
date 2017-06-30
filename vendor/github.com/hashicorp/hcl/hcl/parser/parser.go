@@ -50,7 +50,7 @@ func (p *Parser) Parse() (*ast.File, error) {
 		scerr = &PosError{Pos: pos, Err: errors.New(msg)}
 	}
 
-	f.Node, err = p.objectList(false)
+	f.Node, err = p.objectList()
 	if scerr != nil {
 		return nil, scerr
 	}
@@ -62,23 +62,11 @@ func (p *Parser) Parse() (*ast.File, error) {
 	return f, nil
 }
 
-// objectList parses a list of items within an object (generally k/v pairs).
-// The parameter" obj" tells this whether to we are within an object (braces:
-// '{', '}') or just at the top level. If we're within an object, we end
-// at an RBRACE.
-func (p *Parser) objectList(obj bool) (*ast.ObjectList, error) {
+func (p *Parser) objectList() (*ast.ObjectList, error) {
 	defer un(trace(p, "ParseObjectList"))
 	node := &ast.ObjectList{}
 
 	for {
-		if obj {
-			tok := p.scan()
-			p.unscan()
-			if tok.Type == token.RBRACE {
-				break
-			}
-		}
-
 		n, err := p.objectItem()
 		if err == errEofToken {
 			break // we are finished
@@ -91,13 +79,6 @@ func (p *Parser) objectList(obj bool) (*ast.ObjectList, error) {
 		}
 
 		node.Add(n)
-
-		// object lists can be optionally comma-delimited e.g. when a list of maps
-		// is being expressed, so a comma is allowed here - it's simply consumed
-		tok := p.scan()
-		if tok.Type != token.COMMA {
-			p.unscan()
-		}
 	}
 	return node, nil
 }
@@ -239,27 +220,13 @@ func (p *Parser) objectKey() ([]*ast.ObjectKey, error) {
 
 			return keys, nil
 		case token.LBRACE:
-			var err error
-
-			// If we have no keys, then it is a syntax error. i.e. {{}} is not
-			// allowed.
-			if len(keys) == 0 {
-				err = &PosError{
-					Pos: p.tok.Pos,
-					Err: fmt.Errorf("expected: IDENT | STRING got: %s", p.tok.Type),
-				}
-			}
-
 			// object
-			return keys, err
+			return keys, nil
 		case token.IDENT, token.STRING:
 			keyCount++
 			keys = append(keys, &ast.ObjectKey{Token: p.tok})
 		case token.ILLEGAL:
-			return keys, &PosError{
-				Pos: p.tok.Pos,
-				Err: fmt.Errorf("illegal character"),
-			}
+			fmt.Println("illegal")
 		default:
 			return keys, &PosError{
 				Pos: p.tok.Pos,
@@ -303,7 +270,7 @@ func (p *Parser) objectType() (*ast.ObjectType, error) {
 		Lbrace: p.tok.Pos,
 	}
 
-	l, err := p.objectList(true)
+	l, err := p.objectList()
 
 	// if we hit RBRACE, we are good to go (means we parsed all Items), if it's
 	// not a RBRACE, it's an syntax error and we just return it.
@@ -311,9 +278,9 @@ func (p *Parser) objectType() (*ast.ObjectType, error) {
 		return nil, err
 	}
 
-	// No error, scan and expect the ending to be a brace
-	if tok := p.scan(); tok.Type != token.RBRACE {
-		return nil, fmt.Errorf("object expected closing RBRACE got: %s", tok.Type)
+	// If there is no error, we should be at a RBRACE to end the object
+	if p.tok.Type != token.RBRACE {
+		return nil, fmt.Errorf("object expected closing RBRACE got: %s", p.tok.Type)
 	}
 
 	o.List = l
@@ -333,29 +300,18 @@ func (p *Parser) listType() (*ast.ListType, error) {
 	needComma := false
 	for {
 		tok := p.scan()
-		if needComma {
-			switch tok.Type {
-			case token.COMMA, token.RBRACK:
-			default:
-				return nil, &PosError{
-					Pos: tok.Pos,
-					Err: fmt.Errorf(
-						"error parsing list, expected comma or list end, got: %s",
-						tok.Type),
-				}
-			}
-		}
 		switch tok.Type {
 		case token.NUMBER, token.FLOAT, token.STRING, token.HEREDOC:
+			if needComma {
+				return nil, &PosError{
+					Pos: tok.Pos,
+					Err: fmt.Errorf("unexpected token: %s. Expecting %s", tok.Type, token.COMMA),
+				}
+			}
+
 			node, err := p.literalType()
 			if err != nil {
 				return nil, err
-			}
-
-			// If there is a lead comment, apply it
-			if p.leadComment != nil {
-				node.LeadComment = p.leadComment
-				p.leadComment = nil
 			}
 
 			l.Add(node)
@@ -364,7 +320,7 @@ func (p *Parser) listType() (*ast.ListType, error) {
 			// get next list item or we are at the end
 			// do a look-ahead for line comment
 			p.scan()
-			if p.lineComment != nil && len(l.List) > 0 {
+			if p.lineComment != nil {
 				lit, ok := l.List[len(l.List)-1].(*ast.LiteralType)
 				if ok {
 					lit.LineComment = p.lineComment
@@ -376,18 +332,6 @@ func (p *Parser) listType() (*ast.ListType, error) {
 
 			needComma = false
 			continue
-		case token.LBRACE:
-			// Looks like a nested object, so parse it out
-			node, err := p.objectType()
-			if err != nil {
-				return nil, &PosError{
-					Pos: tok.Pos,
-					Err: fmt.Errorf(
-						"error while trying to parse object within list: %s", err),
-				}
-			}
-			l.Add(node)
-			needComma = true
 		case token.BOOL:
 			// TODO(arslan) should we support? not supported by HCL yet
 		case token.LBRACK:
