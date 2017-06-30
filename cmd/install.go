@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
@@ -13,7 +12,6 @@ import (
 type installCmdArgs struct {
 	timeout int64
 	dryRun  bool
-	table   string
 	labels  spec.SelectorSet
 	values  []string
 
@@ -33,7 +31,6 @@ var installCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(installCmd)
 	f := installCmd.Flags()
-	f.StringVar(&installArgs.table, "table", "helm-charts", "Name of table")
 	f.Int64Var(&installArgs.timeout, "timeout", 300, "time in seconds to wait for any individual kubernetes operation (like Jobs for hooks)")
 	f.BoolVar(&installArgs.dryRun, "dry-run", false, "simulate an install/upgrade")
 	f.VarP(&installArgs.labels, "label", "l", `The labels to filter by. Each label should have the format "k=v".
@@ -55,16 +52,14 @@ func releasesByName(name string, releases store.Releases) (release store.Release
 }
 
 func install(cmd *cobra.Command, args []string) {
-	rs, err := dynamo.NewReleaseStore(installArgs.table)
-	exitOnErr(err)
-
+	var err error
 	release := &store.Release{}
 
 	if len(installArgs.uuid) > 0 {
-		release, err = rs.Get(installArgs.uuid)
+		release, err = releaseStore.Get(installArgs.uuid)
 		exitOnErr(err)
 	} else if len(installArgs.name) > 0 {
-		releases, err := rs.List(installArgs.labels.ToMap())
+		releases, err := releaseStore.List(installArgs.labels.ToMap())
 		exitOnErr(err)
 
 		matches := releasesByName(installArgs.name, releases)

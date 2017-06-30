@@ -1,14 +1,8 @@
-# To build:
-# $ docker build -t skuid/helm-value-store .
-#
-# To run:
-# $ docker run skuid/helm-value-store
-
-FROM debian:latest
+FROM alpine:latest
 
 MAINTAINER Micah Hausler, <micah.hausler@skuid.com>
 
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apk -U add ca-certificates
 
 COPY helm-value-store /bin/helm-value-store
 

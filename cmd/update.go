@@ -5,14 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
 )
 
 type updateCmdArgs struct {
-	table string
-	uuid  string
+	uuid string
 
 	file    string
 	values  []string
@@ -32,7 +30,6 @@ var updateCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(updateCmd)
 	f := updateCmd.Flags()
-	f.StringVar(&updateArgs.table, "table", "helm-charts", "Name of table")
 	f.StringVar(&updateArgs.uuid, "uuid", "", "The UUID of the release")
 	f.StringVarP(&updateArgs.file, "file", "f", "", "Name of values file. All values for this release will be overwritten with these values.")
 	f.StringArrayVar(&updateArgs.values, "set", []string{}, `set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2).
@@ -50,13 +47,10 @@ func init() {
 
 func update(cmd *cobra.Command, args []string) {
 
-	rs, err := dynamo.NewReleaseStore(updateArgs.table)
-	exitOnErr(err)
-
 	if len(updateArgs.uuid) == 0 {
 		exitOnErr(errors.New("Must supply a UUID!"))
 	}
-	release, err := rs.Get(updateArgs.uuid)
+	release, err := releaseStore.Get(updateArgs.uuid)
 	exitOnErr(err)
 
 	if len(updateArgs.file) > 0 {
@@ -77,7 +71,7 @@ func update(cmd *cobra.Command, args []string) {
 		release.Version = updateArgs.version
 	}
 
-	err = rs.Put(*release)
+	err = releaseStore.Put(*release)
 	exitOnErr(err)
 	fmt.Printf("Updated release %s in release store!\n", release.Name)
 }

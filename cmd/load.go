@@ -5,15 +5,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/spf13/cobra"
 )
 
 type loadCmdArgs struct {
-	file        string
-	table       string
-	createTable bool
+	file  string
+	setup bool
 }
 
 var loadArgs = &loadCmdArgs{}
@@ -28,8 +26,7 @@ func init() {
 	RootCmd.AddCommand(loadCmd)
 	f := loadCmd.Flags()
 	f.StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
-	f.StringVar(&loadArgs.table, "table", "helm-charts", "Name of table")
-	f.BoolVar(&loadArgs.createTable, "create-table", false, "Create the table on load")
+	f.BoolVar(&loadArgs.setup, "setup", false, "Setup the value store (may create resources).")
 
 	loadCmd.MarkFlagRequired("file")
 	err := loadCmd.MarkFlagFilename("file", valueExtensions...)
@@ -49,14 +46,11 @@ func load(cmd *cobra.Command, args []string) {
 	err = json.NewDecoder(f).Decode(&releases)
 	exitOnErr(err)
 
-	rs, err := dynamo.NewReleaseStore(loadArgs.table)
-	exitOnErr(err)
-
-	if loadArgs.createTable {
-		rs.Setup()
+	if loadArgs.setup {
+		releaseStore.Setup()
 	}
 
-	err = rs.Load(releases)
+	err = releaseStore.Load(releases)
 	exitOnErr(err)
 	fmt.Println("Loaded resources into dynamo!")
 }

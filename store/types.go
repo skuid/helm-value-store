@@ -9,7 +9,9 @@ import (
 
 	"github.com/ghodss/yaml"
 	"k8s.io/helm/pkg/downloader"
+	"k8s.io/helm/pkg/getter"
 	"k8s.io/helm/pkg/helm"
+	"k8s.io/helm/pkg/helm/environment"
 	"k8s.io/helm/pkg/helm/helmpath"
 	rls "k8s.io/helm/pkg/proto/hapi/services"
 	"k8s.io/helm/pkg/strvals"
@@ -88,6 +90,7 @@ func (r Release) Download() (string, error) {
 	dl := downloader.ChartDownloader{
 		Out:      os.Stdout,
 		HelmHome: helmpath.Home(os.Getenv("HELM_HOME")),
+		Getters:  getter.All(environment.EnvSettings{}),
 	}
 
 	tmpDir, err := ioutil.TempDir("", "")
@@ -104,7 +107,7 @@ func (r Release) Download() (string, error) {
 		return lname, nil
 	}
 
-	return filename, fmt.Errorf("file %q not found", r.Chart)
+	return filename, fmt.Errorf("file %q not found: %s", r.Chart, err.Error())
 }
 
 // Get the release content from Tiller

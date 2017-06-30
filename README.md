@@ -135,7 +135,7 @@ EOF
 If this is your first time using helm-value-store, you will need to create a DynamoDB table for storing values:
 
 ``` bash
-helm-value-store load --create-table --file <(echo "[]")
+helm-value-store load --setup --file <(echo "[]")
 ```
 
 ## Usage
@@ -145,20 +145,29 @@ $ helm-value-store
 A helm plugin for working with Helm Release data
 
 Usage:
-  helm value-store [command]
+  helm-value-store [flags]
+  helm-value-store [command]
 
 Available Commands:
+  completion  print the shell completion
   create      create a release in the release store
-  dump        dump the JSON representation of releases
   delete      delete a release in the release store
+  dump        dump the JSON representation of releases
   get-values  get the values of a release
+  help        Help about any command
   install     install or upgrade a release
   list        list the releases
   load        load a json file of releases
   update      update a release in the release store
   version     print the version number
 
-Use "value-store [command] --help" for more information about a command.
+Flags:
+      --backend string          The backend for the value store (default "dynamodb")
+      --dynamodb-table string   Name of the dynamodb table (default "helm-charts")
+  -h, --help                    help for helm-value-store
+
+Use "helm-value-store [command] --help" for more information about a command.
+
 ```
 
 ## License
