@@ -35,7 +35,7 @@ completion: build
 	cp out.sh  /usr/local/etc/bash_completion.d/$(REPO)
 
 docker:
-	docker run --rm -v $$(pwd):/go/src/github.com/skuid/$(REPO) -w /go/src/github.com/skuid/$(REPO) golang:1.8-alpine sh -c "apk -U add gcc linux-headers musl-dev && go build -v -a -tags netgo -installsuffix netgo -ldflags '-w'"
+	docker run --rm -v $$(pwd):/go/src/github.com/skuid/$(REPO) -w /go/src/github.com/skuid/$(REPO) golang:1.9-alpine sh -c "apk -U add gcc linux-headers musl-dev && go build -v -a -tags netgo -installsuffix netgo -ldflags '-w'"
 	docker build -t skuid/$(REPO) .
 
 clean:
