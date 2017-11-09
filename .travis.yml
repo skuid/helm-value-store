@@ -3,7 +3,6 @@ language: go
 
 go:
 - 1.9
-- tip
 
 before_install:
 - go get -u golang.org/x/tools/cmd/cover
