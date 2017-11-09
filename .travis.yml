@@ -2,8 +2,7 @@ sudo: false
 language: go
 
 go:
-- 1.8
-- tip
+- 1.9
 
 before_install:
 - go get -u golang.org/x/tools/cmd/cover
@@ -12,3 +11,16 @@ script:
 - make test
 - make test-cover
 - make build
+- make docker
+
+after_success:
+  - if [ ! -z "$TRAVIS_TAG" ] && ["$TRAVIS_GO_VERSION" == "1.9" ]; then
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD quay.io;
+    docker tag skuid/helm-value-store quay.io/skuid/helm-value-store:$TRAVIS_TAG;
+    docker push quay.io/skuid/helm-value-store:$TRAVIS_TAG;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_GO_VERSION" == "1.9" ]; then
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD quay.io;
+    docker tag skuid/helm-value-store quay.io/skuid/helm-value-store:$TRAVIS_TAG;
+    docker push quay.io/skuid/helm-value-store:$TRAVIS_TAG;
+    fi
