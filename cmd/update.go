@@ -1,12 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
 
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type updateCmdArgs struct {
@@ -46,11 +48,13 @@ func init() {
 }
 
 func update(cmd *cobra.Command, args []string) {
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
 
 	if len(updateArgs.uuid) == 0 {
-		exitOnErr(errors.New("Must supply a UUID!"))
+		exitOnErr(errors.New("Must supply a UUID"))
 	}
-	release, err := releaseStore.Get(updateArgs.uuid)
+	release, err := releaseStore.Get(ctx, updateArgs.uuid)
 	exitOnErr(err)
 
 	if len(updateArgs.file) > 0 {
@@ -71,7 +75,7 @@ func update(cmd *cobra.Command, args []string) {
 		release.Version = updateArgs.version
 	}
 
-	err = releaseStore.Put(*release)
+	err = releaseStore.Put(ctx, *release)
 	exitOnErr(err)
 	fmt.Printf("Updated release %s in release store!\n", release.Name)
 }

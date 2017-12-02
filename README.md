@@ -1,8 +1,8 @@
 # helm-value-store
 
 [![Build Status](https://travis-ci.org/skuid/helm-value-store.svg?branch=master)](https://travis-ci.org/skuid/helm-value-store)
-[![https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](http://godoc.org/github.com/skuid/helm-value-store/)
-
+[![godoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](http://godoc.org/github.com/skuid/helm-value-store/)
+[![Docker Repository on Quay](https://quay.io/repository/skuid/helm-value-store/status "Docker Repository on Quay")](https://quay.io/repository/skuid/helm-value-store)
 
 A helm plugin for working with helm deployment values.
 
@@ -12,9 +12,8 @@ you might have slightly different values files that need to be stored somewhere.
 This project is an attempt to manage working with multiple `values.yaml` files for
 nearly identitcal deployments.
 
-The only backing store is currently DynamoDB, but other backends such as etcd, consul,
-or Vault could easily be implemented.
-
+Currently supported backing stores are AWS DynamoDB and GCP Datastore, but other
+backends such as etcd, consul, or Vault could easily be implemented.
 
 ## Example
 
@@ -101,14 +100,6 @@ echo 'export GOPATH=~/go' | tee -a ~/.profile
 echo 'export PATH="$PATH:~/go/bin"' | tee -a ~/.profile
 ```
 
-### AWS Prerequisite
-
-You must have the ability to create, read, and write to a DynamoDB table.
-
-Set the proper access key environment variables, or use the
-`$HOME/.aws/{config/credentials}` and set the appropriate
-`AWS_DEFAULT_PROFILE` environment variable.
-
 ### Install helm-value-store
 
 ```bash
@@ -123,14 +114,35 @@ mkdir -p "$HELM_HOME/plugins/value-store"
 cat <<EOF > "$HELM_HOME/plugins/value-store/plugin.yaml"
 name: "value-store"
 version: "0.1.0"
-usage: "Store values in DynamoDB"
+usage: "Store values in a database"
 ignoreFlags: false
 useTunnel: true
 command: "helm-value-store"
 EOF
 ```
 
-### Create DynamoDB table
+### GCP Setup (backend: datastore)
+
+1. Go to the [GCP dashboard](https://console.cloud.google.com) and create a new project
+1. Go to the [credentials page](https://console.cloud.google.com/apis/credentials) and create a new Service Account
+1. Give the service account a name, and add it to the role: Datastore > Cloud Datastore Owner
+    * Be sure to select the "JSON" Key type, and click "Create"
+1. Set the following environment variables
+
+```
+export HELM_VALUE_STORE_BACKEND=datastore
+export HELM_VALUE_STORE_SERVICE_ACCOUNT="/path/to/sa.json"
+```
+
+### AWS Prerequisite (backend: dynamodb)
+
+You must have the ability to create, read, and write to a DynamoDB table.
+
+Set the proper access key environment variables, or use the
+`$HOME/.aws/{config/credentials}` and set the appropriate
+`AWS_DEFAULT_PROFILE` environment variable.
+
+### Create DynamoDB table (backend: dynamodb)
 
 If this is your first time using helm-value-store, you will need to create a DynamoDB table for storing values:
 
@@ -141,11 +153,9 @@ helm-value-store load --setup --file <(echo "[]")
 ## Usage
 
 ```
-$ helm-value-store
 A helm plugin for working with Helm Release data
 
 Usage:
-  helm-value-store [flags]
   helm-value-store [command]
 
 Available Commands:
@@ -162,12 +172,13 @@ Available Commands:
   version     print the version number
 
 Flags:
-      --backend string          The backend for the value store (default "dynamodb")
-      --dynamodb-table string   Name of the dynamodb table (default "helm-charts")
-  -h, --help                    help for helm-value-store
+      --backend string           The backend for the value store. Must be one of [dynamodb datastore] (default "dynamodb")
+      --dynamodb-table string    Name of the dynamodb table (default "helm-charts")
+  -h, --help                     help for helm-value-store
+      --service-account string   The Google Service Account JSON file (default "sa.json")
+      --timeout duration         The timeout for a given command (default 30s)
 
 Use "helm-value-store [command] --help" for more information about a command.
-
 ```
 
 ## License

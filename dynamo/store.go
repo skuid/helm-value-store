@@ -1,6 +1,7 @@
 package dynamo
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -31,7 +32,7 @@ func NewReleaseStore(tableName string) (store.ReleaseStore, error) {
 }
 
 // Get gets a release by it's UniqueID
-func (rs ReleaseStore) Get(uniqueID string) (*store.Release, error) {
+func (rs ReleaseStore) Get(ctx context.Context, uniqueID string) (*store.Release, error) {
 	svc := dynamodb.New(rs.sess)
 
 	params := &dynamodb.GetItemInput{
@@ -43,7 +44,7 @@ func (rs ReleaseStore) Get(uniqueID string) (*store.Release, error) {
 		TableName:      aws.String(rs.tableName),
 		ConsistentRead: aws.Bool(true),
 	}
-	resp, err := svc.GetItem(params)
+	resp, err := svc.GetItemWithContext(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func (rs ReleaseStore) Get(uniqueID string) (*store.Release, error) {
 }
 
 // Delete deletes a release by it's UniqueID
-func (rs ReleaseStore) Delete(uniqueID string) error {
+func (rs ReleaseStore) Delete(ctx context.Context, uniqueID string) error {
 	svc := dynamodb.New(rs.sess)
 
 	params := &dynamodb.DeleteItemInput{
@@ -64,12 +65,12 @@ func (rs ReleaseStore) Delete(uniqueID string) error {
 		},
 		TableName: aws.String(rs.tableName),
 	}
-	_, err := svc.DeleteItem(params)
+	_, err := svc.DeleteItemWithContext(ctx, params)
 	return err
 }
 
 // Put creates or updates a release in DynamoDB
-func (rs ReleaseStore) Put(r store.Release) error {
+func (rs ReleaseStore) Put(ctx context.Context, r store.Release) error {
 	svc := dynamodb.New(rs.sess)
 
 	avm := attributeValueMap{}
@@ -82,12 +83,12 @@ func (rs ReleaseStore) Put(r store.Release) error {
 		Item:      avm,
 		TableName: aws.String(rs.tableName),
 	}
-	_, err = svc.PutItem(params)
+	_, err = svc.PutItemWithContext(ctx, params)
 	return err
 }
 
 // List returns releases from DynamoDB
-func (rs ReleaseStore) List(selector map[string]string) (store.Releases, error) {
+func (rs ReleaseStore) List(ctx context.Context, selector map[string]string) (store.Releases, error) {
 	svc := dynamodb.New(rs.sess)
 
 	// Dynamo doesn't support indexes on map types
@@ -96,14 +97,13 @@ func (rs ReleaseStore) List(selector map[string]string) (store.Releases, error) 
 		ConsistentRead: aws.Bool(true),
 		Select:         aws.String("ALL_ATTRIBUTES"),
 	}
-	resp, err := svc.Scan(params)
+	resp, err := svc.ScanWithContext(ctx, params)
 
 	if err != nil {
 		return nil, err
 	}
 
 	response := store.Releases{}
-
 	for _, item := range resp.Items {
 		avm := attributeValueMap(item)
 		r, _ := avm.MarshalRelease()
@@ -115,7 +115,7 @@ func (rs ReleaseStore) List(selector map[string]string) (store.Releases, error) 
 }
 
 // Load bulk-writes releases to DynamoDB
-func (rs ReleaseStore) Load(releases store.Releases) error {
+func (rs ReleaseStore) Load(ctx context.Context, releases store.Releases) error {
 	svc := dynamodb.New(rs.sess)
 	params := &dynamodb.BatchWriteItemInput{
 		RequestItems: map[string][]*dynamodb.WriteRequest{},
@@ -134,7 +134,7 @@ func (rs ReleaseStore) Load(releases store.Releases) error {
 
 		params.RequestItems[rs.tableName] = writeRequests
 		if i%25 == 0 {
-			_, err := svc.BatchWriteItem(params)
+			_, err := svc.BatchWriteItemWithContext(ctx, params)
 			if err != nil {
 				fmt.Println(err)
 				return err
@@ -146,7 +146,7 @@ func (rs ReleaseStore) Load(releases store.Releases) error {
 		}
 	}
 	if len(writeRequests) > 0 {
-		_, err := svc.BatchWriteItem(params)
+		_, err := svc.BatchWriteItemWithContext(ctx, params)
 		if err != nil {
 			return err
 		}
@@ -156,14 +156,14 @@ func (rs ReleaseStore) Load(releases store.Releases) error {
 
 // Setup creates the table in DynamoDB if it doesn't exist. This call waits on
 // the creation of the table to return
-func (rs ReleaseStore) Setup() error {
-	if !rs.tableExists() {
-		err := rs.createTable()
+func (rs ReleaseStore) Setup(ctx context.Context) error {
+	if !rs.tableExists(ctx) {
+		err := rs.createTable(ctx)
 		if err != nil {
 			return err
 		}
 		svc := dynamodb.New(rs.sess)
-		err = svc.WaitUntilTableExists(&dynamodb.DescribeTableInput{TableName: aws.String(rs.tableName)})
+		err = svc.WaitUntilTableExistsWithContext(ctx, &dynamodb.DescribeTableInput{TableName: aws.String(rs.tableName)})
 		if err != nil {
 			return err
 		}
@@ -171,7 +171,7 @@ func (rs ReleaseStore) Setup() error {
 	return nil
 }
 
-func (rs ReleaseStore) createTable() error {
+func (rs ReleaseStore) createTable(ctx context.Context) error {
 	params := &dynamodb.CreateTableInput{
 		AttributeDefinitions: []*dynamodb.AttributeDefinition{
 			{
@@ -192,13 +192,13 @@ func (rs ReleaseStore) createTable() error {
 		TableName: aws.String(rs.tableName),
 	}
 	svc := dynamodb.New(rs.sess)
-	_, err := svc.CreateTable(params)
+	_, err := svc.CreateTableWithContext(ctx, params)
 	return err
 }
 
-func (rs ReleaseStore) tableExists() bool {
+func (rs ReleaseStore) tableExists(ctx context.Context) bool {
 	svc := dynamodb.New(rs.sess)
-	_, err := svc.DescribeTable(&dynamodb.DescribeTableInput{
+	_, err := svc.DescribeTableWithContext(ctx, &dynamodb.DescribeTableInput{
 		TableName: aws.String(rs.tableName),
 	})
 	if err != nil {

@@ -10,6 +10,8 @@ _test
 # Coverage
 coverage.out
 
+sa.json
+
 # Build artifacts
 helm-value-store
 

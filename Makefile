@@ -1,30 +1,27 @@
 REPO=helm-value-store
 SHA = $(shell git rev-parse --short HEAD)
-GO_PKGS=$$(go list ./... | grep -v vendor)
 
-.PHONY: setup fmt test test-cover vendored clean
+.PHONY: setup fmt test vendored clean
 
 all: test build
 
 setup:
 	go get golang.org/x/tools/cmd/cover
-	go get -u github.com/kardianos/govendor
 	go get -u github.com/golang/lint/golint
 
 fmt:
-	go fmt $(GO_PKGS)
+	go fmt ./...
 
 lint:
-	for pkg in $(GO_PKGS); do golint $$pkg; done
+	for pkg in $$(go list ./...); do golint $$pkg; done
 
 build: fmt
 	go build
 
 test: fmt
-	go test -race $(GO_PKGS)
-
-test-cover: fmt
-	go test -cover $(GO_PKGS)
+	go vet  ./...
+	go test -cover  ./...
+	go test -race ./...
 
 vendored:
 	# Check if any dependencies are missing

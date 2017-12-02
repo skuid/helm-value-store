@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"os"
 
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type dumpCmdArgs struct {
@@ -32,7 +34,9 @@ func init() {
 }
 
 func dump(cmd *cobra.Command, args []string) {
-	releases, err := releaseStore.List(dumpArgs.label.ToMap())
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+	releases, err := releaseStore.List(ctx, dumpArgs.label.ToMap())
 	exitOnErr(err)
 
 	encoder := json.NewEncoder(os.Stdout)
