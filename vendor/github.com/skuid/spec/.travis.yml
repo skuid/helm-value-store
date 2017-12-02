@@ -2,7 +2,7 @@ sudo: false
 language: go
 
 go:
-- 1.8
+- 1.9
 - tip
 
 services:
@@ -14,7 +14,5 @@ before_install:
 
 script:
 - golint ./...
-- go test -coverprofile=coverage.out .
-- go tool cover -func=coverage.out
-- go test ./...
+- go test -cover ./...
 - go test -race ./...

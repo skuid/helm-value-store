@@ -3,6 +3,8 @@ license: MIT
 import:
 - package: go.uber.org/atomic
   version: ^1
+- package: go.uber.org/multierr
+  version: ^1
 testImport:
 - package: github.com/satori/go.uuid
 - package: github.com/sirupsen/logrus
@@ -21,6 +23,7 @@ testImport:
 - package: github.com/pborman/uuid
 - package: github.com/pkg/errors
 - package: go.pedge.io/lion
+- package: github.com/rs/zerolog
 - package: golang.org/x/tools
   subpackages:
   - cover

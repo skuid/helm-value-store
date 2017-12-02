@@ -21,6 +21,7 @@
 - https://joeshaw.org/dont-defer-close-on-writable-files/
 - https://dave.cheney.net/2017/06/11/go-without-package-scoped-variables
 - https://peter.bourgon.org/blog/2017/06/09/theory-of-modern-go.html
+- [Go best practices, six years in](https://peter.bourgon.org/go-best-practices-2016/) (2016)
 
 ## Blogs/Mailing lists to follow
 

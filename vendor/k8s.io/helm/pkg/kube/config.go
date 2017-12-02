@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package kube
+package kube // import "k8s.io/helm/pkg/kube"
 
 import "k8s.io/client-go/tools/clientcmd"
 
-// GetConfig returns a kubernetes client config for a given context.
+// GetConfig returns a Kubernetes client config for a given context.
 func GetConfig(context string) clientcmd.ClientConfig {
 	rules := clientcmd.NewDefaultClientConfigLoadingRules()
 	rules.DefaultClientConfig = &clientcmd.DefaultClientConfig

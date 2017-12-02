@@ -22,14 +22,14 @@ package zapcore
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"sync"
 	"time"
 
 	"go.uber.org/zap/internal/bufferpool"
 	"go.uber.org/zap/internal/exit"
-	"go.uber.org/zap/internal/multierror"
+
+	"go.uber.org/multierr"
 )
 
 var (
@@ -102,13 +102,25 @@ func (ec EntryCaller) TrimmedPath() string {
 	if !ec.Defined {
 		return "undefined"
 	}
+	// nb. To make sure we trim the path correctly on Windows too, we
+	// counter-intuitively need to use '/' and *not* os.PathSeparator here,
+	// because the path given originates from Go stdlib, specifically
+	// runtime.Caller() which (as of Mar/17) returns forward slashes even on
+	// Windows.
+	//
+	// See https://github.com/golang/go/issues/3335
+	// and https://github.com/golang/go/issues/18151
+	//
+	// for discussion on the issue on Go side.
+	//
 	// Find the last separator.
-	idx := strings.LastIndexByte(ec.File, os.PathSeparator)
+	//
+	idx := strings.LastIndexByte(ec.File, '/')
 	if idx == -1 {
 		return ec.FullPath()
 	}
 	// Find the penultimate separator.
-	idx = strings.LastIndexByte(ec.File[:idx], os.PathSeparator)
+	idx = strings.LastIndexByte(ec.File[:idx], '/')
 	if idx == -1 {
 		return ec.FullPath()
 	}
@@ -198,12 +210,12 @@ func (ce *CheckedEntry) Write(fields ...Field) {
 	}
 	ce.dirty = true
 
-	var errs multierror.Error
+	var err error
 	for i := range ce.cores {
-		errs = errs.Append(ce.cores[i].Write(ce.Entry, fields))
+		err = multierr.Append(err, ce.cores[i].Write(ce.Entry, fields))
 	}
 	if ce.ErrorOutput != nil {
-		if err := errs.AsError(); err != nil {
+		if err != nil {
 			fmt.Fprintf(ce.ErrorOutput, "%v write error: %v\n", time.Now(), err)
 			ce.ErrorOutput.Sync()
 		}
