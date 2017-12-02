@@ -1,12 +1,15 @@
 package store
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"cloud.google.com/go/datastore"
 	"github.com/ghodss/yaml"
 	"k8s.io/helm/pkg/downloader"
 	"k8s.io/helm/pkg/getter"
@@ -23,15 +26,57 @@ func init() {
 	client = helm.NewClient(helm.Host(os.Getenv("TILLER_HOST")))
 }
 
+// Load satisfies the datastore.PropertyLoadSaver interface
+func (r *Release) Load(p []datastore.Property) error {
+	if err := datastore.LoadStruct(r, p); err != nil {
+		return err
+	}
+	labels := map[string]string{}
+	err := json.Unmarshal(r.ReleaseLabels, &labels)
+	if err != nil {
+		return err
+	}
+	r.Labels = labels
+	return nil
+}
+
+// Save satisfies the datastore.PropertyLoadSaver interface
+func (r *Release) Save() ([]datastore.Property, error) {
+	props, err := datastore.SaveStruct(r)
+	if err != nil {
+		return nil, err
+	}
+
+	response := []datastore.Property{}
+	// skip ReleaseLabels from datastore.SaveStruct()
+	for _, prop := range props {
+		if prop.Name == "ReleaseLabels" {
+			continue
+		}
+		response = append(response, prop)
+	}
+	labelBytes, err := json.Marshal(r.Labels)
+	if err != nil {
+		return nil, err
+	}
+	response = append(response, datastore.Property{
+		Name:    "ReleaseLabels",
+		Value:   labelBytes,
+		NoIndex: true,
+	})
+	return response, nil
+}
+
 // A Release contains metadata about a release of a healm chart
 type Release struct {
-	UniqueID  string            `json:"unique_id"`
-	Labels    map[string]string `json:"labels"`
-	Name      string            `json:"name"`
-	Chart     string            `json:"chart"`
-	Namespace string            `json:"namespace"`
-	Version   string            `json:"version"`
-	Values    string            `json:"values"`
+	UniqueID      string            `json:"unique_id" datastore:"uniqueID"`
+	Labels        map[string]string `json:"labels" datastore:"-"`
+	ReleaseLabels []byte            `json:"-" datastore:"labels,noindex"`
+	Name          string            `json:"name" datastore:"name,noindex"`
+	Chart         string            `json:"chart" datastore:"chart,noindex"`
+	Namespace     string            `json:"namespace" datastore:"namespace,noindex"`
+	Version       string            `json:"version" datastore:"version,noindex"`
+	Values        string            `json:"values" datastore:"values,noindex"`
 }
 
 func (r Release) String() string {
@@ -155,11 +200,11 @@ type ReleasesMarshaler interface {
 
 // A ReleaseStore is a backend that stores releases
 type ReleaseStore interface {
-	Get(uniqueID string) (*Release, error)
-	Put(Release) error
-	Delete(uniqueID string) error
+	Get(ctx context.Context, uniqueID string) (*Release, error)
+	Put(context.Context, Release) error
+	Delete(ctx context.Context, uniqueID string) error
 
-	List(selector map[string]string) (Releases, error)
-	Load(Releases) error
-	Setup() error
+	List(ctx context.Context, selector map[string]string) (Releases, error)
+	Load(context.Context, Releases) error
+	Setup(context.Context) error
 }

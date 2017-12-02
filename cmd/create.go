@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -9,6 +10,7 @@ import (
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type createCmdArgs struct {
@@ -67,9 +69,11 @@ func create(cmd *cobra.Command, args []string) {
 		r.Values = string(values)
 	}
 	if len(createArgs.chart) == 0 {
-		exitOnErr(errors.New("No chart provided!"))
+		exitOnErr(errors.New("No chart provided"))
 	}
-	err := releaseStore.Put(r)
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+	err := releaseStore.Put(ctx, r)
 	exitOnErr(err)
 	fmt.Println("Created release in release store!")
 }

@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"errors"
 	"fmt"
 
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type deleteCmdArgs struct {
@@ -36,10 +38,12 @@ func init() {
 
 func delete(cmd *cobra.Command, args []string) {
 	if len(deleteArgs.uuid) == 0 {
-		exitOnErr(errors.New("Must supply a UUID!"))
+		exitOnErr(errors.New("Must supply a UUID"))
 	}
 
-	err := releaseStore.Delete(deleteArgs.uuid)
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+	err := releaseStore.Delete(ctx, deleteArgs.uuid)
 	exitOnErr(err)
 
 	fmt.Printf("Deleted release %s in release store.\n", deleteArgs.uuid)

@@ -1,12 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
 
 	"github.com/skuid/helm-value-store/store"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type loadCmdArgs struct {
@@ -25,7 +27,7 @@ var loadCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(loadCmd)
 	f := loadCmd.Flags()
-	f.StringVar(&loadArgs.file, "file", "dynamoReleases.json", "Name of file to ingest")
+	f.StringVar(&loadArgs.file, "file", "", "Name of file to ingest")
 	f.BoolVar(&loadArgs.setup, "setup", false, "Setup the value store (may create resources).")
 
 	loadCmd.MarkFlagRequired("file")
@@ -46,11 +48,14 @@ func load(cmd *cobra.Command, args []string) {
 	err = json.NewDecoder(f).Decode(&releases)
 	exitOnErr(err)
 
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
 	if loadArgs.setup {
-		releaseStore.Setup()
+		err = releaseStore.Setup(ctx)
+		exitOnErr(err)
 	}
 
-	err = releaseStore.Load(releases)
+	err = releaseStore.Load(ctx, releases)
 	exitOnErr(err)
-	fmt.Println("Loaded resources into dynamo!")
+	fmt.Printf("Loaded %d resources into %s\n", len(releases), viper.GetString("backend"))
 }

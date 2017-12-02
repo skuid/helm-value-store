@@ -1,12 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type installCmdArgs struct {
@@ -55,11 +57,14 @@ func install(cmd *cobra.Command, args []string) {
 	var err error
 	release := &store.Release{}
 
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+
 	if len(installArgs.uuid) > 0 {
-		release, err = releaseStore.Get(installArgs.uuid)
+		release, err = releaseStore.Get(ctx, installArgs.uuid)
 		exitOnErr(err)
 	} else if len(installArgs.name) > 0 {
-		releases, err := releaseStore.List(installArgs.labels.ToMap())
+		releases, err := releaseStore.List(ctx, installArgs.labels.ToMap())
 		exitOnErr(err)
 
 		matches := releasesByName(installArgs.name, releases)

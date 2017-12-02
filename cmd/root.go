@@ -3,7 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
+	"time"
 
+	"github.com/skuid/helm-value-store/datastore"
 	"github.com/skuid/helm-value-store/dynamo"
 	"github.com/skuid/helm-value-store/store"
 	"github.com/spf13/cobra"
@@ -12,6 +15,9 @@ import (
 
 var releaseStore store.ReleaseStore
 
+var storeTypes = []string{"dynamodb", "datastore"}
+
+// RootCmd is the root command
 var RootCmd = &cobra.Command{
 	Use:   "helm-value-store",
 	Short: "A helm plugin for working with Helm Release data",
@@ -20,8 +26,10 @@ var RootCmd = &cobra.Command{
 		switch backend := viper.GetString("backend"); backend {
 		case "dynamodb":
 			releaseStore, err = dynamo.NewReleaseStore(viper.GetString("dynamodb-table"))
+		case "datastore":
+			releaseStore, err = datastore.NewReleaseStore(viper.GetString("service-account"))
 		default:
-			err = fmt.Errorf("No valid value store specified! '%s'", backend)
+			err = fmt.Errorf("No valid value store specified: %s. Must be one of %v", backend, storeTypes)
 		}
 		exitOnErr(err)
 	},
@@ -43,10 +51,12 @@ func init() {
 
 	cobra.OnInitialize(initConfig)
 
-	RootCmd.PersistentFlags().String("backend", "dynamodb", "The backend for the value store")
+	RootCmd.PersistentFlags().String("backend", "dynamodb", fmt.Sprintf("The backend for the value store. Must be one of %v", storeTypes))
 
 	// DynamoDB flags
 	RootCmd.PersistentFlags().String("dynamodb-table", "helm-charts", "Name of the dynamodb table")
+	RootCmd.PersistentFlags().String("service-account", "sa.json", "The Google Service Account JSON file")
+	RootCmd.PersistentFlags().Duration("timeout", time.Duration(30)*time.Second, "The timeout for a given command")
 }
 
 func initConfig() {
@@ -55,7 +65,9 @@ func initConfig() {
 		os.Exit(1)
 	}
 
+	viper.BindPFlags(RootCmd.Flags())
 	viper.SetEnvPrefix("HELM_VALUE_STORE")
+	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 	viper.AutomaticEnv()
 }
 

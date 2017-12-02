@@ -1,12 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"errors"
 	"fmt"
 
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type getCmdArgs struct {
@@ -42,13 +44,16 @@ func get(cmd *cobra.Command, args []string) {
 	var err error
 	releases := store.Releases{}
 
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+
 	if len(getArgs.uuid) > 0 {
-		release, err := releaseStore.Get(getArgs.uuid)
+		release, err := releaseStore.Get(ctx, getArgs.uuid)
 		exitOnErr(err)
 		releases = append(releases, *release)
 
 	} else if len(getArgs.name) > 0 || len(getArgs.labels) > 0 {
-		releases, err = releaseStore.List(getArgs.labels.ToMap())
+		releases, err = releaseStore.List(ctx, getArgs.labels.ToMap())
 		exitOnErr(err)
 
 		hasReleases(releases, "No releases match those labels!")
@@ -56,10 +61,10 @@ func get(cmd *cobra.Command, args []string) {
 		if len(getArgs.name) > 0 {
 			releases = filterByName(releases, getArgs.name)
 		}
-		hasReleases(releases, "No releases match that name and those labels!")
+		hasReleases(releases, "No releases match that name and those labels")
 
 	} else {
-		exitOnErr(errors.New("Must supply a UUID, release name, or labels!"))
+		exitOnErr(errors.New("Must supply a UUID, release name, or labels"))
 	}
 
 	for i, release := range releases {

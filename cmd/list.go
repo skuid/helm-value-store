@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -10,6 +11,7 @@ import (
 	"github.com/skuid/helm-value-store/store"
 	"github.com/skuid/spec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type listCmdArgs struct {
@@ -44,7 +46,9 @@ func filterByName(releases store.Releases, name string) store.Releases {
 }
 
 func list(cmd *cobra.Command, args []string) {
-	releases, err := releaseStore.List(listArgs.labels.ToMap())
+	ctx, cancel := context.WithTimeout(context.Background(), viper.GetDuration("timeout"))
+	defer cancel()
+	releases, err := releaseStore.List(ctx, listArgs.labels.ToMap())
 	exitOnErr(err)
 
 	if len(listArgs.name) > 0 {
