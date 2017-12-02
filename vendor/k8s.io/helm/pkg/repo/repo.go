@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package repo
+package repo // import "k8s.io/helm/pkg/repo"
 
 import (
 	"errors"
@@ -23,7 +23,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/facebookgo/atomicfile"
 	"github.com/ghodss/yaml"
 )
 
@@ -135,20 +134,9 @@ func (r *RepoFile) Remove(name string) bool {
 
 // WriteFile writes a repositories file to the given path.
 func (r *RepoFile) WriteFile(path string, perm os.FileMode) error {
-	f, err := atomicfile.New(path, perm)
-	if err != nil {
-		return err
-	}
-
 	data, err := yaml.Marshal(r)
 	if err != nil {
 		return err
 	}
-
-	_, err = f.File.Write(data)
-	if err != nil {
-		return err
-	}
-
-	return f.Close()
+	return ioutil.WriteFile(path, data, perm)
 }

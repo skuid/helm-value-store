@@ -21,8 +21,10 @@
 package zapcore
 
 import (
+	"bytes"
 	"fmt"
 	"math"
+	"reflect"
 	"time"
 )
 
@@ -137,7 +139,12 @@ func (f Field) AddTo(enc ObjectEncoder) {
 	case StringType:
 		enc.AddString(f.Key, f.String)
 	case TimeType:
-		enc.AddTime(f.Key, time.Unix(0, f.Integer))
+		if f.Interface != nil {
+			enc.AddTime(f.Key, time.Unix(0, f.Integer).In(f.Interface.(*time.Location)))
+		} else {
+			// Fall back to UTC if location is nil.
+			enc.AddTime(f.Key, time.Unix(0, f.Integer))
+		}
 	case Uint64Type:
 		enc.AddUint64(f.Key, uint64(f.Integer))
 	case Uint32Type:
@@ -155,17 +162,7 @@ func (f Field) AddTo(enc ObjectEncoder) {
 	case StringerType:
 		enc.AddString(f.Key, f.Interface.(fmt.Stringer).String())
 	case ErrorType:
-		val := f.Interface.(error)
-		basic := val.Error()
-		enc.AddString(f.Key, basic)
-		if fancy, ok := val.(fmt.Formatter); ok {
-			verbose := fmt.Sprintf("%+v", fancy)
-			if verbose != basic {
-				// This is a rich error type, like those produced by
-				// github.com/pkg/errors.
-				enc.AddString(f.Key+"Verbose", verbose)
-			}
-		}
+		encodeError(f.Key, f.Interface.(error), enc)
 	case SkipType:
 		break
 	default:
@@ -174,6 +171,26 @@ func (f Field) AddTo(enc ObjectEncoder) {
 
 	if err != nil {
 		enc.AddString(fmt.Sprintf("%sError", f.Key), err.Error())
+	}
+}
+
+// Equals returns whether two fields are equal. For non-primitive types such as
+// errors, marshalers, or reflect types, it uses reflect.DeepEqual.
+func (f Field) Equals(other Field) bool {
+	if f.Type != other.Type {
+		return false
+	}
+	if f.Key != other.Key {
+		return false
+	}
+
+	switch f.Type {
+	case BinaryType, ByteStringType:
+		return bytes.Equal(f.Interface.([]byte), other.Interface.([]byte))
+	case ArrayMarshalerType, ObjectMarshalerType, ErrorType, ReflectType:
+		return reflect.DeepEqual(f.Interface, other.Interface)
+	default:
+		return f == other
 	}
 }
 
