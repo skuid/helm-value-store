@@ -145,8 +145,14 @@
   revision = "a6e9df898b1336106c743392c48ee0b71f5c4efa"
 
 [[projects]]
+  name = "github.com/skuid/go-middlewares"
+  packages = ["authn/google"]
+  revision = "4a5dfe976cd42eebc9e6da954a819f1db66d2b43"
+  version = "v0.1.0"
+
+[[projects]]
   name = "github.com/skuid/spec"
-  packages = [".","lifecycle","metrics"]
+  packages = [".","lifecycle","metrics","middlewares"]
   revision = "d29ef25a1b7c2342790bfb4c3c4826f2144dd32c"
   version = "v1.0.5"
 
@@ -237,7 +243,7 @@
 [[projects]]
   branch = "master"
   name = "google.golang.org/api"
-  packages = ["internal","iterator","option","transport/grpc"]
+  packages = ["gensupport","googleapi","googleapi/internal/uritemplates","internal","iterator","option","plus/v1","transport/grpc"]
   revision = "43cf5d84d972ae38b4d00d87aedb8907e803304b"
 
 [[projects]]
@@ -285,6 +291,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "000cb5e996fe574eea7abd33d4a5bb615b93954da5b3aa6b0267db0a7f3ad8ac"
+  inputs-digest = "28ab4562399c96b0f15ce830dd866f9dd403b9ef9f29e1c46f9687ab296d7edf"
   solver-name = "gps-cdcl"
   solver-version = 1
