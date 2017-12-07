@@ -1,0 +1,13 @@
+sudo: false
+language: go
+
+go:
+- 1.9
+
+before_install:
+- go get ./...
+
+script:
+- go build -i ./...
+- go test -cover ./...
+- go test -race ./...

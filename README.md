@@ -150,6 +150,43 @@ If this is your first time using helm-value-store, you will need to create a Dyn
 helm-value-store load --setup --file <(echo "[]")
 ```
 
+## Server
+
+Helm value store ships with a `server` subcommand that runs an HTTP server for
+applying charts into a cluster.
+
+The server only has one endpoint, `/apply` that accepts the following input:
+
+```
+HTTP1.1 POST /apply
+{
+    "uuid": "6fad4903-58ec-446f-bda4-bd39c4ff96aa"
+}
+```
+
+The response structure is:
+
+```json
+{
+  "status": "success",
+  "message": "Successfully installed alertmanager"
+}
+```
+
+
+By default, the server accepts a Google Oauth2 ID token in the Authorization
+header for verifying a user against Google and ensuring their email is in a
+given domain.
+
+The server also listens on an alternate port (default `3001`) for the following
+endpoints.
+
+```
+/metrics - Prometheus metrics
+/live - for liveness checks
+/ready - for readiness checks
+```
+
 ## Usage
 
 ```
