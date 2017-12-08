@@ -113,7 +113,7 @@ HELM_HOME=$(helm home)
 mkdir -p "$HELM_HOME/plugins/value-store"
 cat <<EOF > "$HELM_HOME/plugins/value-store/plugin.yaml"
 name: "value-store"
-version: "0.1.0"
+version: "v0.2.0"
 usage: "Store values in a database"
 ignoreFlags: false
 useTunnel: true
