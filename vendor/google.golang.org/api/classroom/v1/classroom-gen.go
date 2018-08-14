@@ -1122,6 +1122,36 @@ func (s *CourseWork) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// CourseWorkChangesInfo: Information about a `Feed` with a `feed_type`
+// of `COURSE_WORK_CHANGES`.
+type CourseWorkChangesInfo struct {
+	// CourseId: The `course_id` of the course to subscribe to work changes
+	// for.
+	CourseId string `json:"courseId,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "CourseId") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "CourseId") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *CourseWorkChangesInfo) MarshalJSON() ([]byte, error) {
+	type NoMethod CourseWorkChangesInfo
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
 // Date: Represents a whole calendar date, e.g. date of birth. The time
 // of day and
 // time zone are either specified elsewhere or are not significant. The
@@ -1141,7 +1171,9 @@ type Date struct {
 	// if specifying a year/month where the day is not significant.
 	Day int64 `json:"day,omitempty"`
 
-	// Month: Month of year. Must be from 1 to 12.
+	// Month: Month of year. Must be from 1 to 12, or 0 if specifying a date
+	// without a
+	// month.
 	Month int64 `json:"month,omitempty"`
 
 	// Year: Year of date. Must be from 1 to 9999, or 0 if specifying a date
@@ -1283,6 +1315,11 @@ type Feed struct {
 	// `COURSE_ROSTER_CHANGES`.
 	CourseRosterChangesInfo *CourseRosterChangesInfo `json:"courseRosterChangesInfo,omitempty"`
 
+	// CourseWorkChangesInfo: Information about a `Feed` with a `feed_type`
+	// of `COURSE_WORK_CHANGES`.
+	// This field must be specified if `feed_type` is `COURSE_WORK_CHANGES`.
+	CourseWorkChangesInfo *CourseWorkChangesInfo `json:"courseWorkChangesInfo,omitempty"`
+
 	// FeedType: The type of feed.
 	//
 	// Possible values:
@@ -1309,6 +1346,20 @@ type Feed struct {
 	// deleted, but notifications will be generated when a user joins a
 	// course
 	// by accepting an invitation.
+	//   "COURSE_WORK_CHANGES" - All course work activity for a particular
+	// course.
+	//
+	// Notifications will be generated when a CourseWork
+	// or
+	// StudentSubmission object is created or modified. No notification will
+	// be
+	// generated when a StudentSubmission object is created in connection
+	// with
+	// the creation or modification of its parent CourseWork object (but
+	// a
+	// notification will be generated for that CourseWork object's creation
+	// or
+	// modification).
 	FeedType string `json:"feedType,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g.
@@ -2401,7 +2452,7 @@ type ReclaimStudentSubmissionRequest struct {
 
 // Registration: An instruction to Classroom to send notifications from
 // the `feed` to the
-// provided `destination`.
+// provided destination.
 type Registration struct {
 	// CloudPubsubTopic: The Cloud Pub/Sub topic that notifications are to
 	// be sent to.
@@ -2415,7 +2466,7 @@ type Registration struct {
 
 	// Feed: Specification for the class of notifications that Classroom
 	// should deliver
-	// to the `destination`.
+	// to the destination.
 	Feed *Feed `json:"feed,omitempty"`
 
 	// RegistrationId: A server-generated unique identifier for this
@@ -10191,7 +10242,8 @@ type RegistrationsCreateCall struct {
 
 // Create: Creates a `Registration`, causing Classroom to start sending
 // notifications
-// from the provided `feed` to the provided `destination`.
+// from the provided `feed` to the destination provided in
+// `cloudPubSubTopic`.
 //
 // Returns the created `Registration`. Currently, this will be the same
 // as
@@ -10203,11 +10255,11 @@ type RegistrationsCreateCall struct {
 // will be
 // ignored.
 //
-// While Classroom may validate the `destination` and return errors on a
-// best
-// effort basis, it is the caller's responsibility to ensure that it
-// exists
-// and that Classroom has permission to publish to it.
+// While Classroom may validate the `cloudPubSubTopic` and return errors
+// on a
+// best effort basis, it is the caller's responsibility to ensure that
+// it
+// exists and that Classroom has permission to publish to it.
 //
 // This method may return the following error codes:
 //
@@ -10215,21 +10267,20 @@ type RegistrationsCreateCall struct {
 //     * the authenticated user does not have permission to receive
 //       notifications from the requested field; or
 //     * the credential provided does not include the appropriate scope
-// for the
-//       requested feed.
+// for
+//       the requested feed.
 //     * another access error is encountered.
 // * `INVALID_ARGUMENT` if:
-//     * no `destination` is specified, or the specified `destination`
-// is not
-//       valid; or
+//     * no `cloudPubsubTopic` is specified, or the specified
+//       `cloudPubsubTopic` is not valid; or
 //     * no `feed` is specified, or the specified `feed` is not valid.
 // * `NOT_FOUND` if:
 //     * the specified `feed` cannot be located, or the requesting user
-// does not
-//       have permission to determine whether or not it exists; or
-//     * the specified `destination` cannot be located, or Classroom has
-// not
-//       been granted permission to publish to it.
+// does
+//       not have permission to determine whether or not it exists; or
+//     * the specified `cloudPubsubTopic` cannot be located, or
+// Classroom has
+//       not been granted permission to publish to it.
 func (r *RegistrationsService) Create(registration *Registration) *RegistrationsCreateCall {
 	c := &RegistrationsCreateCall{s: r.s, urlParams_: make(gensupport.URLParams)}
 	c.registration = registration
@@ -10319,7 +10370,7 @@ func (c *RegistrationsCreateCall) Do(opts ...googleapi.CallOption) (*Registratio
 	}
 	return ret, nil
 	// {
-	//   "description": "Creates a `Registration`, causing Classroom to start sending notifications\nfrom the provided `feed` to the provided `destination`.\n\nReturns the created `Registration`. Currently, this will be the same as\nthe argument, but with server-assigned fields such as `expiry_time` and\n`id` filled in.\n\nNote that any value specified for the `expiry_time` or `id` fields will be\nignored.\n\nWhile Classroom may validate the `destination` and return errors on a best\neffort basis, it is the caller's responsibility to ensure that it exists\nand that Classroom has permission to publish to it.\n\nThis method may return the following error codes:\n\n* `PERMISSION_DENIED` if:\n    * the authenticated user does not have permission to receive\n      notifications from the requested field; or\n    * the credential provided does not include the appropriate scope for the\n      requested feed.\n    * another access error is encountered.\n* `INVALID_ARGUMENT` if:\n    * no `destination` is specified, or the specified `destination` is not\n      valid; or\n    * no `feed` is specified, or the specified `feed` is not valid.\n* `NOT_FOUND` if:\n    * the specified `feed` cannot be located, or the requesting user does not\n      have permission to determine whether or not it exists; or\n    * the specified `destination` cannot be located, or Classroom has not\n      been granted permission to publish to it.",
+	//   "description": "Creates a `Registration`, causing Classroom to start sending notifications\nfrom the provided `feed` to the destination provided in `cloudPubSubTopic`.\n\nReturns the created `Registration`. Currently, this will be the same as\nthe argument, but with server-assigned fields such as `expiry_time` and\n`id` filled in.\n\nNote that any value specified for the `expiry_time` or `id` fields will be\nignored.\n\nWhile Classroom may validate the `cloudPubSubTopic` and return errors on a\nbest effort basis, it is the caller's responsibility to ensure that it\nexists and that Classroom has permission to publish to it.\n\nThis method may return the following error codes:\n\n* `PERMISSION_DENIED` if:\n    * the authenticated user does not have permission to receive\n      notifications from the requested field; or\n    * the credential provided does not include the appropriate scope for\n      the requested feed.\n    * another access error is encountered.\n* `INVALID_ARGUMENT` if:\n    * no `cloudPubsubTopic` is specified, or the specified\n      `cloudPubsubTopic` is not valid; or\n    * no `feed` is specified, or the specified `feed` is not valid.\n* `NOT_FOUND` if:\n    * the specified `feed` cannot be located, or the requesting user does\n      not have permission to determine whether or not it exists; or\n    * the specified `cloudPubsubTopic` cannot be located, or Classroom has\n      not been granted permission to publish to it.",
 	//   "flatPath": "v1/registrations",
 	//   "httpMethod": "POST",
 	//   "id": "classroom.registrations.create",
@@ -10333,9 +10384,7 @@ func (c *RegistrationsCreateCall) Do(opts ...googleapi.CallOption) (*Registratio
 	//     "$ref": "Registration"
 	//   },
 	//   "scopes": [
-	//     "https://www.googleapis.com/auth/classroom.push-notifications",
-	//     "https://www.googleapis.com/auth/classroom.rosters",
-	//     "https://www.googleapis.com/auth/classroom.rosters.readonly"
+	//     "https://www.googleapis.com/auth/classroom.push-notifications"
 	//   ]
 	// }
 
@@ -10461,9 +10510,7 @@ func (c *RegistrationsDeleteCall) Do(opts ...googleapi.CallOption) (*Empty, erro
 	//     "$ref": "Empty"
 	//   },
 	//   "scopes": [
-	//     "https://www.googleapis.com/auth/classroom.push-notifications",
-	//     "https://www.googleapis.com/auth/classroom.rosters",
-	//     "https://www.googleapis.com/auth/classroom.rosters.readonly"
+	//     "https://www.googleapis.com/auth/classroom.push-notifications"
 	//   ]
 	// }
 
