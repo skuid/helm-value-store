@@ -14,7 +14,7 @@ const opCreateStream = "CreateStream"
 
 // CreateStreamRequest generates a "aws/request.Request" representing the
 // client's request for the CreateStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -35,7 +35,7 @@ const opCreateStream = "CreateStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStream
 func (c *KinesisVideo) CreateStreamRequest(input *CreateStreamInput) (req *request.Request, output *CreateStreamOutput) {
 	op := &request.Operation{
 		Name:       opCreateStream,
@@ -93,7 +93,7 @@ func (c *KinesisVideo) CreateStreamRequest(input *CreateStreamInput) (req *reque
 //   Kinesis Video Streams has throttled the request because you have exceeded
 //   the limit of allowed client calls. Try making the call later.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStream
 func (c *KinesisVideo) CreateStream(input *CreateStreamInput) (*CreateStreamOutput, error) {
 	req, out := c.CreateStreamRequest(input)
 	return out, req.Send()
@@ -119,7 +119,7 @@ const opDeleteStream = "DeleteStream"
 
 // DeleteStreamRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -140,7 +140,7 @@ const opDeleteStream = "DeleteStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStream
 func (c *KinesisVideo) DeleteStreamRequest(input *DeleteStreamInput) (req *request.Request, output *DeleteStreamOutput) {
 	op := &request.Operation{
 		Name:       opDeleteStream,
@@ -193,7 +193,7 @@ func (c *KinesisVideo) DeleteStreamRequest(input *DeleteStreamInput) (req *reque
 //   * ErrCodeNotAuthorizedException "NotAuthorizedException"
 //   The caller is not authorized to perform this operation.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStream
 func (c *KinesisVideo) DeleteStream(input *DeleteStreamInput) (*DeleteStreamOutput, error) {
 	req, out := c.DeleteStreamRequest(input)
 	return out, req.Send()
@@ -219,7 +219,7 @@ const opDescribeStream = "DescribeStream"
 
 // DescribeStreamRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -240,7 +240,7 @@ const opDescribeStream = "DescribeStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStream
 func (c *KinesisVideo) DescribeStreamRequest(input *DescribeStreamInput) (req *request.Request, output *DescribeStreamOutput) {
 	op := &request.Operation{
 		Name:       opDescribeStream,
@@ -283,7 +283,7 @@ func (c *KinesisVideo) DescribeStreamRequest(input *DescribeStreamInput) (req *r
 //   * ErrCodeNotAuthorizedException "NotAuthorizedException"
 //   The caller is not authorized to perform this operation.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStream
 func (c *KinesisVideo) DescribeStream(input *DescribeStreamInput) (*DescribeStreamOutput, error) {
 	req, out := c.DescribeStreamRequest(input)
 	return out, req.Send()
@@ -309,7 +309,7 @@ const opGetDataEndpoint = "GetDataEndpoint"
 
 // GetDataEndpointRequest generates a "aws/request.Request" representing the
 // client's request for the GetDataEndpoint operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -330,7 +330,7 @@ const opGetDataEndpoint = "GetDataEndpoint"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpoint
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpoint
 func (c *KinesisVideo) GetDataEndpointRequest(input *GetDataEndpointInput) (req *request.Request, output *GetDataEndpointOutput) {
 	op := &request.Operation{
 		Name:       opGetDataEndpoint,
@@ -380,7 +380,7 @@ func (c *KinesisVideo) GetDataEndpointRequest(input *GetDataEndpointInput) (req 
 //   * ErrCodeNotAuthorizedException "NotAuthorizedException"
 //   The caller is not authorized to perform this operation.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpoint
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpoint
 func (c *KinesisVideo) GetDataEndpoint(input *GetDataEndpointInput) (*GetDataEndpointOutput, error) {
 	req, out := c.GetDataEndpointRequest(input)
 	return out, req.Send()
@@ -406,7 +406,7 @@ const opListStreams = "ListStreams"
 
 // ListStreamsRequest generates a "aws/request.Request" representing the
 // client's request for the ListStreams operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -427,7 +427,7 @@ const opListStreams = "ListStreams"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreams
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreams
 func (c *KinesisVideo) ListStreamsRequest(input *ListStreamsInput) (req *request.Request, output *ListStreamsOutput) {
 	op := &request.Operation{
 		Name:       opListStreams,
@@ -465,7 +465,7 @@ func (c *KinesisVideo) ListStreamsRequest(input *ListStreamsInput) (req *request
 //   * ErrCodeInvalidArgumentException "InvalidArgumentException"
 //   The value for this input parameter is invalid.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreams
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreams
 func (c *KinesisVideo) ListStreams(input *ListStreamsInput) (*ListStreamsOutput, error) {
 	req, out := c.ListStreamsRequest(input)
 	return out, req.Send()
@@ -491,7 +491,7 @@ const opListTagsForStream = "ListTagsForStream"
 
 // ListTagsForStreamRequest generates a "aws/request.Request" representing the
 // client's request for the ListTagsForStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -512,7 +512,7 @@ const opListTagsForStream = "ListTagsForStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStream
 func (c *KinesisVideo) ListTagsForStreamRequest(input *ListTagsForStreamInput) (req *request.Request, output *ListTagsForStreamOutput) {
 	op := &request.Operation{
 		Name:       opListTagsForStream,
@@ -559,7 +559,7 @@ func (c *KinesisVideo) ListTagsForStreamRequest(input *ListTagsForStreamInput) (
 //   * ErrCodeInvalidResourceFormatException "InvalidResourceFormatException"
 //   The format of the StreamARN is invalid.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStream
 func (c *KinesisVideo) ListTagsForStream(input *ListTagsForStreamInput) (*ListTagsForStreamOutput, error) {
 	req, out := c.ListTagsForStreamRequest(input)
 	return out, req.Send()
@@ -585,7 +585,7 @@ const opTagStream = "TagStream"
 
 // TagStreamRequest generates a "aws/request.Request" representing the
 // client's request for the TagStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -606,7 +606,7 @@ const opTagStream = "TagStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStream
 func (c *KinesisVideo) TagStreamRequest(input *TagStreamInput) (req *request.Request, output *TagStreamOutput) {
 	op := &request.Operation{
 		Name:       opTagStream,
@@ -666,7 +666,7 @@ func (c *KinesisVideo) TagStreamRequest(input *TagStreamInput) (req *request.Req
 //   You have exceeded the limit of tags that you can associate with the resource.
 //   Kinesis video streams support up to 50 tags.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStream
 func (c *KinesisVideo) TagStream(input *TagStreamInput) (*TagStreamOutput, error) {
 	req, out := c.TagStreamRequest(input)
 	return out, req.Send()
@@ -692,7 +692,7 @@ const opUntagStream = "UntagStream"
 
 // UntagStreamRequest generates a "aws/request.Request" representing the
 // client's request for the UntagStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -713,7 +713,7 @@ const opUntagStream = "UntagStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStream
 func (c *KinesisVideo) UntagStreamRequest(input *UntagStreamInput) (req *request.Request, output *UntagStreamOutput) {
 	op := &request.Operation{
 		Name:       opUntagStream,
@@ -762,7 +762,7 @@ func (c *KinesisVideo) UntagStreamRequest(input *UntagStreamInput) (req *request
 //   * ErrCodeInvalidResourceFormatException "InvalidResourceFormatException"
 //   The format of the StreamARN is invalid.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStream
 func (c *KinesisVideo) UntagStream(input *UntagStreamInput) (*UntagStreamOutput, error) {
 	req, out := c.UntagStreamRequest(input)
 	return out, req.Send()
@@ -788,7 +788,7 @@ const opUpdateDataRetention = "UpdateDataRetention"
 
 // UpdateDataRetentionRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateDataRetention operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -809,7 +809,7 @@ const opUpdateDataRetention = "UpdateDataRetention"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetention
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetention
 func (c *KinesisVideo) UpdateDataRetentionRequest(input *UpdateDataRetentionInput) (req *request.Request, output *UpdateDataRetentionOutput) {
 	op := &request.Operation{
 		Name:       opUpdateDataRetention,
@@ -876,10 +876,10 @@ func (c *KinesisVideo) UpdateDataRetentionRequest(input *UpdateDataRetentionInpu
 //
 //   * ErrCodeVersionMismatchException "VersionMismatchException"
 //   The stream version that you specified is not the latest version. To get the
-//   latest version, use the DescribeStream (http://docs.aws.amazon.com/kinesisvideo/latest/dg/API_DescribeStream.html)
+//   latest version, use the DescribeStream (http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html)
 //   API.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetention
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetention
 func (c *KinesisVideo) UpdateDataRetention(input *UpdateDataRetentionInput) (*UpdateDataRetentionOutput, error) {
 	req, out := c.UpdateDataRetentionRequest(input)
 	return out, req.Send()
@@ -905,7 +905,7 @@ const opUpdateStream = "UpdateStream"
 
 // UpdateStreamRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateStream operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -926,7 +926,7 @@ const opUpdateStream = "UpdateStream"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStream
 func (c *KinesisVideo) UpdateStreamRequest(input *UpdateStreamInput) (req *request.Request, output *UpdateStreamOutput) {
 	op := &request.Operation{
 		Name:       opUpdateStream,
@@ -984,10 +984,10 @@ func (c *KinesisVideo) UpdateStreamRequest(input *UpdateStreamInput) (req *reque
 //
 //   * ErrCodeVersionMismatchException "VersionMismatchException"
 //   The stream version that you specified is not the latest version. To get the
-//   latest version, use the DescribeStream (http://docs.aws.amazon.com/kinesisvideo/latest/dg/API_DescribeStream.html)
+//   latest version, use the DescribeStream (http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html)
 //   API.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStream
+// See also, https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStream
 func (c *KinesisVideo) UpdateStream(input *UpdateStreamInput) (*UpdateStreamOutput, error) {
 	req, out := c.UpdateStreamRequest(input)
 	return out, req.Send()
@@ -1009,7 +1009,6 @@ func (c *KinesisVideo) UpdateStreamWithContext(ctx aws.Context, input *UpdateStr
 	return out, req.Send()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStreamInput
 type CreateStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1018,6 +1017,11 @@ type CreateStreamInput struct {
 	// stream.
 	//
 	// The default value is 0, indicating that the stream does not persist data.
+	//
+	// When the DataRetentionInHours value is 0, consumers can still consume the
+	// fragments that remain in the service host buffer, which has a retention time
+	// limit of 5 minutes and a retention memory limit of 200 MB. Fragments are
+	// removed from the buffer when either limit is reached.
 	DataRetentionInHours *int64 `type:"integer"`
 
 	// The name of the device that is writing to the stream.
@@ -1120,7 +1124,6 @@ func (s *CreateStreamInput) SetStreamName(v string) *CreateStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/CreateStreamOutput
 type CreateStreamOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -1144,7 +1147,6 @@ func (s *CreateStreamOutput) SetStreamARN(v string) *CreateStreamOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStreamInput
 type DeleteStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1203,7 +1205,6 @@ func (s *DeleteStreamInput) SetStreamARN(v string) *DeleteStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DeleteStreamOutput
 type DeleteStreamOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -1218,7 +1219,6 @@ func (s DeleteStreamOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStreamInput
 type DescribeStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1267,7 +1267,6 @@ func (s *DescribeStreamInput) SetStreamName(v string) *DescribeStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/DescribeStreamOutput
 type DescribeStreamOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -1291,7 +1290,6 @@ func (s *DescribeStreamOutput) SetStreamInfo(v *StreamInfo) *DescribeStreamOutpu
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpointInput
 type GetDataEndpointInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1356,7 +1354,6 @@ func (s *GetDataEndpointInput) SetStreamName(v string) *GetDataEndpointInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/GetDataEndpointOutput
 type GetDataEndpointOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -1381,7 +1378,6 @@ func (s *GetDataEndpointOutput) SetDataEndpoint(v string) *GetDataEndpointOutput
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreamsInput
 type ListStreamsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1444,7 +1440,6 @@ func (s *ListStreamsInput) SetStreamNameCondition(v *StreamNameCondition) *ListS
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListStreamsOutput
 type ListStreamsOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -1478,7 +1473,6 @@ func (s *ListStreamsOutput) SetStreamInfoList(v []*StreamInfo) *ListStreamsOutpu
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStreamInput
 type ListTagsForStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1538,7 +1532,6 @@ func (s *ListTagsForStreamInput) SetStreamName(v string) *ListTagsForStreamInput
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/ListTagsForStreamOutput
 type ListTagsForStreamOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -1574,12 +1567,11 @@ func (s *ListTagsForStreamOutput) SetTags(v map[string]*string) *ListTagsForStre
 }
 
 // An object describing a Kinesis video stream.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/StreamInfo
 type StreamInfo struct {
 	_ struct{} `type:"structure"`
 
 	// A time stamp that indicates when the stream was created.
-	CreationTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+	CreationTime *time.Time `type:"timestamp"`
 
 	// How long the stream retains data, in hours.
 	DataRetentionInHours *int64 `type:"integer"`
@@ -1675,7 +1667,6 @@ func (s *StreamInfo) SetVersion(v string) *StreamInfo {
 // list streams (see the ListStreams API). A condition has a comparison operation
 // and a value. Currently, you can specify only the BEGINS_WITH operator, which
 // finds streams whose names start with a given prefix.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/StreamNameCondition
 type StreamNameCondition struct {
 	_ struct{} `type:"structure"`
 
@@ -1722,7 +1713,6 @@ func (s *StreamNameCondition) SetComparisonValue(v string) *StreamNameCondition 
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStreamInput
 type TagStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1790,7 +1780,6 @@ func (s *TagStreamInput) SetTags(v map[string]*string) *TagStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/TagStreamOutput
 type TagStreamOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -1805,7 +1794,6 @@ func (s TagStreamOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStreamInput
 type UntagStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1872,7 +1860,6 @@ func (s *UntagStreamInput) SetTagKeyList(v []*string) *UntagStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UntagStreamOutput
 type UntagStreamOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -1887,7 +1874,6 @@ func (s UntagStreamOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetentionInput
 type UpdateDataRetentionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -1987,7 +1973,6 @@ func (s *UpdateDataRetentionInput) SetStreamName(v string) *UpdateDataRetentionI
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateDataRetentionOutput
 type UpdateDataRetentionOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -2002,7 +1987,6 @@ func (s UpdateDataRetentionOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStreamInput
 type UpdateStreamInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2019,7 +2003,7 @@ type UpdateStreamInput struct {
 	// The stream's media type. Use MediaType to specify the type of content that
 	// the stream contains to the consumers of the stream. For more information
 	// about media types, see Media Types (http://www.iana.org/assignments/media-types/media-types.xhtml).
-	// If you choose to specify the MediaType, see Naming Requirements (https://tools.sietf.org/html/rfc6838#section-4.2).
+	// If you choose to specify the MediaType, see Naming Requirements (https://tools.ietf.org/html/rfc6838#section-4.2).
 	//
 	// To play video on the console, you must specify the correct video type. For
 	// example, if the video in the stream is H.264, specify video/h264 as the MediaType.
@@ -2103,7 +2087,6 @@ func (s *UpdateStreamInput) SetStreamName(v string) *UpdateStreamInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/kinesisvideo-2017-09-30/UpdateStreamOutput
 type UpdateStreamOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -2130,6 +2113,9 @@ const (
 
 	// APINameGetMediaForFragmentList is a APIName enum value
 	APINameGetMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
+
+	// APINameGetHlsStreamingSessionUrl is a APIName enum value
+	APINameGetHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
 )
 
 const (

@@ -12,7 +12,7 @@ const opCreateApiKey = "CreateApiKey"
 
 // CreateApiKeyRequest generates a "aws/request.Request" representing the
 // client's request for the CreateApiKey operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -33,7 +33,7 @@ const opCreateApiKey = "CreateApiKey"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKey
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKey
 func (c *AppSync) CreateApiKeyRequest(input *CreateApiKeyInput) (req *request.Request, output *CreateApiKeyOutput) {
 	op := &request.Operation{
 		Name:       opCreateApiKey,
@@ -86,7 +86,11 @@ func (c *AppSync) CreateApiKeyRequest(input *CreateApiKeyInput) (req *request.Re
 //   * ErrCodeApiKeyLimitExceededException "ApiKeyLimitExceededException"
 //   The API key exceeded a limit. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKey
+//   * ErrCodeApiKeyValidityOutOfBoundsException "ApiKeyValidityOutOfBoundsException"
+//   The API key expiration must be set to a value between 1 and 365 days from
+//   creation (for CreateApiKey) or from update (for UpdateApiKey).
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKey
 func (c *AppSync) CreateApiKey(input *CreateApiKeyInput) (*CreateApiKeyOutput, error) {
 	req, out := c.CreateApiKeyRequest(input)
 	return out, req.Send()
@@ -112,7 +116,7 @@ const opCreateDataSource = "CreateDataSource"
 
 // CreateDataSourceRequest generates a "aws/request.Request" representing the
 // client's request for the CreateDataSource operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -133,7 +137,7 @@ const opCreateDataSource = "CreateDataSource"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSource
 func (c *AppSync) CreateDataSourceRequest(input *CreateDataSourceInput) (req *request.Request, output *CreateDataSourceOutput) {
 	op := &request.Operation{
 		Name:       opCreateDataSource,
@@ -180,7 +184,7 @@ func (c *AppSync) CreateDataSourceRequest(input *CreateDataSourceInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSource
 func (c *AppSync) CreateDataSource(input *CreateDataSourceInput) (*CreateDataSourceOutput, error) {
 	req, out := c.CreateDataSourceRequest(input)
 	return out, req.Send()
@@ -206,7 +210,7 @@ const opCreateGraphqlApi = "CreateGraphqlApi"
 
 // CreateGraphqlApiRequest generates a "aws/request.Request" representing the
 // client's request for the CreateGraphqlApi operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -227,7 +231,7 @@ const opCreateGraphqlApi = "CreateGraphqlApi"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApi
 func (c *AppSync) CreateGraphqlApiRequest(input *CreateGraphqlApiInput) (req *request.Request, output *CreateGraphqlApiOutput) {
 	op := &request.Operation{
 		Name:       opCreateGraphqlApi,
@@ -273,13 +277,10 @@ func (c *AppSync) CreateGraphqlApiRequest(input *CreateGraphqlApiInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-//   * ErrCodeLimitExceededException "LimitExceededException"
-//   The request exceeded a limit. Try your request again.
-//
 //   * ErrCodeApiLimitExceededException "ApiLimitExceededException"
 //   The GraphQL API exceeded a limit. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApi
 func (c *AppSync) CreateGraphqlApi(input *CreateGraphqlApiInput) (*CreateGraphqlApiOutput, error) {
 	req, out := c.CreateGraphqlApiRequest(input)
 	return out, req.Send()
@@ -305,7 +306,7 @@ const opCreateResolver = "CreateResolver"
 
 // CreateResolverRequest generates a "aws/request.Request" representing the
 // client's request for the CreateResolver operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -326,7 +327,7 @@ const opCreateResolver = "CreateResolver"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolver
 func (c *AppSync) CreateResolverRequest(input *CreateResolverInput) (req *request.Request, output *CreateResolverOutput) {
 	op := &request.Operation{
 		Name:       opCreateResolver,
@@ -372,7 +373,7 @@ func (c *AppSync) CreateResolverRequest(input *CreateResolverInput) (req *reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolver
 func (c *AppSync) CreateResolver(input *CreateResolverInput) (*CreateResolverOutput, error) {
 	req, out := c.CreateResolverRequest(input)
 	return out, req.Send()
@@ -398,7 +399,7 @@ const opCreateType = "CreateType"
 
 // CreateTypeRequest generates a "aws/request.Request" representing the
 // client's request for the CreateType operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -419,7 +420,7 @@ const opCreateType = "CreateType"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateType
 func (c *AppSync) CreateTypeRequest(input *CreateTypeInput) (req *request.Request, output *CreateTypeOutput) {
 	op := &request.Operation{
 		Name:       opCreateType,
@@ -466,7 +467,7 @@ func (c *AppSync) CreateTypeRequest(input *CreateTypeInput) (req *request.Reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateType
 func (c *AppSync) CreateType(input *CreateTypeInput) (*CreateTypeOutput, error) {
 	req, out := c.CreateTypeRequest(input)
 	return out, req.Send()
@@ -492,7 +493,7 @@ const opDeleteApiKey = "DeleteApiKey"
 
 // DeleteApiKeyRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteApiKey operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -513,7 +514,7 @@ const opDeleteApiKey = "DeleteApiKey"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKey
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKey
 func (c *AppSync) DeleteApiKeyRequest(input *DeleteApiKeyInput) (req *request.Request, output *DeleteApiKeyOutput) {
 	op := &request.Operation{
 		Name:       opDeleteApiKey,
@@ -556,7 +557,7 @@ func (c *AppSync) DeleteApiKeyRequest(input *DeleteApiKeyInput) (req *request.Re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKey
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKey
 func (c *AppSync) DeleteApiKey(input *DeleteApiKeyInput) (*DeleteApiKeyOutput, error) {
 	req, out := c.DeleteApiKeyRequest(input)
 	return out, req.Send()
@@ -582,7 +583,7 @@ const opDeleteDataSource = "DeleteDataSource"
 
 // DeleteDataSourceRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteDataSource operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -603,7 +604,7 @@ const opDeleteDataSource = "DeleteDataSource"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSource
 func (c *AppSync) DeleteDataSourceRequest(input *DeleteDataSourceInput) (req *request.Request, output *DeleteDataSourceOutput) {
 	op := &request.Operation{
 		Name:       opDeleteDataSource,
@@ -650,7 +651,7 @@ func (c *AppSync) DeleteDataSourceRequest(input *DeleteDataSourceInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSource
 func (c *AppSync) DeleteDataSource(input *DeleteDataSourceInput) (*DeleteDataSourceOutput, error) {
 	req, out := c.DeleteDataSourceRequest(input)
 	return out, req.Send()
@@ -676,7 +677,7 @@ const opDeleteGraphqlApi = "DeleteGraphqlApi"
 
 // DeleteGraphqlApiRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteGraphqlApi operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -697,7 +698,7 @@ const opDeleteGraphqlApi = "DeleteGraphqlApi"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApi
 func (c *AppSync) DeleteGraphqlApiRequest(input *DeleteGraphqlApiInput) (req *request.Request, output *DeleteGraphqlApiOutput) {
 	op := &request.Operation{
 		Name:       opDeleteGraphqlApi,
@@ -744,7 +745,7 @@ func (c *AppSync) DeleteGraphqlApiRequest(input *DeleteGraphqlApiInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApi
 func (c *AppSync) DeleteGraphqlApi(input *DeleteGraphqlApiInput) (*DeleteGraphqlApiOutput, error) {
 	req, out := c.DeleteGraphqlApiRequest(input)
 	return out, req.Send()
@@ -770,7 +771,7 @@ const opDeleteResolver = "DeleteResolver"
 
 // DeleteResolverRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteResolver operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -791,7 +792,7 @@ const opDeleteResolver = "DeleteResolver"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolver
 func (c *AppSync) DeleteResolverRequest(input *DeleteResolverInput) (req *request.Request, output *DeleteResolverOutput) {
 	op := &request.Operation{
 		Name:       opDeleteResolver,
@@ -834,7 +835,7 @@ func (c *AppSync) DeleteResolverRequest(input *DeleteResolverInput) (req *reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolver
 func (c *AppSync) DeleteResolver(input *DeleteResolverInput) (*DeleteResolverOutput, error) {
 	req, out := c.DeleteResolverRequest(input)
 	return out, req.Send()
@@ -860,7 +861,7 @@ const opDeleteType = "DeleteType"
 
 // DeleteTypeRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteType operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -881,7 +882,7 @@ const opDeleteType = "DeleteType"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteType
 func (c *AppSync) DeleteTypeRequest(input *DeleteTypeInput) (req *request.Request, output *DeleteTypeOutput) {
 	op := &request.Operation{
 		Name:       opDeleteType,
@@ -928,7 +929,7 @@ func (c *AppSync) DeleteTypeRequest(input *DeleteTypeInput) (req *request.Reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteType
 func (c *AppSync) DeleteType(input *DeleteTypeInput) (*DeleteTypeOutput, error) {
 	req, out := c.DeleteTypeRequest(input)
 	return out, req.Send()
@@ -954,7 +955,7 @@ const opGetDataSource = "GetDataSource"
 
 // GetDataSourceRequest generates a "aws/request.Request" representing the
 // client's request for the GetDataSource operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -975,7 +976,7 @@ const opGetDataSource = "GetDataSource"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSource
 func (c *AppSync) GetDataSourceRequest(input *GetDataSourceInput) (req *request.Request, output *GetDataSourceOutput) {
 	op := &request.Operation{
 		Name:       opGetDataSource,
@@ -1022,7 +1023,7 @@ func (c *AppSync) GetDataSourceRequest(input *GetDataSourceInput) (req *request.
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSource
 func (c *AppSync) GetDataSource(input *GetDataSourceInput) (*GetDataSourceOutput, error) {
 	req, out := c.GetDataSourceRequest(input)
 	return out, req.Send()
@@ -1048,7 +1049,7 @@ const opGetGraphqlApi = "GetGraphqlApi"
 
 // GetGraphqlApiRequest generates a "aws/request.Request" representing the
 // client's request for the GetGraphqlApi operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1069,7 +1070,7 @@ const opGetGraphqlApi = "GetGraphqlApi"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApi
 func (c *AppSync) GetGraphqlApiRequest(input *GetGraphqlApiInput) (req *request.Request, output *GetGraphqlApiOutput) {
 	op := &request.Operation{
 		Name:       opGetGraphqlApi,
@@ -1112,7 +1113,7 @@ func (c *AppSync) GetGraphqlApiRequest(input *GetGraphqlApiInput) (req *request.
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApi
 func (c *AppSync) GetGraphqlApi(input *GetGraphqlApiInput) (*GetGraphqlApiOutput, error) {
 	req, out := c.GetGraphqlApiRequest(input)
 	return out, req.Send()
@@ -1138,7 +1139,7 @@ const opGetIntrospectionSchema = "GetIntrospectionSchema"
 
 // GetIntrospectionSchemaRequest generates a "aws/request.Request" representing the
 // client's request for the GetIntrospectionSchema operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1159,7 +1160,7 @@ const opGetIntrospectionSchema = "GetIntrospectionSchema"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchema
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchema
 func (c *AppSync) GetIntrospectionSchemaRequest(input *GetIntrospectionSchemaInput) (req *request.Request, output *GetIntrospectionSchemaOutput) {
 	op := &request.Operation{
 		Name:       opGetIntrospectionSchema,
@@ -1201,7 +1202,7 @@ func (c *AppSync) GetIntrospectionSchemaRequest(input *GetIntrospectionSchemaInp
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchema
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchema
 func (c *AppSync) GetIntrospectionSchema(input *GetIntrospectionSchemaInput) (*GetIntrospectionSchemaOutput, error) {
 	req, out := c.GetIntrospectionSchemaRequest(input)
 	return out, req.Send()
@@ -1227,7 +1228,7 @@ const opGetResolver = "GetResolver"
 
 // GetResolverRequest generates a "aws/request.Request" representing the
 // client's request for the GetResolver operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1248,7 +1249,7 @@ const opGetResolver = "GetResolver"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolver
 func (c *AppSync) GetResolverRequest(input *GetResolverInput) (req *request.Request, output *GetResolverOutput) {
 	op := &request.Operation{
 		Name:       opGetResolver,
@@ -1288,7 +1289,7 @@ func (c *AppSync) GetResolverRequest(input *GetResolverInput) (req *request.Requ
 //   * ErrCodeUnauthorizedException "UnauthorizedException"
 //   You are not authorized to perform this operation.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolver
 func (c *AppSync) GetResolver(input *GetResolverInput) (*GetResolverOutput, error) {
 	req, out := c.GetResolverRequest(input)
 	return out, req.Send()
@@ -1314,7 +1315,7 @@ const opGetSchemaCreationStatus = "GetSchemaCreationStatus"
 
 // GetSchemaCreationStatusRequest generates a "aws/request.Request" representing the
 // client's request for the GetSchemaCreationStatus operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1335,7 +1336,7 @@ const opGetSchemaCreationStatus = "GetSchemaCreationStatus"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatus
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatus
 func (c *AppSync) GetSchemaCreationStatusRequest(input *GetSchemaCreationStatusInput) (req *request.Request, output *GetSchemaCreationStatusOutput) {
 	op := &request.Operation{
 		Name:       opGetSchemaCreationStatus,
@@ -1378,7 +1379,7 @@ func (c *AppSync) GetSchemaCreationStatusRequest(input *GetSchemaCreationStatusI
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatus
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatus
 func (c *AppSync) GetSchemaCreationStatus(input *GetSchemaCreationStatusInput) (*GetSchemaCreationStatusOutput, error) {
 	req, out := c.GetSchemaCreationStatusRequest(input)
 	return out, req.Send()
@@ -1404,7 +1405,7 @@ const opGetType = "GetType"
 
 // GetTypeRequest generates a "aws/request.Request" representing the
 // client's request for the GetType operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1425,7 +1426,7 @@ const opGetType = "GetType"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetType
 func (c *AppSync) GetTypeRequest(input *GetTypeInput) (req *request.Request, output *GetTypeOutput) {
 	op := &request.Operation{
 		Name:       opGetType,
@@ -1472,7 +1473,7 @@ func (c *AppSync) GetTypeRequest(input *GetTypeInput) (req *request.Request, out
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetType
 func (c *AppSync) GetType(input *GetTypeInput) (*GetTypeOutput, error) {
 	req, out := c.GetTypeRequest(input)
 	return out, req.Send()
@@ -1498,7 +1499,7 @@ const opListApiKeys = "ListApiKeys"
 
 // ListApiKeysRequest generates a "aws/request.Request" representing the
 // client's request for the ListApiKeys operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1519,7 +1520,7 @@ const opListApiKeys = "ListApiKeys"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeys
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeys
 func (c *AppSync) ListApiKeysRequest(input *ListApiKeysInput) (req *request.Request, output *ListApiKeysOutput) {
 	op := &request.Operation{
 		Name:       opListApiKeys,
@@ -1539,6 +1540,11 @@ func (c *AppSync) ListApiKeysRequest(input *ListApiKeysInput) (req *request.Requ
 // ListApiKeys API operation for AWS AppSync.
 //
 // Lists the API keys for a given API.
+//
+// API keys are deleted automatically sometime after they expire. However, they
+// may still be included in the response until they have actually been deleted.
+// You can safely call DeleteApiKey to manually delete a key before it's automatically
+// deleted.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -1562,7 +1568,7 @@ func (c *AppSync) ListApiKeysRequest(input *ListApiKeysInput) (req *request.Requ
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeys
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeys
 func (c *AppSync) ListApiKeys(input *ListApiKeysInput) (*ListApiKeysOutput, error) {
 	req, out := c.ListApiKeysRequest(input)
 	return out, req.Send()
@@ -1588,7 +1594,7 @@ const opListDataSources = "ListDataSources"
 
 // ListDataSourcesRequest generates a "aws/request.Request" representing the
 // client's request for the ListDataSources operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1609,7 +1615,7 @@ const opListDataSources = "ListDataSources"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSources
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSources
 func (c *AppSync) ListDataSourcesRequest(input *ListDataSourcesInput) (req *request.Request, output *ListDataSourcesOutput) {
 	op := &request.Operation{
 		Name:       opListDataSources,
@@ -1652,7 +1658,7 @@ func (c *AppSync) ListDataSourcesRequest(input *ListDataSourcesInput) (req *requ
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSources
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSources
 func (c *AppSync) ListDataSources(input *ListDataSourcesInput) (*ListDataSourcesOutput, error) {
 	req, out := c.ListDataSourcesRequest(input)
 	return out, req.Send()
@@ -1678,7 +1684,7 @@ const opListGraphqlApis = "ListGraphqlApis"
 
 // ListGraphqlApisRequest generates a "aws/request.Request" representing the
 // client's request for the ListGraphqlApis operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1699,7 +1705,7 @@ const opListGraphqlApis = "ListGraphqlApis"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApis
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApis
 func (c *AppSync) ListGraphqlApisRequest(input *ListGraphqlApisInput) (req *request.Request, output *ListGraphqlApisOutput) {
 	op := &request.Operation{
 		Name:       opListGraphqlApis,
@@ -1738,7 +1744,7 @@ func (c *AppSync) ListGraphqlApisRequest(input *ListGraphqlApisInput) (req *requ
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApis
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApis
 func (c *AppSync) ListGraphqlApis(input *ListGraphqlApisInput) (*ListGraphqlApisOutput, error) {
 	req, out := c.ListGraphqlApisRequest(input)
 	return out, req.Send()
@@ -1764,7 +1770,7 @@ const opListResolvers = "ListResolvers"
 
 // ListResolversRequest generates a "aws/request.Request" representing the
 // client's request for the ListResolvers operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1785,7 +1791,7 @@ const opListResolvers = "ListResolvers"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolvers
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolvers
 func (c *AppSync) ListResolversRequest(input *ListResolversInput) (req *request.Request, output *ListResolversOutput) {
 	op := &request.Operation{
 		Name:       opListResolvers,
@@ -1828,7 +1834,7 @@ func (c *AppSync) ListResolversRequest(input *ListResolversInput) (req *request.
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolvers
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolvers
 func (c *AppSync) ListResolvers(input *ListResolversInput) (*ListResolversOutput, error) {
 	req, out := c.ListResolversRequest(input)
 	return out, req.Send()
@@ -1854,7 +1860,7 @@ const opListTypes = "ListTypes"
 
 // ListTypesRequest generates a "aws/request.Request" representing the
 // client's request for the ListTypes operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1875,7 +1881,7 @@ const opListTypes = "ListTypes"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypes
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypes
 func (c *AppSync) ListTypesRequest(input *ListTypesInput) (req *request.Request, output *ListTypesOutput) {
 	op := &request.Operation{
 		Name:       opListTypes,
@@ -1922,7 +1928,7 @@ func (c *AppSync) ListTypesRequest(input *ListTypesInput) (req *request.Request,
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypes
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypes
 func (c *AppSync) ListTypes(input *ListTypesInput) (*ListTypesOutput, error) {
 	req, out := c.ListTypesRequest(input)
 	return out, req.Send()
@@ -1948,7 +1954,7 @@ const opStartSchemaCreation = "StartSchemaCreation"
 
 // StartSchemaCreationRequest generates a "aws/request.Request" representing the
 // client's request for the StartSchemaCreation operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -1969,7 +1975,7 @@ const opStartSchemaCreation = "StartSchemaCreation"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreation
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreation
 func (c *AppSync) StartSchemaCreationRequest(input *StartSchemaCreationInput) (req *request.Request, output *StartSchemaCreationOutput) {
 	op := &request.Operation{
 		Name:       opStartSchemaCreation,
@@ -2018,7 +2024,7 @@ func (c *AppSync) StartSchemaCreationRequest(input *StartSchemaCreationInput) (r
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreation
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreation
 func (c *AppSync) StartSchemaCreation(input *StartSchemaCreationInput) (*StartSchemaCreationOutput, error) {
 	req, out := c.StartSchemaCreationRequest(input)
 	return out, req.Send()
@@ -2040,11 +2046,108 @@ func (c *AppSync) StartSchemaCreationWithContext(ctx aws.Context, input *StartSc
 	return out, req.Send()
 }
 
+const opUpdateApiKey = "UpdateApiKey"
+
+// UpdateApiKeyRequest generates a "aws/request.Request" representing the
+// client's request for the UpdateApiKey operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UpdateApiKey for more information on using the UpdateApiKey
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UpdateApiKeyRequest method.
+//    req, resp := client.UpdateApiKeyRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateApiKey
+func (c *AppSync) UpdateApiKeyRequest(input *UpdateApiKeyInput) (req *request.Request, output *UpdateApiKeyOutput) {
+	op := &request.Operation{
+		Name:       opUpdateApiKey,
+		HTTPMethod: "POST",
+		HTTPPath:   "/v1/apis/{apiId}/apikeys/{id}",
+	}
+
+	if input == nil {
+		input = &UpdateApiKeyInput{}
+	}
+
+	output = &UpdateApiKeyOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// UpdateApiKey API operation for AWS AppSync.
+//
+// Updates an API key.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for AWS AppSync's
+// API operation UpdateApiKey for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeBadRequestException "BadRequestException"
+//   The request is not well formed. For example, a value is invalid or a required
+//   field is missing. Check the field values, and try again.
+//
+//   * ErrCodeNotFoundException "NotFoundException"
+//   The resource specified in the request was not found. Check the resource and
+//   try again.
+//
+//   * ErrCodeUnauthorizedException "UnauthorizedException"
+//   You are not authorized to perform this operation.
+//
+//   * ErrCodeLimitExceededException "LimitExceededException"
+//   The request exceeded a limit. Try your request again.
+//
+//   * ErrCodeInternalFailureException "InternalFailureException"
+//   An internal AWS AppSync error occurred. Try your request again.
+//
+//   * ErrCodeApiKeyValidityOutOfBoundsException "ApiKeyValidityOutOfBoundsException"
+//   The API key expiration must be set to a value between 1 and 365 days from
+//   creation (for CreateApiKey) or from update (for UpdateApiKey).
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateApiKey
+func (c *AppSync) UpdateApiKey(input *UpdateApiKeyInput) (*UpdateApiKeyOutput, error) {
+	req, out := c.UpdateApiKeyRequest(input)
+	return out, req.Send()
+}
+
+// UpdateApiKeyWithContext is the same as UpdateApiKey with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UpdateApiKey for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *AppSync) UpdateApiKeyWithContext(ctx aws.Context, input *UpdateApiKeyInput, opts ...request.Option) (*UpdateApiKeyOutput, error) {
+	req, out := c.UpdateApiKeyRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opUpdateDataSource = "UpdateDataSource"
 
 // UpdateDataSourceRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateDataSource operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -2065,7 +2168,7 @@ const opUpdateDataSource = "UpdateDataSource"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSource
 func (c *AppSync) UpdateDataSourceRequest(input *UpdateDataSourceInput) (req *request.Request, output *UpdateDataSourceOutput) {
 	op := &request.Operation{
 		Name:       opUpdateDataSource,
@@ -2112,7 +2215,7 @@ func (c *AppSync) UpdateDataSourceRequest(input *UpdateDataSourceInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSource
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSource
 func (c *AppSync) UpdateDataSource(input *UpdateDataSourceInput) (*UpdateDataSourceOutput, error) {
 	req, out := c.UpdateDataSourceRequest(input)
 	return out, req.Send()
@@ -2138,7 +2241,7 @@ const opUpdateGraphqlApi = "UpdateGraphqlApi"
 
 // UpdateGraphqlApiRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateGraphqlApi operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -2159,7 +2262,7 @@ const opUpdateGraphqlApi = "UpdateGraphqlApi"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApi
 func (c *AppSync) UpdateGraphqlApiRequest(input *UpdateGraphqlApiInput) (req *request.Request, output *UpdateGraphqlApiOutput) {
 	op := &request.Operation{
 		Name:       opUpdateGraphqlApi,
@@ -2206,7 +2309,7 @@ func (c *AppSync) UpdateGraphqlApiRequest(input *UpdateGraphqlApiInput) (req *re
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApi
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApi
 func (c *AppSync) UpdateGraphqlApi(input *UpdateGraphqlApiInput) (*UpdateGraphqlApiOutput, error) {
 	req, out := c.UpdateGraphqlApiRequest(input)
 	return out, req.Send()
@@ -2232,7 +2335,7 @@ const opUpdateResolver = "UpdateResolver"
 
 // UpdateResolverRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateResolver operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -2253,7 +2356,7 @@ const opUpdateResolver = "UpdateResolver"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolver
 func (c *AppSync) UpdateResolverRequest(input *UpdateResolverInput) (req *request.Request, output *UpdateResolverOutput) {
 	op := &request.Operation{
 		Name:       opUpdateResolver,
@@ -2296,7 +2399,7 @@ func (c *AppSync) UpdateResolverRequest(input *UpdateResolverInput) (req *reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolver
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolver
 func (c *AppSync) UpdateResolver(input *UpdateResolverInput) (*UpdateResolverOutput, error) {
 	req, out := c.UpdateResolverRequest(input)
 	return out, req.Send()
@@ -2322,7 +2425,7 @@ const opUpdateType = "UpdateType"
 
 // UpdateTypeRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateType operation. The "output" return
-// value will be populated with the request's response once the request complets
+// value will be populated with the request's response once the request completes
 // successfuly.
 //
 // Use "Send" method on the returned Request to send the API call to the service.
@@ -2343,7 +2446,7 @@ const opUpdateType = "UpdateType"
 //        fmt.Println(resp)
 //    }
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateType
 func (c *AppSync) UpdateTypeRequest(input *UpdateTypeInput) (req *request.Request, output *UpdateTypeOutput) {
 	op := &request.Operation{
 		Name:       opUpdateType,
@@ -2390,7 +2493,7 @@ func (c *AppSync) UpdateTypeRequest(input *UpdateTypeInput) (req *request.Reques
 //   * ErrCodeInternalFailureException "InternalFailureException"
 //   An internal AWS AppSync error occurred. Try your request again.
 //
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateType
+// See also, https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateType
 func (c *AppSync) UpdateType(input *UpdateTypeInput) (*UpdateTypeOutput, error) {
 	req, out := c.UpdateTypeRequest(input)
 	return out, req.Send()
@@ -2413,14 +2516,51 @@ func (c *AppSync) UpdateTypeWithContext(ctx aws.Context, input *UpdateTypeInput,
 }
 
 // Describes an API key.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ApiKey
+//
+// Customers invoke AWS AppSync GraphQL APIs with API keys as an identity mechanism.
+// There are two key versions:
+//
+// da1: This version was introduced at launch in November 2017. These keys always
+// expire after 7 days. Key expiration is managed by DynamoDB TTL. The keys
+// will cease to be valid after Feb 21, 2018 and should not be used after that
+// date.
+//
+//    * ListApiKeys returns the expiration time in milliseconds.
+//
+//    * CreateApiKey returns the expiration time in milliseconds.
+//
+//    * UpdateApiKey is not available for this key version.
+//
+//    * DeleteApiKey deletes the item from the table.
+//
+//    * Expiration is stored in DynamoDB as milliseconds. This results in a
+//    bug where keys are not automatically deleted because DynamoDB expects
+//    the TTL to be stored in seconds. As a one-time action, we will delete
+//    these keys from the table after Feb 21, 2018.
+//
+// da2: This version was introduced in February 2018 when AppSync added support
+// to extend key expiration.
+//
+//    * ListApiKeys returns the expiration time in seconds.
+//
+//    * CreateApiKey returns the expiration time in seconds and accepts a user-provided
+//    expiration time in seconds.
+//
+//    * UpdateApiKey returns the expiration time in seconds and accepts a user-provided
+//    expiration time in seconds. Key expiration can only be updated while the
+//    key has not expired.
+//
+//    * DeleteApiKey deletes the item from the table.
+//
+//    * Expiration is stored in DynamoDB as seconds.
 type ApiKey struct {
 	_ struct{} `type:"structure"`
 
 	// A description of the purpose of the API key.
 	Description *string `locationName:"description" type:"string"`
 
-	// The time when the API key expires.
+	// The time after which the API key expires. The date is represented as seconds
+	// since the epoch, rounded down to the nearest hour.
 	Expires *int64 `locationName:"expires" type:"long"`
 
 	// The API key ID.
@@ -2455,7 +2595,6 @@ func (s *ApiKey) SetId(v string) *ApiKey {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKeyRequest
 type CreateApiKeyInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2466,6 +2605,12 @@ type CreateApiKeyInput struct {
 
 	// A description of the purpose of the API key.
 	Description *string `locationName:"description" type:"string"`
+
+	// The time from creation time after which the API key expires. The date is
+	// represented as seconds since the epoch, rounded down to the nearest hour.
+	// The default value for this parameter is 7 days from creation time. For more
+	// information, see .
+	Expires *int64 `locationName:"expires" type:"long"`
 }
 
 // String returns the string representation
@@ -2503,7 +2648,12 @@ func (s *CreateApiKeyInput) SetDescription(v string) *CreateApiKeyInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateApiKeyResponse
+// SetExpires sets the Expires field's value.
+func (s *CreateApiKeyInput) SetExpires(v int64) *CreateApiKeyInput {
+	s.Expires = &v
+	return s
+}
+
 type CreateApiKeyOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -2527,7 +2677,6 @@ func (s *CreateApiKeyOutput) SetApiKey(v *ApiKey) *CreateApiKeyOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSourceRequest
 type CreateDataSourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2544,6 +2693,9 @@ type CreateDataSourceInput struct {
 
 	// Amazon Elasticsearch settings.
 	ElasticsearchConfig *ElasticsearchDataSourceConfig `locationName:"elasticsearchConfig" type:"structure"`
+
+	// Http endpoint settings.
+	HttpConfig *HttpDataSourceConfig `locationName:"httpConfig" type:"structure"`
 
 	// AWS Lambda settings.
 	LambdaConfig *LambdaDataSourceConfig `locationName:"lambdaConfig" type:"structure"`
@@ -2631,6 +2783,12 @@ func (s *CreateDataSourceInput) SetElasticsearchConfig(v *ElasticsearchDataSourc
 	return s
 }
 
+// SetHttpConfig sets the HttpConfig field's value.
+func (s *CreateDataSourceInput) SetHttpConfig(v *HttpDataSourceConfig) *CreateDataSourceInput {
+	s.HttpConfig = v
+	return s
+}
+
 // SetLambdaConfig sets the LambdaConfig field's value.
 func (s *CreateDataSourceInput) SetLambdaConfig(v *LambdaDataSourceConfig) *CreateDataSourceInput {
 	s.LambdaConfig = v
@@ -2655,7 +2813,6 @@ func (s *CreateDataSourceInput) SetType(v string) *CreateDataSourceInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateDataSourceResponse
 type CreateDataSourceOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -2679,7 +2836,6 @@ func (s *CreateDataSourceOutput) SetDataSource(v *DataSource) *CreateDataSourceO
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApiRequest
 type CreateGraphqlApiInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2688,10 +2844,16 @@ type CreateGraphqlApiInput struct {
 	// AuthenticationType is a required field
 	AuthenticationType *string `locationName:"authenticationType" type:"string" required:"true" enum:"AuthenticationType"`
 
+	// The Amazon CloudWatch logs configuration.
+	LogConfig *LogConfig `locationName:"logConfig" type:"structure"`
+
 	// A user-supplied name for the GraphqlApi.
 	//
 	// Name is a required field
 	Name *string `locationName:"name" type:"string" required:"true"`
+
+	// The Open Id Connect configuration configuration.
+	OpenIDConnectConfig *OpenIDConnectConfig `locationName:"openIDConnectConfig" type:"structure"`
 
 	// The Amazon Cognito User Pool configuration.
 	UserPoolConfig *UserPoolConfig `locationName:"userPoolConfig" type:"structure"`
@@ -2716,6 +2878,16 @@ func (s *CreateGraphqlApiInput) Validate() error {
 	if s.Name == nil {
 		invalidParams.Add(request.NewErrParamRequired("Name"))
 	}
+	if s.LogConfig != nil {
+		if err := s.LogConfig.Validate(); err != nil {
+			invalidParams.AddNested("LogConfig", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.OpenIDConnectConfig != nil {
+		if err := s.OpenIDConnectConfig.Validate(); err != nil {
+			invalidParams.AddNested("OpenIDConnectConfig", err.(request.ErrInvalidParams))
+		}
+	}
 	if s.UserPoolConfig != nil {
 		if err := s.UserPoolConfig.Validate(); err != nil {
 			invalidParams.AddNested("UserPoolConfig", err.(request.ErrInvalidParams))
@@ -2734,9 +2906,21 @@ func (s *CreateGraphqlApiInput) SetAuthenticationType(v string) *CreateGraphqlAp
 	return s
 }
 
+// SetLogConfig sets the LogConfig field's value.
+func (s *CreateGraphqlApiInput) SetLogConfig(v *LogConfig) *CreateGraphqlApiInput {
+	s.LogConfig = v
+	return s
+}
+
 // SetName sets the Name field's value.
 func (s *CreateGraphqlApiInput) SetName(v string) *CreateGraphqlApiInput {
 	s.Name = &v
+	return s
+}
+
+// SetOpenIDConnectConfig sets the OpenIDConnectConfig field's value.
+func (s *CreateGraphqlApiInput) SetOpenIDConnectConfig(v *OpenIDConnectConfig) *CreateGraphqlApiInput {
+	s.OpenIDConnectConfig = v
 	return s
 }
 
@@ -2746,7 +2930,6 @@ func (s *CreateGraphqlApiInput) SetUserPoolConfig(v *UserPoolConfig) *CreateGrap
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateGraphqlApiResponse
 type CreateGraphqlApiOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -2770,7 +2953,6 @@ func (s *CreateGraphqlApiOutput) SetGraphqlApi(v *GraphqlApi) *CreateGraphqlApiO
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolverRequest
 type CreateResolverInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2791,15 +2973,15 @@ type CreateResolverInput struct {
 
 	// The mapping template to be used for requests.
 	//
-	// A resolver use a request mapping template to convert a GraphQL expression
+	// A resolver uses a request mapping template to convert a GraphQL expression
 	// into a format that a data source can understand. Mapping templates are written
 	// in Apache Velocity Template Language (VTL).
 	//
 	// RequestMappingTemplate is a required field
-	RequestMappingTemplate *string `locationName:"requestMappingTemplate" type:"string" required:"true"`
+	RequestMappingTemplate *string `locationName:"requestMappingTemplate" min:"1" type:"string" required:"true"`
 
 	// The mapping template to be used for responses from the data source.
-	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" type:"string"`
+	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" min:"1" type:"string"`
 
 	// The name of the Type.
 	//
@@ -2831,6 +3013,12 @@ func (s *CreateResolverInput) Validate() error {
 	}
 	if s.RequestMappingTemplate == nil {
 		invalidParams.Add(request.NewErrParamRequired("RequestMappingTemplate"))
+	}
+	if s.RequestMappingTemplate != nil && len(*s.RequestMappingTemplate) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("RequestMappingTemplate", 1))
+	}
+	if s.ResponseMappingTemplate != nil && len(*s.ResponseMappingTemplate) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ResponseMappingTemplate", 1))
 	}
 	if s.TypeName == nil {
 		invalidParams.Add(request.NewErrParamRequired("TypeName"))
@@ -2878,7 +3066,6 @@ func (s *CreateResolverInput) SetTypeName(v string) *CreateResolverInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateResolverResponse
 type CreateResolverOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -2902,7 +3089,6 @@ func (s *CreateResolverOutput) SetResolver(v *Resolver) *CreateResolverOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateTypeRequest
 type CreateTypeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -2971,7 +3157,6 @@ func (s *CreateTypeInput) SetFormat(v string) *CreateTypeInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/CreateTypeResponse
 type CreateTypeOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -2996,7 +3181,6 @@ func (s *CreateTypeOutput) SetType(v *Type) *CreateTypeOutput {
 }
 
 // Describes a data source.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DataSource
 type DataSource struct {
 	_ struct{} `type:"structure"`
 
@@ -3012,6 +3196,9 @@ type DataSource struct {
 	// Amazon Elasticsearch settings.
 	ElasticsearchConfig *ElasticsearchDataSourceConfig `locationName:"elasticsearchConfig" type:"structure"`
 
+	// Http endpoint settings.
+	HttpConfig *HttpDataSourceConfig `locationName:"httpConfig" type:"structure"`
+
 	// Lambda settings.
 	LambdaConfig *LambdaDataSourceConfig `locationName:"lambdaConfig" type:"structure"`
 
@@ -3023,6 +3210,20 @@ type DataSource struct {
 	ServiceRoleArn *string `locationName:"serviceRoleArn" type:"string"`
 
 	// The type of the data source.
+	//
+	//    * AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.
+	//
+	//    * AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service
+	//    domain.
+	//
+	//    * AWS_LAMBDA: The data source is an AWS Lambda function.
+	//
+	//    * NONE: There is no data source. This type is used when when you wish
+	//    to invoke a GraphQL operation without connecting to a data source, such
+	//    as performing data transformation with resolvers or triggering a subscription
+	//    to be invoked from a mutation.
+	//
+	//    * HTTP: The data source is an HTTP endpoint.
 	Type *string `locationName:"type" type:"string" enum:"DataSourceType"`
 }
 
@@ -3060,6 +3261,12 @@ func (s *DataSource) SetElasticsearchConfig(v *ElasticsearchDataSourceConfig) *D
 	return s
 }
 
+// SetHttpConfig sets the HttpConfig field's value.
+func (s *DataSource) SetHttpConfig(v *HttpDataSourceConfig) *DataSource {
+	s.HttpConfig = v
+	return s
+}
+
 // SetLambdaConfig sets the LambdaConfig field's value.
 func (s *DataSource) SetLambdaConfig(v *LambdaDataSourceConfig) *DataSource {
 	s.LambdaConfig = v
@@ -3084,7 +3291,6 @@ func (s *DataSource) SetType(v string) *DataSource {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKeyRequest
 type DeleteApiKeyInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3137,7 +3343,6 @@ func (s *DeleteApiKeyInput) SetId(v string) *DeleteApiKeyInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteApiKeyResponse
 type DeleteApiKeyOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3152,7 +3357,6 @@ func (s DeleteApiKeyOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSourceRequest
 type DeleteDataSourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3205,7 +3409,6 @@ func (s *DeleteDataSourceInput) SetName(v string) *DeleteDataSourceInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteDataSourceResponse
 type DeleteDataSourceOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3220,7 +3423,6 @@ func (s DeleteDataSourceOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApiRequest
 type DeleteGraphqlApiInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3259,7 +3461,6 @@ func (s *DeleteGraphqlApiInput) SetApiId(v string) *DeleteGraphqlApiInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteGraphqlApiResponse
 type DeleteGraphqlApiOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3274,7 +3475,6 @@ func (s DeleteGraphqlApiOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolverRequest
 type DeleteResolverInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3341,7 +3541,6 @@ func (s *DeleteResolverInput) SetTypeName(v string) *DeleteResolverInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteResolverResponse
 type DeleteResolverOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3356,7 +3555,6 @@ func (s DeleteResolverOutput) GoString() string {
 	return s.String()
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteTypeRequest
 type DeleteTypeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3409,7 +3607,6 @@ func (s *DeleteTypeInput) SetTypeName(v string) *DeleteTypeInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DeleteTypeResponse
 type DeleteTypeOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3425,7 +3622,6 @@ func (s DeleteTypeOutput) GoString() string {
 }
 
 // Describes a DynamoDB data source configuration.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/DynamodbDataSourceConfig
 type DynamodbDataSourceConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -3488,7 +3684,6 @@ func (s *DynamodbDataSourceConfig) SetUseCallerCredentials(v bool) *DynamodbData
 }
 
 // Describes an Elasticsearch data source configuration.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ElasticsearchDataSourceConfig
 type ElasticsearchDataSourceConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -3541,7 +3736,6 @@ func (s *ElasticsearchDataSourceConfig) SetEndpoint(v string) *ElasticsearchData
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSourceRequest
 type GetDataSourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3594,7 +3788,6 @@ func (s *GetDataSourceInput) SetName(v string) *GetDataSourceInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetDataSourceResponse
 type GetDataSourceOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -3618,7 +3811,6 @@ func (s *GetDataSourceOutput) SetDataSource(v *DataSource) *GetDataSourceOutput 
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApiRequest
 type GetGraphqlApiInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3657,7 +3849,6 @@ func (s *GetGraphqlApiInput) SetApiId(v string) *GetGraphqlApiInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetGraphqlApiResponse
 type GetGraphqlApiOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -3681,7 +3872,6 @@ func (s *GetGraphqlApiOutput) SetGraphqlApi(v *GraphqlApi) *GetGraphqlApiOutput 
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchemaRequest
 type GetIntrospectionSchemaInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3734,7 +3924,6 @@ func (s *GetIntrospectionSchemaInput) SetFormat(v string) *GetIntrospectionSchem
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetIntrospectionSchemaResponse
 type GetIntrospectionSchemaOutput struct {
 	_ struct{} `type:"structure" payload:"Schema"`
 
@@ -3760,7 +3949,6 @@ func (s *GetIntrospectionSchemaOutput) SetSchema(v []byte) *GetIntrospectionSche
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolverRequest
 type GetResolverInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3827,7 +4015,6 @@ func (s *GetResolverInput) SetTypeName(v string) *GetResolverInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetResolverResponse
 type GetResolverOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -3851,7 +4038,6 @@ func (s *GetResolverOutput) SetResolver(v *Resolver) *GetResolverOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatusRequest
 type GetSchemaCreationStatusInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3890,7 +4076,6 @@ func (s *GetSchemaCreationStatusInput) SetApiId(v string) *GetSchemaCreationStat
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetSchemaCreationStatusResponse
 type GetSchemaCreationStatusOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -3924,7 +4109,6 @@ func (s *GetSchemaCreationStatusOutput) SetStatus(v string) *GetSchemaCreationSt
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetTypeRequest
 type GetTypeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3991,7 +4175,6 @@ func (s *GetTypeInput) SetTypeName(v string) *GetTypeInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GetTypeResponse
 type GetTypeOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4016,7 +4199,6 @@ func (s *GetTypeOutput) SetType(v *Type) *GetTypeOutput {
 }
 
 // Describes a GraphQL API.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/GraphqlApi
 type GraphqlApi struct {
 	_ struct{} `type:"structure"`
 
@@ -4029,8 +4211,14 @@ type GraphqlApi struct {
 	// The authentication type.
 	AuthenticationType *string `locationName:"authenticationType" type:"string" enum:"AuthenticationType"`
 
+	// The Amazon CloudWatch Logs configuration.
+	LogConfig *LogConfig `locationName:"logConfig" type:"structure"`
+
 	// The API name.
 	Name *string `locationName:"name" type:"string"`
+
+	// The Open Id Connect configuration.
+	OpenIDConnectConfig *OpenIDConnectConfig `locationName:"openIDConnectConfig" type:"structure"`
 
 	// The URIs.
 	Uris map[string]*string `locationName:"uris" type:"map"`
@@ -4067,9 +4255,21 @@ func (s *GraphqlApi) SetAuthenticationType(v string) *GraphqlApi {
 	return s
 }
 
+// SetLogConfig sets the LogConfig field's value.
+func (s *GraphqlApi) SetLogConfig(v *LogConfig) *GraphqlApi {
+	s.LogConfig = v
+	return s
+}
+
 // SetName sets the Name field's value.
 func (s *GraphqlApi) SetName(v string) *GraphqlApi {
 	s.Name = &v
+	return s
+}
+
+// SetOpenIDConnectConfig sets the OpenIDConnectConfig field's value.
+func (s *GraphqlApi) SetOpenIDConnectConfig(v *OpenIDConnectConfig) *GraphqlApi {
+	s.OpenIDConnectConfig = v
 	return s
 }
 
@@ -4085,8 +4285,34 @@ func (s *GraphqlApi) SetUserPoolConfig(v *UserPoolConfig) *GraphqlApi {
 	return s
 }
 
+// Describes a Http data source configuration.
+type HttpDataSourceConfig struct {
+	_ struct{} `type:"structure"`
+
+	// The Http url endpoint. You can either specify the domain name or ip and port
+	// combination and the url scheme must be http(s). If the port is not specified,
+	// AWS AppSync will use the default port 80 for http endpoint and port 443 for
+	// https endpoints.
+	Endpoint *string `locationName:"endpoint" type:"string"`
+}
+
+// String returns the string representation
+func (s HttpDataSourceConfig) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s HttpDataSourceConfig) GoString() string {
+	return s.String()
+}
+
+// SetEndpoint sets the Endpoint field's value.
+func (s *HttpDataSourceConfig) SetEndpoint(v string) *HttpDataSourceConfig {
+	s.Endpoint = &v
+	return s
+}
+
 // Describes a Lambda data source configuration.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/LambdaDataSourceConfig
 type LambdaDataSourceConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -4125,7 +4351,6 @@ func (s *LambdaDataSourceConfig) SetLambdaFunctionArn(v string) *LambdaDataSourc
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeysRequest
 type ListApiKeysInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4183,7 +4408,6 @@ func (s *ListApiKeysInput) SetNextToken(v string) *ListApiKeysInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListApiKeysResponse
 type ListApiKeysOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4217,7 +4441,6 @@ func (s *ListApiKeysOutput) SetNextToken(v string) *ListApiKeysOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSourcesRequest
 type ListDataSourcesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4275,7 +4498,6 @@ func (s *ListDataSourcesInput) SetNextToken(v string) *ListDataSourcesInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListDataSourcesResponse
 type ListDataSourcesOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4309,7 +4531,6 @@ func (s *ListDataSourcesOutput) SetNextToken(v string) *ListDataSourcesOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApisRequest
 type ListGraphqlApisInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4343,7 +4564,6 @@ func (s *ListGraphqlApisInput) SetNextToken(v string) *ListGraphqlApisInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListGraphqlApisResponse
 type ListGraphqlApisOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4377,7 +4597,6 @@ func (s *ListGraphqlApisOutput) SetNextToken(v string) *ListGraphqlApisOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolversRequest
 type ListResolversInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4449,7 +4668,6 @@ func (s *ListResolversInput) SetTypeName(v string) *ListResolversInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListResolversResponse
 type ListResolversOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4483,7 +4701,6 @@ func (s *ListResolversOutput) SetResolvers(v []*Resolver) *ListResolversOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypesRequest
 type ListTypesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4555,7 +4772,6 @@ func (s *ListTypesInput) SetNextToken(v string) *ListTypesInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/ListTypesResponse
 type ListTypesOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4589,8 +4805,148 @@ func (s *ListTypesOutput) SetTypes(v []*Type) *ListTypesOutput {
 	return s
 }
 
+// The CloudWatch Logs configuration.
+type LogConfig struct {
+	_ struct{} `type:"structure"`
+
+	// The service role that AWS AppSync will assume to publish to Amazon CloudWatch
+	// logs in your account.
+	//
+	// CloudWatchLogsRoleArn is a required field
+	CloudWatchLogsRoleArn *string `locationName:"cloudWatchLogsRoleArn" type:"string" required:"true"`
+
+	// The field logging level. Values can be NONE, ERROR, ALL.
+	//
+	//    * NONE: No field-level logs are captured.
+	//
+	//    * ERROR: Logs the following information only for the fields that are in
+	//    error:
+	//
+	// The error section in the server response.
+	//
+	// Field-level errors.
+	//
+	// The generated request/response functions that got resolved for error fields.
+	//
+	//    * ALL: The following information is logged for all fields in the query:
+	//
+	// Field-level tracing information.
+	//
+	// The generated request/response functions that got resolved for each field.
+	//
+	// FieldLogLevel is a required field
+	FieldLogLevel *string `locationName:"fieldLogLevel" type:"string" required:"true" enum:"FieldLogLevel"`
+}
+
+// String returns the string representation
+func (s LogConfig) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LogConfig) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *LogConfig) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "LogConfig"}
+	if s.CloudWatchLogsRoleArn == nil {
+		invalidParams.Add(request.NewErrParamRequired("CloudWatchLogsRoleArn"))
+	}
+	if s.FieldLogLevel == nil {
+		invalidParams.Add(request.NewErrParamRequired("FieldLogLevel"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
+func (s *LogConfig) SetCloudWatchLogsRoleArn(v string) *LogConfig {
+	s.CloudWatchLogsRoleArn = &v
+	return s
+}
+
+// SetFieldLogLevel sets the FieldLogLevel field's value.
+func (s *LogConfig) SetFieldLogLevel(v string) *LogConfig {
+	s.FieldLogLevel = &v
+	return s
+}
+
+// Describes an Open Id Connect configuration.
+type OpenIDConnectConfig struct {
+	_ struct{} `type:"structure"`
+
+	// The number of milliseconds a token is valid after being authenticated.
+	AuthTTL *int64 `locationName:"authTTL" type:"long"`
+
+	// The client identifier of the Relying party at the OpenID Provider. This identifier
+	// is typically obtained when the Relying party is registered with the OpenID
+	// Provider. You can specify a regular expression so the AWS AppSync can validate
+	// against multiple client identifiers at a time
+	ClientId *string `locationName:"clientId" type:"string"`
+
+	// The number of milliseconds a token is valid after being issued to a user.
+	IatTTL *int64 `locationName:"iatTTL" type:"long"`
+
+	// The issuer for the open id connect configuration. The issuer returned by
+	// discovery MUST exactly match the value of iss in the ID Token.
+	//
+	// Issuer is a required field
+	Issuer *string `locationName:"issuer" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s OpenIDConnectConfig) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s OpenIDConnectConfig) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *OpenIDConnectConfig) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "OpenIDConnectConfig"}
+	if s.Issuer == nil {
+		invalidParams.Add(request.NewErrParamRequired("Issuer"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAuthTTL sets the AuthTTL field's value.
+func (s *OpenIDConnectConfig) SetAuthTTL(v int64) *OpenIDConnectConfig {
+	s.AuthTTL = &v
+	return s
+}
+
+// SetClientId sets the ClientId field's value.
+func (s *OpenIDConnectConfig) SetClientId(v string) *OpenIDConnectConfig {
+	s.ClientId = &v
+	return s
+}
+
+// SetIatTTL sets the IatTTL field's value.
+func (s *OpenIDConnectConfig) SetIatTTL(v int64) *OpenIDConnectConfig {
+	s.IatTTL = &v
+	return s
+}
+
+// SetIssuer sets the Issuer field's value.
+func (s *OpenIDConnectConfig) SetIssuer(v string) *OpenIDConnectConfig {
+	s.Issuer = &v
+	return s
+}
+
 // Describes a resolver.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/Resolver
 type Resolver struct {
 	_ struct{} `type:"structure"`
 
@@ -4601,13 +4957,13 @@ type Resolver struct {
 	FieldName *string `locationName:"fieldName" type:"string"`
 
 	// The request mapping template.
-	RequestMappingTemplate *string `locationName:"requestMappingTemplate" type:"string"`
+	RequestMappingTemplate *string `locationName:"requestMappingTemplate" min:"1" type:"string"`
 
 	// The resolver ARN.
 	ResolverArn *string `locationName:"resolverArn" type:"string"`
 
 	// The response mapping template.
-	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" type:"string"`
+	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" min:"1" type:"string"`
 
 	// The resolver type name.
 	TypeName *string `locationName:"typeName" type:"string"`
@@ -4659,7 +5015,6 @@ func (s *Resolver) SetTypeName(v string) *Resolver {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreationRequest
 type StartSchemaCreationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4714,7 +5069,6 @@ func (s *StartSchemaCreationInput) SetDefinition(v []byte) *StartSchemaCreationI
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/StartSchemaCreationResponse
 type StartSchemaCreationOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4740,7 +5094,6 @@ func (s *StartSchemaCreationOutput) SetStatus(v string) *StartSchemaCreationOutp
 }
 
 // Describes a type.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/Type
 type Type struct {
 	_ struct{} `type:"structure"`
 
@@ -4800,7 +5153,100 @@ func (s *Type) SetName(v string) *Type {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSourceRequest
+type UpdateApiKeyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ID for the GraphQL API
+	//
+	// ApiId is a required field
+	ApiId *string `location:"uri" locationName:"apiId" type:"string" required:"true"`
+
+	// A description of the purpose of the API key.
+	Description *string `locationName:"description" type:"string"`
+
+	// The time from update time after which the API key expires. The date is represented
+	// as seconds since the epoch. For more information, see .
+	Expires *int64 `locationName:"expires" type:"long"`
+
+	// The API key ID.
+	//
+	// Id is a required field
+	Id *string `location:"uri" locationName:"id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateApiKeyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApiKeyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateApiKeyInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UpdateApiKeyInput"}
+	if s.ApiId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ApiId"))
+	}
+	if s.Id == nil {
+		invalidParams.Add(request.NewErrParamRequired("Id"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetApiId sets the ApiId field's value.
+func (s *UpdateApiKeyInput) SetApiId(v string) *UpdateApiKeyInput {
+	s.ApiId = &v
+	return s
+}
+
+// SetDescription sets the Description field's value.
+func (s *UpdateApiKeyInput) SetDescription(v string) *UpdateApiKeyInput {
+	s.Description = &v
+	return s
+}
+
+// SetExpires sets the Expires field's value.
+func (s *UpdateApiKeyInput) SetExpires(v int64) *UpdateApiKeyInput {
+	s.Expires = &v
+	return s
+}
+
+// SetId sets the Id field's value.
+func (s *UpdateApiKeyInput) SetId(v string) *UpdateApiKeyInput {
+	s.Id = &v
+	return s
+}
+
+type UpdateApiKeyOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The API key.
+	ApiKey *ApiKey `locationName:"apiKey" type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateApiKeyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApiKeyOutput) GoString() string {
+	return s.String()
+}
+
+// SetApiKey sets the ApiKey field's value.
+func (s *UpdateApiKeyOutput) SetApiKey(v *ApiKey) *UpdateApiKeyOutput {
+	s.ApiKey = v
+	return s
+}
+
 type UpdateDataSourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4817,6 +5263,9 @@ type UpdateDataSourceInput struct {
 
 	// The new Elasticsearch configuration.
 	ElasticsearchConfig *ElasticsearchDataSourceConfig `locationName:"elasticsearchConfig" type:"structure"`
+
+	// The new http endpoint configuration
+	HttpConfig *HttpDataSourceConfig `locationName:"httpConfig" type:"structure"`
 
 	// The new Lambda configuration.
 	LambdaConfig *LambdaDataSourceConfig `locationName:"lambdaConfig" type:"structure"`
@@ -4903,6 +5352,12 @@ func (s *UpdateDataSourceInput) SetElasticsearchConfig(v *ElasticsearchDataSourc
 	return s
 }
 
+// SetHttpConfig sets the HttpConfig field's value.
+func (s *UpdateDataSourceInput) SetHttpConfig(v *HttpDataSourceConfig) *UpdateDataSourceInput {
+	s.HttpConfig = v
+	return s
+}
+
 // SetLambdaConfig sets the LambdaConfig field's value.
 func (s *UpdateDataSourceInput) SetLambdaConfig(v *LambdaDataSourceConfig) *UpdateDataSourceInput {
 	s.LambdaConfig = v
@@ -4927,7 +5382,6 @@ func (s *UpdateDataSourceInput) SetType(v string) *UpdateDataSourceInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateDataSourceResponse
 type UpdateDataSourceOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4951,7 +5405,6 @@ func (s *UpdateDataSourceOutput) SetDataSource(v *DataSource) *UpdateDataSourceO
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApiRequest
 type UpdateGraphqlApiInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4963,10 +5416,16 @@ type UpdateGraphqlApiInput struct {
 	// The new authentication type for the GraphqlApi object.
 	AuthenticationType *string `locationName:"authenticationType" type:"string" enum:"AuthenticationType"`
 
+	// The Amazon CloudWatch logs configuration for the GraphqlApi object.
+	LogConfig *LogConfig `locationName:"logConfig" type:"structure"`
+
 	// The new name for the GraphqlApi object.
 	//
 	// Name is a required field
 	Name *string `locationName:"name" type:"string" required:"true"`
+
+	// The Open Id Connect configuration configuration for the GraphqlApi object.
+	OpenIDConnectConfig *OpenIDConnectConfig `locationName:"openIDConnectConfig" type:"structure"`
 
 	// The new Amazon Cognito User Pool configuration for the GraphqlApi object.
 	UserPoolConfig *UserPoolConfig `locationName:"userPoolConfig" type:"structure"`
@@ -4990,6 +5449,16 @@ func (s *UpdateGraphqlApiInput) Validate() error {
 	}
 	if s.Name == nil {
 		invalidParams.Add(request.NewErrParamRequired("Name"))
+	}
+	if s.LogConfig != nil {
+		if err := s.LogConfig.Validate(); err != nil {
+			invalidParams.AddNested("LogConfig", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.OpenIDConnectConfig != nil {
+		if err := s.OpenIDConnectConfig.Validate(); err != nil {
+			invalidParams.AddNested("OpenIDConnectConfig", err.(request.ErrInvalidParams))
+		}
 	}
 	if s.UserPoolConfig != nil {
 		if err := s.UserPoolConfig.Validate(); err != nil {
@@ -5015,9 +5484,21 @@ func (s *UpdateGraphqlApiInput) SetAuthenticationType(v string) *UpdateGraphqlAp
 	return s
 }
 
+// SetLogConfig sets the LogConfig field's value.
+func (s *UpdateGraphqlApiInput) SetLogConfig(v *LogConfig) *UpdateGraphqlApiInput {
+	s.LogConfig = v
+	return s
+}
+
 // SetName sets the Name field's value.
 func (s *UpdateGraphqlApiInput) SetName(v string) *UpdateGraphqlApiInput {
 	s.Name = &v
+	return s
+}
+
+// SetOpenIDConnectConfig sets the OpenIDConnectConfig field's value.
+func (s *UpdateGraphqlApiInput) SetOpenIDConnectConfig(v *OpenIDConnectConfig) *UpdateGraphqlApiInput {
+	s.OpenIDConnectConfig = v
 	return s
 }
 
@@ -5027,11 +5508,10 @@ func (s *UpdateGraphqlApiInput) SetUserPoolConfig(v *UserPoolConfig) *UpdateGrap
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateGraphqlApiResponse
 type UpdateGraphqlApiOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The udpated GraphqlApi object.
+	// The updated GraphqlApi object.
 	GraphqlApi *GraphqlApi `locationName:"graphqlApi" type:"structure"`
 }
 
@@ -5051,7 +5531,6 @@ func (s *UpdateGraphqlApiOutput) SetGraphqlApi(v *GraphqlApi) *UpdateGraphqlApiO
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolverRequest
 type UpdateResolverInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5073,10 +5552,10 @@ type UpdateResolverInput struct {
 	// The new request mapping template.
 	//
 	// RequestMappingTemplate is a required field
-	RequestMappingTemplate *string `locationName:"requestMappingTemplate" type:"string" required:"true"`
+	RequestMappingTemplate *string `locationName:"requestMappingTemplate" min:"1" type:"string" required:"true"`
 
 	// The new response mapping template.
-	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" type:"string"`
+	ResponseMappingTemplate *string `locationName:"responseMappingTemplate" min:"1" type:"string"`
 
 	// The new type name.
 	//
@@ -5108,6 +5587,12 @@ func (s *UpdateResolverInput) Validate() error {
 	}
 	if s.RequestMappingTemplate == nil {
 		invalidParams.Add(request.NewErrParamRequired("RequestMappingTemplate"))
+	}
+	if s.RequestMappingTemplate != nil && len(*s.RequestMappingTemplate) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("RequestMappingTemplate", 1))
+	}
+	if s.ResponseMappingTemplate != nil && len(*s.ResponseMappingTemplate) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ResponseMappingTemplate", 1))
 	}
 	if s.TypeName == nil {
 		invalidParams.Add(request.NewErrParamRequired("TypeName"))
@@ -5155,7 +5640,6 @@ func (s *UpdateResolverInput) SetTypeName(v string) *UpdateResolverInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateResolverResponse
 type UpdateResolverOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5179,7 +5663,6 @@ func (s *UpdateResolverOutput) SetResolver(v *Resolver) *UpdateResolverOutput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateTypeRequest
 type UpdateTypeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5255,7 +5738,6 @@ func (s *UpdateTypeInput) SetTypeName(v string) *UpdateTypeInput {
 	return s
 }
 
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UpdateTypeResponse
 type UpdateTypeOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5280,7 +5762,6 @@ func (s *UpdateTypeOutput) SetType(v *Type) *UpdateTypeOutput {
 }
 
 // Describes an Amazon Cognito User Pool configuration.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/appsync-2017-07-25/UserPoolConfig
 type UserPoolConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -5368,6 +5849,9 @@ const (
 
 	// AuthenticationTypeAmazonCognitoUserPools is a AuthenticationType enum value
 	AuthenticationTypeAmazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
+
+	// AuthenticationTypeOpenidConnect is a AuthenticationType enum value
+	AuthenticationTypeOpenidConnect = "OPENID_CONNECT"
 )
 
 const (
@@ -5379,6 +5863,12 @@ const (
 
 	// DataSourceTypeAmazonElasticsearch is a DataSourceType enum value
 	DataSourceTypeAmazonElasticsearch = "AMAZON_ELASTICSEARCH"
+
+	// DataSourceTypeNone is a DataSourceType enum value
+	DataSourceTypeNone = "NONE"
+
+	// DataSourceTypeHttp is a DataSourceType enum value
+	DataSourceTypeHttp = "HTTP"
 )
 
 const (
@@ -5387,6 +5877,17 @@ const (
 
 	// DefaultActionDeny is a DefaultAction enum value
 	DefaultActionDeny = "DENY"
+)
+
+const (
+	// FieldLogLevelNone is a FieldLogLevel enum value
+	FieldLogLevelNone = "NONE"
+
+	// FieldLogLevelError is a FieldLogLevel enum value
+	FieldLogLevelError = "ERROR"
+
+	// FieldLogLevelAll is a FieldLogLevel enum value
+	FieldLogLevelAll = "ALL"
 )
 
 const (

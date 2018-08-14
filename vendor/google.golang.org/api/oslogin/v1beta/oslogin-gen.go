@@ -1,4 +1,6 @@
-// Package oslogin provides access to the Google Cloud OS Login API.
+// Package oslogin provides access to the Cloud OS Login API.
+//
+// This package is DEPRECATED. Use package cloud.google.com/go/oslogin/apiv1 instead.
 //
 // See https://cloud.google.com/compute/docs/oslogin/rest/
 //
@@ -172,7 +174,7 @@ func (s *ImportSshPublicKeyResponse) MarshalJSON() ([]byte, error) {
 // virtual machine on
 // Google Compute Engine.
 type LoginProfile struct {
-	// Name: The primary email address that uniquely identifies the user.
+	// Name: A unique user ID.
 	Name string `json:"name,omitempty"`
 
 	// PosixAccounts: The list of POSIX accounts associated with the user.
@@ -181,11 +183,6 @@ type LoginProfile struct {
 	// SshPublicKeys: A map from SSH public key fingerprint to the
 	// associated key object.
 	SshPublicKeys map[string]SshPublicKey `json:"sshPublicKeys,omitempty"`
-
-	// Suspended: Indicates if the user is suspended. A suspended user
-	// cannot log in but
-	// their profile information is retained.
-	Suspended bool `json:"suspended,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
@@ -228,6 +225,17 @@ type PosixAccount struct {
 
 	// HomeDirectory: The path to the home directory for this account.
 	HomeDirectory string `json:"homeDirectory,omitempty"`
+
+	// OperatingSystemType: The operating system type where this account
+	// applies.
+	//
+	// Possible values:
+	//   "OPERATING_SYSTEM_TYPE_UNSPECIFIED" - The operating system type
+	// associated with the user account information is
+	// unspecified.
+	//   "LINUX" - Linux user account information.
+	//   "WINDOWS" - Windows user account information.
+	OperatingSystemType string `json:"operatingSystemType,omitempty"`
 
 	// Primary: Only one POSIX account can be marked as primary.
 	Primary bool `json:"primary,omitempty"`

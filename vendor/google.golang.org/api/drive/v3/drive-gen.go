@@ -208,6 +208,9 @@ type About struct {
 	// AppInstalled: Whether the user has installed the requesting app.
 	AppInstalled bool `json:"appInstalled,omitempty"`
 
+	// CanCreateTeamDrives: Whether the user can create Team Drives.
+	CanCreateTeamDrives bool `json:"canCreateTeamDrives,omitempty"`
+
 	// ExportFormats: A map of source MIME type to possible targets for all
 	// supported exports.
 	ExportFormats map[string][]string `json:"exportFormats,omitempty"`
@@ -679,6 +682,10 @@ type File struct {
 	// These fields are never populated in responses.
 	ContentHints *FileContentHints `json:"contentHints,omitempty"`
 
+	// CopyRequiresWriterPermission: Whether the options to copy, print, or
+	// download this file, should be disabled for readers and commenters.
+	CopyRequiresWriterPermission bool `json:"copyRequiresWriterPermission,omitempty"`
+
 	// CreatedTime: The time at which the file was created (RFC 3339
 	// date-time).
 	CreatedTime string `json:"createdTime,omitempty"`
@@ -791,8 +798,10 @@ type File struct {
 
 	// Parents: The IDs of the parent folders which contain the file.
 	// If not specified as part of a create request, the file will be placed
-	// directly in the My Drive folder. Update requests must use the
-	// addParents and removeParents parameters to modify the values.
+	// directly in the user's My Drive folder. If not specified as part of a
+	// copy request, the file will inherit any discoverable parents of the
+	// source file. Update requests must use the addParents and
+	// removeParents parameters to modify the parents list.
 	Parents []string `json:"parents,omitempty"`
 
 	// PermissionIds: List of permission IDs for users with access to this
@@ -878,9 +887,8 @@ type File struct {
 	// 3339 date-time).
 	ViewedByMeTime string `json:"viewedByMeTime,omitempty"`
 
-	// ViewersCanCopyContent: Whether users with only reader or commenter
-	// permission can copy the file's content. This affects copy, download,
-	// and print operations.
+	// ViewersCanCopyContent: Deprecated - use copyRequiresWriterPermission
+	// instead.
 	ViewersCanCopyContent bool `json:"viewersCanCopyContent,omitempty"`
 
 	// WebContentLink: A link for downloading the content of the file in a
@@ -931,8 +939,11 @@ type FileCapabilities struct {
 	// folder. This is always false when the item is not a folder.
 	CanAddChildren bool `json:"canAddChildren,omitempty"`
 
-	// CanChangeViewersCanCopyContent: Whether the current user can change
-	// whether viewers can copy the contents of this file.
+	// CanChangeCopyRequiresWriterPermission: Whether the current user can
+	// change the copyRequiresWriterPermission restriction of this file.
+	CanChangeCopyRequiresWriterPermission bool `json:"canChangeCopyRequiresWriterPermission,omitempty"`
+
+	// CanChangeViewersCanCopyContent: Deprecated
 	CanChangeViewersCanCopyContent bool `json:"canChangeViewersCanCopyContent,omitempty"`
 
 	// CanComment: Whether the current user can comment on this file.
@@ -1857,7 +1868,7 @@ type TeamDrive struct {
 	CreatedTime string `json:"createdTime,omitempty"`
 
 	// Id: The ID of this Team Drive which is also the ID of the top level
-	// folder for this Team Drive.
+	// folder of this Team Drive.
 	Id string `json:"id,omitempty"`
 
 	// Kind: Identifies what kind of resource this is. Value: the fixed
@@ -1866,6 +1877,10 @@ type TeamDrive struct {
 
 	// Name: The name of this Team Drive.
 	Name string `json:"name,omitempty"`
+
+	// Restrictions: A set of restrictions that apply to this Team Drive or
+	// items inside this Team Drive.
+	Restrictions *TeamDriveRestrictions `json:"restrictions,omitempty"`
 
 	// ThemeId: The ID of the theme from which the background image and
 	// color will be set. The set of possible teamDriveThemes can be
@@ -1982,9 +1997,22 @@ type TeamDriveCapabilities struct {
 	// in this Team Drive.
 	CanAddChildren bool `json:"canAddChildren,omitempty"`
 
+	// CanChangeCopyRequiresWriterPermissionRestriction: Whether the current
+	// user can change the copyRequiresWriterPermission restriction of this
+	// Team Drive.
+	CanChangeCopyRequiresWriterPermissionRestriction bool `json:"canChangeCopyRequiresWriterPermissionRestriction,omitempty"`
+
+	// CanChangeDomainUsersOnlyRestriction: Whether the current user can
+	// change the domainUsersOnly restriction of this Team Drive.
+	CanChangeDomainUsersOnlyRestriction bool `json:"canChangeDomainUsersOnlyRestriction,omitempty"`
+
 	// CanChangeTeamDriveBackground: Whether the current user can change the
 	// background of this Team Drive.
 	CanChangeTeamDriveBackground bool `json:"canChangeTeamDriveBackground,omitempty"`
+
+	// CanChangeTeamMembersOnlyRestriction: Whether the current user can
+	// change the teamMembersOnly restriction of this Team Drive.
+	CanChangeTeamMembersOnlyRestriction bool `json:"canChangeTeamMembersOnlyRestriction,omitempty"`
 
 	// CanComment: Whether the current user can comment on files in this
 	// Team Drive.
@@ -2053,6 +2081,55 @@ type TeamDriveCapabilities struct {
 
 func (s *TeamDriveCapabilities) MarshalJSON() ([]byte, error) {
 	type NoMethod TeamDriveCapabilities
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// TeamDriveRestrictions: A set of restrictions that apply to this Team
+// Drive or items inside this Team Drive.
+type TeamDriveRestrictions struct {
+	// AdminManagedRestrictions: Whether administrative privileges on this
+	// Team Drive are required to modify restrictions.
+	AdminManagedRestrictions bool `json:"adminManagedRestrictions,omitempty"`
+
+	// CopyRequiresWriterPermission: Whether the options to copy, print, or
+	// download files inside this Team Drive, should be disabled for readers
+	// and commenters. When this restriction is set to true, it will
+	// override the similarly named field to true for any file inside this
+	// Team Drive.
+	CopyRequiresWriterPermission bool `json:"copyRequiresWriterPermission,omitempty"`
+
+	// DomainUsersOnly: Whether access to this Team Drive and items inside
+	// this Team Drive is restricted to users of the domain to which this
+	// Team Drive belongs. This restriction may be overridden by other
+	// sharing policies controlled outside of this Team Drive.
+	DomainUsersOnly bool `json:"domainUsersOnly,omitempty"`
+
+	// TeamMembersOnly: Whether access to items inside this Team Drive is
+	// restricted to members of this Team Drive.
+	TeamMembersOnly bool `json:"teamMembersOnly,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g.
+	// "AdminManagedRestrictions") to unconditionally include in API
+	// requests. By default, fields with empty values are omitted from API
+	// requests. However, any non-pointer, non-interface field appearing in
+	// ForceSendFields will be sent to the server regardless of whether the
+	// field is empty or not. This may be used to include empty fields in
+	// Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "AdminManagedRestrictions")
+	// to include in API requests with the JSON null value. By default,
+	// fields with empty values are omitted from API requests. However, any
+	// field with an empty value appearing in NullFields will be sent to the
+	// server as null. It is an error if a field in this list has a
+	// non-empty value. This may be used to include null fields in Patch
+	// requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *TeamDriveRestrictions) MarshalJSON() ([]byte, error) {
+	type NoMethod TeamDriveRestrictions
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -4141,11 +4218,12 @@ func (c *FilesCreateCall) doRequest(alt string) (*http.Response, error) {
 		body = new(bytes.Buffer)
 		reqHeaders.Set("Content-Type", "application/json")
 	}
-	body, cleanup := c.mediaInfo_.UploadRequest(reqHeaders, body)
+	body, getBody, cleanup := c.mediaInfo_.UploadRequest(reqHeaders, body)
 	defer cleanup()
 	urls += "?" + c.urlParams_.Encode()
 	req, _ := http.NewRequest("POST", urls, body)
 	req.Header = reqHeaders
+	gensupport.SetGetBody(req, getBody)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -5404,11 +5482,12 @@ func (c *FilesUpdateCall) doRequest(alt string) (*http.Response, error) {
 		body = new(bytes.Buffer)
 		reqHeaders.Set("Content-Type", "application/json")
 	}
-	body, cleanup := c.mediaInfo_.UploadRequest(reqHeaders, body)
+	body, getBody, cleanup := c.mediaInfo_.UploadRequest(reqHeaders, body)
 	defer cleanup()
 	urls += "?" + c.urlParams_.Encode()
 	req, _ := http.NewRequest("PATCH", urls, body)
 	req.Header = reqHeaders
+	gensupport.SetGetBody(req, getBody)
 	googleapi.Expand(req.URL, map[string]string{
 		"fileId": c.fileId,
 	})
@@ -5758,8 +5837,8 @@ func (r *PermissionsService) Create(fileId string, permission *Permission) *Perm
 	return c
 }
 
-// EmailMessage sets the optional parameter "emailMessage": A custom
-// message to include in the notification email.
+// EmailMessage sets the optional parameter "emailMessage": A plain text
+// custom message to include in the notification email.
 func (c *PermissionsCreateCall) EmailMessage(emailMessage string) *PermissionsCreateCall {
 	c.urlParams_.Set("emailMessage", emailMessage)
 	return c
@@ -5792,10 +5871,9 @@ func (c *PermissionsCreateCall) TransferOwnership(transferOwnership bool) *Permi
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the item belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the item belongs.
 func (c *PermissionsCreateCall) UseDomainAdminAccess(useDomainAdminAccess bool) *PermissionsCreateCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -5895,7 +5973,7 @@ func (c *PermissionsCreateCall) Do(opts ...googleapi.CallOption) (*Permission, e
 	//   ],
 	//   "parameters": {
 	//     "emailMessage": {
-	//       "description": "A custom message to include in the notification email.",
+	//       "description": "A plain text custom message to include in the notification email.",
 	//       "location": "query",
 	//       "type": "string"
 	//     },
@@ -5924,7 +6002,7 @@ func (c *PermissionsCreateCall) Do(opts ...googleapi.CallOption) (*Permission, e
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -5971,10 +6049,9 @@ func (c *PermissionsDeleteCall) SupportsTeamDrives(supportsTeamDrives bool) *Per
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the item belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the item belongs.
 func (c *PermissionsDeleteCall) UseDomainAdminAccess(useDomainAdminAccess bool) *PermissionsDeleteCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -6065,7 +6142,7 @@ func (c *PermissionsDeleteCall) Do(opts ...googleapi.CallOption) error {
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -6107,10 +6184,9 @@ func (c *PermissionsGetCall) SupportsTeamDrives(supportsTeamDrives bool) *Permis
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the item belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the item belongs.
 func (c *PermissionsGetCall) UseDomainAdminAccess(useDomainAdminAccess bool) *PermissionsGetCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -6239,7 +6315,7 @@ func (c *PermissionsGetCall) Do(opts ...googleapi.CallOption) (*Permission, erro
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -6303,10 +6379,9 @@ func (c *PermissionsListCall) SupportsTeamDrives(supportsTeamDrives bool) *Permi
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the item belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the item belongs.
 func (c *PermissionsListCall) UseDomainAdminAccess(useDomainAdminAccess bool) *PermissionsListCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -6440,7 +6515,7 @@ func (c *PermissionsListCall) Do(opts ...googleapi.CallOption) (*PermissionList,
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -6527,10 +6602,9 @@ func (c *PermissionsUpdateCall) TransferOwnership(transferOwnership bool) *Permi
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the item belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the item belongs.
 func (c *PermissionsUpdateCall) UseDomainAdminAccess(useDomainAdminAccess bool) *PermissionsUpdateCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -6663,7 +6737,7 @@ func (c *PermissionsUpdateCall) Do(opts ...googleapi.CallOption) (*Permission, e
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the item belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -8359,10 +8433,9 @@ func (r *TeamdrivesService) Get(teamDriveId string) *TeamdrivesGetCall {
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then the
-// requester will be granted access if they are an administrator of the
-// domain to which the Team Drive belongs.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the Team Drive belongs.
 func (c *TeamdrivesGetCall) UseDomainAdminAccess(useDomainAdminAccess bool) *TeamdrivesGetCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -8477,7 +8550,7 @@ func (c *TeamdrivesGetCall) Do(opts ...googleapi.CallOption) (*TeamDrive, error)
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -8532,10 +8605,9 @@ func (c *TeamdrivesListCall) Q(q string) *TeamdrivesListCall {
 }
 
 // UseDomainAdminAccess sets the optional parameter
-// "useDomainAdminAccess": Whether the request should be treated as if
-// it was issued by a domain administrator; if set to true, then all
-// Team Drives of the domain in which the requester is an administrator
-// are returned.
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then all Team Drives of the domain in which the
+// requester is an administrator are returned.
 func (c *TeamdrivesListCall) UseDomainAdminAccess(useDomainAdminAccess bool) *TeamdrivesListCall {
 	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
@@ -8657,7 +8729,7 @@ func (c *TeamdrivesListCall) Do(opts ...googleapi.CallOption) (*TeamDriveList, e
 	//     },
 	//     "useDomainAdminAccess": {
 	//       "default": "false",
-	//       "description": "Whether the request should be treated as if it was issued by a domain administrator; if set to true, then all Team Drives of the domain in which the requester is an administrator are returned.",
+	//       "description": "Issue the request as a domain administrator; if set to true, then all Team Drives of the domain in which the requester is an administrator are returned.",
 	//       "location": "query",
 	//       "type": "boolean"
 	//     }
@@ -8711,6 +8783,15 @@ func (r *TeamdrivesService) Update(teamDriveId string, teamdrive *TeamDrive) *Te
 	c := &TeamdrivesUpdateCall{s: r.s, urlParams_: make(gensupport.URLParams)}
 	c.teamDriveId = teamDriveId
 	c.teamdrive = teamdrive
+	return c
+}
+
+// UseDomainAdminAccess sets the optional parameter
+// "useDomainAdminAccess": Issue the request as a domain administrator;
+// if set to true, then the requester will be granted access if they are
+// an administrator of the domain to which the Team Drive belongs.
+func (c *TeamdrivesUpdateCall) UseDomainAdminAccess(useDomainAdminAccess bool) *TeamdrivesUpdateCall {
+	c.urlParams_.Set("useDomainAdminAccess", fmt.Sprint(useDomainAdminAccess))
 	return c
 }
 
@@ -8812,6 +8893,12 @@ func (c *TeamdrivesUpdateCall) Do(opts ...googleapi.CallOption) (*TeamDrive, err
 	//       "location": "path",
 	//       "required": true,
 	//       "type": "string"
+	//     },
+	//     "useDomainAdminAccess": {
+	//       "default": "false",
+	//       "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs.",
+	//       "location": "query",
+	//       "type": "boolean"
 	//     }
 	//   },
 	//   "path": "teamdrives/{teamDriveId}",
