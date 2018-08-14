@@ -13,12 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-# Copies the current versions of apimachinery and client-go out of the
-# main kubernetes repo.  These repos are currently out of sync and not
-# versioned.
 set -euo pipefail
 
-rm -rf ./vendor/k8s.io/{kube-aggregator,apiserver,apimachinery,client-go,metrics}
-
-cp -r ./vendor/k8s.io/kubernetes/staging/src/k8s.io/{kube-aggregator,apiserver,apimachinery,client-go,metrics} ./vendor/k8s.io
+apt-get update -y && apt-get install -yq zip
+make bootstrap
